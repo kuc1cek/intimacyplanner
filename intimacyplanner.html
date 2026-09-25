@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Velvet & Desire | Večerní Plánovač</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #0b0205;
+      color: #fce7f3;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .cinzel {
+      font-family: 'Cinzel', serif;
+    }
+    .glass {
+      background: rgba(26, 6, 15, 0.7);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(244, 63, 94, 0.18);
+    }
+    .glass-active {
+      background: rgba(159, 18, 57, 0.28);
+      border: 1px solid rgba(251, 113, 133, 0.45);
+    }
+    .glow-rose {
+      box-shadow: 0 0 25px rgba(225, 29, 72, 0.35);
+    }
+    /* Hide scrollbar */
+    ::-webkit-scrollbar { display: none; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+  <!-- ==================== PIN SCREEN OVERLAY ==================== -->
+  <div id="pinScreen" class="fixed inset-0 z-50 bg-[#0a0206] flex flex-col items-center justify-center p-6 text-center">
+    <div class="w-16 h-16 mb-4 rounded-full bg-gradient-to-tr from-rose-900 to-pink-600 flex items-center justify-center glow-rose">
+      <svg class="w-8 h-8 text-rose-100" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2C9.243 2 7 4.243 7 7v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7c0-2.757-2.243-5-5-5zm-3 5c0-1.654 1.346-3 3-3s3 1.346 3 3v3H9V7zm3 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+      </svg>
+    </div>
+    
+    <h1 class="cinzel text-2xl font-bold tracking-widest text-rose-200 mb-1" id="pinTitle">ZABEZPEČENÍ</h1>
+    <p class="text-sm text-pink-300/70 mb-6" id="pinSubtitle">Zadej svůj 6místný kód</p>
+
+    <!-- PIN dots -->
+    <div class="flex gap-4 mb-8">
+      <div class="pin-dot w-4 h-4 rounded-full border-2 border-rose-500/50"></div>
+      <div class="pin-dot w-4 h-4 rounded-full border-2 border-rose-500/50"></div>
+      <div class="pin-dot w-4 h-4 rounded-full border-2 border-rose-500/50"></div>
+      <div class="pin-dot w-4 h-4 rounded-full border-2 border-rose-500/50"></div>
+      <div class="pin-dot w-4 h-4 rounded-full border-2 border-rose-500/50"></div>
+      <div class="pin-dot w-4 h-4 rounded-full border-2 border-rose-500/50"></div>
+    </div>
+
+    <!-- Keypad -->
+    <div class="grid grid-cols-3 gap-4 w-full max-w-xs">
+      <button onclick="pressPin('1')" class="h-16 rounded-2xl glass text-xl font-semibold active:scale-95 transition">1</button>
+      <button onclick="pressPin('2')" class="h-16 rounded-2xl glass text-xl font-semibold active:scale-95 transition">2</button>
+      <button onclick="pressPin('3')" class="h-16 rounded-2xl glass text-xl font-semibold active:scale-95 transition">3</button>
+      <button onclick="pressPin('4')" class="h-16 rounded-2xl glass text-xl font-semibold active:scale-95 transition">4</button>
+      <button onclick="pressPin('5')" class="h-16 rounded-2xl glass text-xl font-semibold active:scale-95 transition">5</button>
+      <button onclick="pressPin('6')" class="h-16 rounded-2xl glass text-xl font-semibold active:scale-95 transition">6</button>
+      <button onclick="pressPin('7')" class="h-16 rounded-2xl glass text-xl font-semibold active:scale-95 transition">7</button>
+      <button onclick="pressPin('8')" class="h-16 rounded-2xl glass text-xl font-semibold active:scale-95 transition">8</button>
+      <button onclick="pressPin('9')" class="h-16 rounded-2xl glass text-xl font-semibold active:scale-95 transition">9</button>
+      <button onclick="clearPin()" class="h-16 rounded-2xl glass text-xs tracking-wider text-rose-300 font-semibold active:scale-95 transition">SMAZAT</button>
+      <button onclick="pressPin('0')" class="h-16 rounded-2xl glass text-xl font-semibold active:scale-95 transition">0</button>
+      <button onclick="lockScreen()" class="h-16 rounded-2xl glass text-rose-400 flex items-center justify-center active:scale-95 transition">✕</button>
+    </div>
+  </div>
+
+  <!-- ==================== TOP NAVIGATION ==================== -->
+  <header class="p-5 flex items-center justify-between border-b border-rose-950/60 sticky top-0 bg-[#0d0308]/90 backdrop-blur-md z-40">
+    <div>
+      <h1 class="cinzel text-xl font-bold tracking-wider bg-gradient-to-r from-rose-200 via-pink-400 to-rose-300 bg-clip-text text-transparent">
+        VELVET & DESIRE
+      </h1>
+      <p class="text-[11px] text-pink-300/60 tracking-wider">INTIMNÍ PRŮVODCE VEČEREM</p>
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="lockScreen()" title="Zamknout aplikaci" class="p-2.5 rounded-xl glass text-rose-300 hover:text-rose-100 active:scale-95 transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN CONTENT AREA ==================== -->
+  <main class="flex-1 p-5 pb-28 max-w-lg mx-auto w-full">
+
+    <!-- TAB 1: GENERÁTOR PLÁNU -->
+    <section id="tabPlan" class="space-y-6">
+      <div class="glass p-5 rounded-3xl relative overflow-hidden">
+        <div class="absolute -right-8 -top-8 w-28 h-28 bg-rose-600/20 rounded-full blur-2xl pointer-events-none"></div>
+        <h2 class="cinzel text-lg font-bold text-rose-200 mb-1">Večerní Plán</h2>
+        <p class="text-xs text-pink-300/70 mb-4 leading-relaxed">
+          Plán vždy začíná něžným <span class="text-rose-300 font-medium">Missionary</span> a postupně stupňuje napětí, hloubku a dominanci.
+        </p>
+
+        <!-- Count Selector -->
+        <div class="flex items-center justify-between mb-5 bg-black/40 p-3 rounded-2xl border border-rose-900/40">
+          <span class="text-xs font-medium text-pink-200">Počet pozic pro dnešek:</span>
+          <div class="flex items-center gap-2">
+            <button onclick="changePositionCount(-1)" class="w-8 h-8 rounded-xl glass flex items-center justify-center text-lg active:scale-90 font-bold">−</button>
+            <span id="posCountDisplay" class="w-7 text-center font-bold text-rose-300 text-base">3</span>
+            <button onclick="changePositionCount(1)" class="w-8 h-8 rounded-xl glass flex items-center justify-center text-lg active:scale-90 font-bold">+</button>
+          </div>
+        </div>
+
+        <button onclick="generateEveningPlan()" class="w-full py-4 rounded-2xl bg-gradient-to-r from-rose-700 via-pink-600 to-rose-700 hover:from-rose-600 hover:to-pink-500 font-bold tracking-wider text-white shadow-lg shadow-rose-900/40 active:scale-[0.98] transition">
+          ✨ SESTAVIT DNEŠNÍ PLÁN
+        </button>
+      </div>
+
+      <!-- Generated Plan Output -->
+      <div id="planResults" class="space-y-4">
+        <!-- Javascript fills this -->
+      </div>
+    </section>
+
+    <!-- TAB 2: OBJEVOVÁNÍ A NÁPADY (RATING) -->
+    <section id="tabIdeas" class="space-y-5 hidden">
+      <div class="text-center space-y-1">
+        <h2 class="cinzel text-lg font-bold text-rose-200">Objevování a Učení</h2>
+        <p class="text-xs text-pink-300/70">Ohodnoť prvky pro přesné vyladění budoucích plánů</p>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="grid grid-cols-3 gap-2 bg-black/50 p-1.5 rounded-2xl border border-rose-950">
+        <button onclick="setIdeaCategory('position')" id="btnCatPos" class="py-2 text-xs font-semibold rounded-xl glass-active text-rose-200 transition">Pozice</button>
+        <button onclick="setIdeaCategory('touch')" id="btnCatTouch" class="py-2 text-xs font-semibold rounded-xl text-pink-300/70 transition">Doteky</button>
+        <button onclick="setIdeaCategory('verbal')" id="btnCatVerbal" class="py-2 text-xs font-semibold rounded-xl text-pink-300/70 transition">Slova & Hry</button>
+      </div>
+
+      <!-- Single Idea Card -->
+      <div id="ideaCardContainer" class="min-h-[300px] flex items-center justify-center">
+        <!-- Javascript fills current idea card -->
+      </div>
+
+      <!-- Rating Controller -->
+      <div class="space-y-2">
+        <p class="text-[11px] text-center tracking-wider text-pink-300/50 uppercase font-semibold">Tvoje hodnocení</p>
+        <div class="grid grid-cols-3 gap-3">
+          <button onclick="rateCurrentIdea(0)" class="p-3.5 rounded-2xl glass flex flex-col items-center gap-1 active:scale-95 transition border-rose-950 hover:border-red-600">
+            <span class="text-xl">🚫</span>
+            <span class="text-xs font-bold text-red-400">0 Ohýnků</span>
+            <span class="text-[9px] text-pink-300/50">Vyřadit navždy</span>
+          </button>
+          <button onclick="rateCurrentIdea(1)" class="p-3.5 rounded-2xl glass flex flex-col items-center gap-1 active:scale-95 transition border-rose-950 hover:border-yellow-600">
+            <span class="text-xl">🔥</span>
+            <span class="text-xs font-bold text-amber-300">1 Ohýnek</span>
+            <span class="text-[9px] text-pink-300/50">Neutrální / zkusit</span>
+          </button>
+          <button onclick="rateCurrentIdea(2)" class="p-3.5 rounded-2xl glass flex flex-col items-center gap-1 active:scale-95 transition border-rose-950 hover:border-rose-500">
+            <span class="text-xl">🔥🔥</span>
+            <span class="text-xs font-bold text-rose-300">2 Ohýnky</span>
+            <span class="text-[9px] text-pink-300/50">Určitě do plánu</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: OBLÍBENÉ (2 OHÝNKY) -->
+    <section id="tabFavs" class="space-y-4 hidden">
+      <div class="text-center space-y-1 mb-2">
+        <h2 class="cinzel text-lg font-bold text-rose-200">Vaše Favority (🔥🔥)</h2>
+        <p class="text-xs text-pink-300/70">Tyto věci mají garantovanou prioritu v generátoru</p>
+      </div>
+
+      <div id="favoritesList" class="space-y-3">
+        <!-- Javascript fills favorites -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== BOTTOM TAB BAR ==================== -->
+  <nav class="fixed bottom-0 inset-x-0 bg-[#0e030a]/95 border-t border-rose-950/70 backdrop-blur-xl z-40">
+    <div class="max-w-lg mx-auto flex justify-around p-2">
+      <button onclick="switchTab('plan')" id="navPlan" class="flex-1 py-2 flex flex-col items-center gap-1 text-rose-400 font-semibold transition">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+        </svg>
+        <span class="text-[11px]">Večerní Plán</span>
+      </button>
+
+      <button onclick="switchTab('ideas')" id="navIdeas" class="flex-1 py-2 flex flex-col items-center gap-1 text-pink-300/50 font-medium transition">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
+        </svg>
+        <span class="text-[11px]">Objevování</span>
+      </button>
+
+      <button onclick="switchTab('favs')" id="navFavs" class="flex-1 py-2 flex flex-col items-center gap-1 text-pink-300/50 font-medium transition">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+        </svg>
+        <span class="text-[11px]">Oblíbené</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+  <script>
+    /* =========================================================
+       1. DATA SOURCE (Všechny tvoje pozice + nové nápady)
+       ========================================================= */
+    const DEFAULT_DATA = {
+      positions: [
+        // Missionary - Level 1 (Vždy základ večera)
+        { id: 'm1', title: 'Missionary s polštářem pod pánví', level: 1, isMissionary: true, desc: 'Pánev je mírně vyvýšená, přirozený a romantický vstup, jemný kontakt břicho na břicho a oční kontakt.' },
+        { id: 'm2', title: 'Missionary s ležením na přítelkyni', level: 1, isMissionary: true, desc: 'Tělo na těle celou vahou, pomalé hluboké tempo, možnost dýchat a líbat na krku a do ucha.' },
+        { id: 'm3', title: 'Missionary s chodidly na tvých prsou', level: 1, isMissionary: true, desc: 'Její nohy jsou pokrčené, chodidla na tvém hrudníku. Skvělý oční kontakt a přístup k hlazení nohou a chodidel.' },
+        { id: 'm4', title: 'Missionary s nohama kolem tvého krku', level: 1, isMissionary: true, desc: 'Její nohy objímají tvůj krk. Hluboký romantický průnik s pevnou kontrolou a možností polibků na stehnech.' },
+        { id: 'm5', title: 'Missionary s oběma nohama na jednom rameni', level: 1, isMissionary: true, desc: 'Asymetrický sklon pánve vytváří příjemný těsnější vjem na vstupu a boční stěně.' },
+        { id: 'm6', title: 'Missionary s překříženýma nohama za tvými rameny', level: 1, isMissionary: true, desc: 'Uzavřenější klín, těsnější vjem na vstupu a hluboké pomalé tempo s rukama na jejím těle.' },
+        { id: 'm7', title: 'Missionary s držením nohou do širokého V', level: 1, isMissionary: true, desc: 'Plné otevření, ruce máš volné pro držení za boky, krk nebo proplétání prstů nad její hlavou.' },
+        { id: 'm8', title: 'Missionary na kraji postele ve stoje', level: 1, isMissionary: true, desc: 'Ona leží na zádech na kraji matrace, ty stojíš. Pevné vedení za stehna nebo boky, romantický i dominantní start.' },
+
+        // Level 2: Střední napětí / Mezistupeň (Grinding, objetí, úhly)
+        { id: 'p_cat', title: 'Překřížený preclík (Pretzel / CAT)', level: 2, isMissionary: false, desc: 'Ona leží na boku, ty klečíš kolmo. Jedna noha rovně, druhá u tvého ramene. Masivní těsnost a tlak na přední stěnu.' },
+        { id: 'p_lotus', title: 'Sedící Lotos v pevném objetí', level: 2, isMissionary: false, desc: 'Sedíš v tureckém sedu, ona sedí na tobě čelem. Tělo na těle, ruce máš volné na její záda, zadeček, prsa a šíji.' },
+        { id: 'cg1', title: 'Cowgirl v předklonu (Břicho na břiše)', level: 2, isMissionary: false, desc: 'Ona nahoře, leží na tobě celým břichem, ruce propletené do vlasů, pomalý krouživý grinding a líbání.' },
+        { id: 'cg2', title: 'Cowgirl v mírném záklonu', level: 2, isMissionary: false, desc: 'Ona má mírně prohnutá záda, odhalený krk a ňadra, které můžeš pevně držet a hladit zespodu.' },
+        { id: 'rcg1', title: 'Reverse Cowgirl v předklonu', level: 2, isMissionary: false, desc: 'Zády k tobě, opřená rukama o tvá stehna nebo postel. Výhled na záda vhodný pro hlazení a líbání páteře.' },
+        { id: 'd_leg', title: 'Doggy s jednou nohou vybočenou do strany', level: 2, isMissionary: false, desc: 'Asymetrické otevření mění vnitřní úhel průniku na boční stěnu a vytváří úplně jiný pocit tlaku.' },
+
+        // Level 3: Maximální intenzita / Hloubka / Dominance
+        { id: 'pb1', title: 'Prone Bone (Doggy vleže celým tělem na břiše)', level: 3, isMissionary: false, desc: 'Ona leží ploše na břiše, nohy u sebe. Maximálně úzký pocit, tvá váha na ní, ideální pro zakrytí úst zezadu.' },
+        { id: 'd_face', title: 'Doggy s čelem na matraci a zvednutým zadečkem', level: 3, isMissionary: false, desc: 'Hluboký náklon pánve, přímý tah na stěnu a A-spot. Volné ruce pro tahání za vlasy nebo chytnutí za boky.' },
+        { id: 'd_edge', title: 'Doggy na břiše na kraji postele (Nohy dolů)', level: 3, isMissionary: false, desc: 'Břichem na matraci, nohy jí volně visí k podlaze. Zajišťuje absolutní kontrolu a intenzivní pevné přírazy.' },
+        { id: 'd_norm', title: 'Klasický Doggy s pevnou dominancí', level: 3, isMissionary: false, desc: 'Pevný úchop za boky, pas nebo vlasy. Možnost zrychlení a tvrdšího tempa.' },
+        { id: 'd_stand', title: 'Doggy ve stoje s oporou', level: 3, isMissionary: false, desc: 'Ona stojí opřená dlaněmi o zeď nebo komodu. Dominantní přistoupení zezadu, ruce na krku a bocích.' },
+        { id: 'anvil', title: 'Kovadlina (Anvil - Nožky přitlačené k hrudníku)', level: 3, isMissionary: false, desc: 'Záda na posteli, kolena přitlačená k jejím ramenům, pánev nahoře. Extrémní hloubka a zúžení.' }
+      ],
+
+      touches: [
+        { id: 't1', title: 'Pevná dlaň na krku', desc: 'Jemný až pevný stisk pod krkem s intenzivním pohledem do očí, který dává pocit plné kontroly.' },
+        { id: 't2', title: 'Zakrytí pusy dlaní zezadu', desc: 'Dlaň položená přes její ústa při poloze zezadu, tlumení jejích vzdechů a dechu.' },
+        { id: 't3', title: 'Tahání za vlasy u kořínků', desc: 'Pevný úchop u zátylku, jemné zaklonění její hlavy dozadu a odhalení krku pro polibky.' },
+        { id: 't4', title: 'Držení obou rukou nad hlavou', desc: 'Jednou rukou pevně fixuješ obě její zápěstí nad její hlavou na matraci.' },
+        { id: 't5', title: 'Prsty v jejích ústech', desc: 'Palec a ukazováček jemně vložené mezi její rty a zoubky během rytmu.' },
+        { id: 't6', title: 'Líbání a laskání chodidel & nártů', desc: 'Pomalé líbání prstů na nohou, chodidel a kotníků jako projev totální fascinace jejím tělem.' },
+        { id: 't7', title: 'Hlazení a líbání bříška k podbřišku', desc: 'Horké polibky od pupíku dolů k hraně klína, vytváření obrovského napětí.' },
+        { id: 't8', title: 'Hlazení páteře jazykem zezadu', desc: 'Pomalá linie polibků od kříže po celé délce páteře až na šíji.' },
+        { id: 't9', title: 'Pevné držení a mačkání ňader', desc: 'Sevření obou ňader plnými dlaněmi zepředu i zezadu při srážkách těl.' },
+        { id: 't10', title: 'Dlaň na podbřišku při průniku', desc: 'Přitlačení ruky na její podbřišek zvenčí během hlubokých přírazů pro zdvojení vnitřního tlaku.' }
+      ],
+
+      verbals: [
+        { id: 'v1', title: '„Jsi tak neuvěřitelně úzká...“', desc: 'Upřímný obdiv k jejímu sevření přímo do ucha při pomalém průniku.' },
+        { id: 'v2', title: '„Ukaž mi, co v sobě máš.“', desc: 'Výzva ke ztrátě kontroly a hlubšímu odevzdání.' },
+        { id: 'v3', title: '„Ukaž mi, jak moc mě chceš.“', desc: 'Pobídka, aby boky přitiskla ještě blíže k tobě.' },
+        { id: 'v4', title: '„Miluju, jak moc jsi pro mě wet...“', desc: 'Oceň její tělesnou reakci na tvou přítomnost a doteky.' },
+        { id: 'v5', title: '„Těšil jsem se na tebe celý týden... konečně tě mám.“', desc: 'Silný projev hluboké touhy a romance těsně před zrychlením.' },
+        { id: 'v6', title: '„Máš to ráda tvrdě, že ano?“', desc: 'Dominantní potvrzení toho, co se s ní právě děje.' },
+        { id: 'v7', title: '„Líbí se ti to? Koukni se na mě.“', desc: 'Požadavek na intenzivní oční kontakt v hlubokém bodě.' },
+        { id: 'v8', title: '„Hezky vzdycháš... chci tě slyšet ještě víc.“', desc: 'Praise kompliment posilující její vzrušení.' },
+        { id: 'v9', title: 'Hra: Přerušení očního kontaktu', desc: '„Když přerušíš oční kontakt, na chvíli se úplně zastavím.“' },
+        { id: 'v10', title: 'Hra: Tichá poslušnost (Whisper only)', desc: '„Smíš jenom šeptat. Pokud vydáš hlasitý zvuk, okamžitě zpomalím.“' },
+        { id: 'v11', title: 'Hra: Odpočítávání bez hnutí', desc: '„Dám ti 10 hlubokých přírazů. Nesmíš se pohnout, jen to vnímat.“' },
+        { id: 'v12', title: '„Takhle hluboko patříš celá jen mně.“', desc: 'Pevná vlastnická intimita spojená s pomalým pohybem.' }
+      ]
+    };
+
+    /* =========================================================
+       2. LOCAL STORAGE & STATE MANAGEMENT
+       ========================================================= */
+    const STORAGE_KEY_PIN = 'velvet_pin_code';
+    const STORAGE_KEY_RATINGS = 'velvet_ratings_v1';
+
+    let ratings = JSON.parse(localStorage.getItem(STORAGE_KEY_RATINGS) || '{}');
+    let enteredPin = '';
+    let settingUpPin = false;
+    let tempFirstPin = '';
+    let currentPositionCount = 3;
+    let currentCategory = 'position';
+    let currentIdeaItem = null;
+
+    /* =========================================================
+       3. SECURITY / PIN SYSTEM
+       ========================================================= */
+    function checkPinStatus() {
+      const savedPin = localStorage.getItem(STORAGE_KEY_PIN);
+      const pinTitle = document.getElementById('pinTitle');
+      const pinSubtitle = document.getElementById('pinSubtitle');
+
+      if (!savedPin) {
+        settingUpPin = true;
+        pinTitle.innerText = "NOVÝ PIN";
+        pinSubtitle.innerText = "Nastav si svůj 6místný kód pro ochranu";
+      } else {
+        settingUpPin = false;
+        pinTitle.innerText = "ZABEZPEČENÍ";
+        pinSubtitle.innerText = "Zadej 6místný bezpečnostní kód";
+      }
+      resetPinDots();
+    }
+
+    function pressPin(num) {
+      if (enteredPin.length < 6) {
+        enteredPin += num;
+        updatePinDots();
+      }
+
+      if (enteredPin.length === 6) {
+        setTimeout(handlePinComplete, 150);
+      }
+    }
+
+    function clearPin() {
+      enteredPin = '';
+      updatePinDots();
+    }
+
+    function updatePinDots() {
+      const dots = document.querySelectorAll('.pin-dot');
+      dots.forEach((dot, idx) => {
+        if (idx < enteredPin.length) {
+          dot.classList.add('bg-rose-500', 'border-rose-400', 'shadow-[0_0_10px_#f43f5e]');
+        } else {
+          dot.classList.remove('bg-rose-500', 'border-rose-400', 'shadow-[0_0_10px_#f43f5e]');
+        }
+      });
+    }
+
+    function resetPinDots() {
+      enteredPin = '';
+      updatePinDots();
+    }
+
+    function handlePinComplete() {
+      const savedPin = localStorage.getItem(STORAGE_KEY_PIN);
+
+      if (settingUpPin) {
+        localStorage.setItem(STORAGE_KEY_PIN, enteredPin);
+        alert("PIN byl úspěšně uložen!");
+        unlockApp();
+      } else {
+        if (enteredPin === savedPin) {
+          unlockApp();
+        } else {
+          alert("Nesprávný PIN kód!");
+          resetPinDots();
+        }
+      }
+    }
+
+    function unlockApp() {
+      document.getElementById('pinScreen').classList.add('hidden');
+      resetPinDots();
+      initApp();
+    }
+
+    function lockScreen() {
+      document.getElementById('pinScreen').classList.remove('hidden');
+      resetPinDots();
+      checkPinStatus();
+    }
+
+    /* =========================================================
+       4. NAVIGATION & TABS
+       ========================================================= */
+    function switchTab(tab) {
+      const tabs = ['plan', 'ideas', 'favs'];
+      tabs.forEach(t => {
+        const el = document.getElementById('tab' + capitalize(t));
+        const nav = document.getElementById('nav' + capitalize(t));
+        if (t === tab) {
+          el.classList.remove('hidden');
+          nav.classList.add('text-rose-400');
+          nav.classList.remove('text-pink-300/50');
+        } else {
+          el.classList.add('hidden');
+          nav.classList.remove('text-rose-400');
+          nav.classList.add('text-pink-300/50');
+        }
+      });
+
+      if (tab === 'ideas') {
+        loadRandomIdea();
+      } else if (tab === 'favs') {
+        renderFavorites();
+      }
+    }
+
+    function capitalize(s) {
+      return s.charAt(0).toUpperCase() + s.slice(1);
+    }
+
+    function changePositionCount(delta) {
+      let next = currentPositionCount + delta;
+      if (next >= 1 && next <= 5) {
+        currentPositionCount = next;
+        document.getElementById('posCountDisplay').innerText = next;
+      }
+    }
+
+    /* =========================================================
+       5. RATING ENGINE & WEIGHTED ALGORITHM
+       ========================================================= */
+    function saveRating(id, flames) {
+      ratings[id] = flames;
+      localStorage.setItem(STORAGE_KEY_RATINGS, JSON.stringify(ratings));
+    }
+
+    function getRating(id) {
+      return ratings[id] !== undefined ? ratings[id] : null;
+    }
+
+    // Weight calculation: 0 flames = 0 (banned), 1 flame = 1, 2 flames = 6, unrated = 2.5
+    function getItemWeight(item) {
+      const r = getRating(item.id);
+      if (r === 0) return 0; // Trvale vyřazeno
+      if (r === 2) return 7; // Garantovaná priorita
+      if (r === 1) return 1; // Neutrální
+      return 2.5; // Ještě nehodnocené
+    }
+
+    function pickWeightedRandom(list, excludeIds = []) {
+      const valid = list.filter(item => getItemWeight(item) > 0 && !excludeIds.includes(item.id));
+      if (valid.length === 0) {
+        // Fallback pokud je vše vyřazeno
+        return list[Math.floor(Math.random() * list.length)];
+      }
+
+      let totalWeight = valid.reduce((sum, item) => sum + getItemWeight(item), 0);
+      let rand = Math.random() * totalWeight;
+
+      for (let item of valid) {
+        rand -= getItemWeight(item);
+        if (rand <= 0) return item;
+      }
+      return valid[valid.length - 1];
+    }
+
+    /* =========================================================
+       6. VEČERNÍ PLÁN (Missionary -> Stupňování napětí)
+       ========================================================= */
+    function generateEveningPlan() {
+      const count = currentPositionCount;
+      const planResults = document.getElementById('planResults');
+      planResults.innerHTML = '';
+
+      let usedPosIds = [];
+      let usedTouchIds = [];
+      let usedVerbalIds = [];
+      let selectedPositions = [];
+
+      // POZICE 1: VŽDY MISSIONARY
+      const missionaryPool = DEFAULT_DATA.positions.filter(p => p.isMissionary);
+      const pos1 = pickWeightedRandom(missionaryPool, usedPosIds);
+      selectedPositions.push({ pos: pos1, stepName: "1. Krok: Romantický a něžný start (Missionary)", stage: 1 });
+      usedPosIds.push(pos1.id);
+
+      // POZICE 2 AŽ N: STUPŇOVÁNÍ NAPĚTÍ
+      for (let i = 2; i <= count; i++) {
+        let targetLevel;
+        let stepLabel = "";
+
+        if (count === 2) {
+          targetLevel = 3; // Skok do intenzity
+          stepLabel = "2. Krok: Intenzivní zakončení a plná dominace";
+        } else if (count === 3) {
+          if (i === 2) {
+            targetLevel = 2; // Střední napětí / budování
+            stepLabel = "2. Krok: Budování napětí, grinding & těsný kontakt";
+          } else {
+            targetLevel = 3; // Vrchol
+            stepLabel = "3. Krok: Maximální intenzita, dominance a hloubka";
+          }
+        } else {
+          // 4 a více poz
