@@ -86,7 +86,7 @@
       <h1 class="cinzel text-xl font-bold tracking-wider bg-gradient-to-r from-rose-200 via-pink-400 to-rose-300 bg-clip-text text-transparent">
         VELVET & DESIRE
       </h1>
-      <p class="text-[10px] text-pink-300/60 tracking-wider">INTIMNÍ PRŮVODCE</p>
+      <p class="text-[10px] text-pink-300/60 tracking-wider">INTIMNÍ GENERÁTOR</p>
     </div>
     <div class="flex items-center gap-2">
       <button onclick="openSettingsModal()" class="p-2.5 rounded-xl glass text-rose-300 hover:text-rose-100 active:scale-95 transition" title="Nastavení AI & Sync">
@@ -103,11 +103,6 @@
     </div>
   </header>
 
-  <!-- ==================== HLÁŠENÍ CHYB ==================== -->
-  <div id="errorToast" class="fixed top-16 inset-x-4 z-50 p-3 rounded-2xl bg-rose-950/95 border border-rose-500/60 text-rose-200 text-xs text-center shadow-xl hidden">
-    <span id="errorMessage">Upozornění</span>
-  </div>
-
   <!-- ==================== MAIN ==================== -->
   <main class="flex-1 p-4 pb-28 max-w-lg mx-auto w-full space-y-6">
 
@@ -116,7 +111,7 @@
       <div class="glass p-5 rounded-3xl relative overflow-hidden">
         <h2 class="cinzel text-lg font-bold text-rose-200 mb-1">Večerní Plán</h2>
         <p class="text-xs text-pink-300/70 mb-4 leading-relaxed">
-          Začíná v romantickém <span class="text-rose-300 font-medium">Missionary</span> a plynule graduje do vyššího napětí a stimulace.
+          Začíná v romantickém <span class="text-rose-300 font-medium">Missionary</span> a plynule graduje do vyššího napětí a nadvlády.
         </p>
 
         <div class="flex items-center justify-between mb-4 bg-black/50 p-3 rounded-2xl border border-rose-950">
@@ -141,9 +136,9 @@
       <div class="flex items-center justify-between">
         <div>
           <h2 class="cinzel text-lg font-bold text-rose-200">Objevování</h2>
-          <p class="text-[11px] text-pink-300/70">Ohodnoť prvek nebo vytvoř nový</p>
+          <p class="text-[11px] text-pink-300/70">Ohodnoť nebo vytvoř nový nápad</p>
         </div>
-        <button onclick="generateNewSmartIdea()" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-rose-900 to-pink-700 text-[11px] font-bold text-rose-100 flex items-center gap-1 active:scale-95 transition shadow-sm border border-rose-600/40">
+        <button onclick="generateFreshIdeaAction()" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-rose-900 to-pink-700 text-[11px] font-bold text-rose-100 flex items-center gap-1 active:scale-95 transition shadow-sm border border-rose-600/40">
           ✨ Vygenerovat nový nápad
         </button>
       </div>
@@ -192,29 +187,29 @@
 
   </main>
 
-  <!-- ==================== TWEAK MODAL (POUPRAVENÍ VERZE) ==================== -->
+  <!-- ==================== TWEAK MODAL (POUPRAVENÍ) ==================== -->
   <div id="tweakModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-5 hidden">
     <div class="glass w-full max-w-sm p-6 rounded-3xl border border-rose-700/50 space-y-4">
       <h3 class="cinzel text-base font-bold text-rose-100 text-center">Jak chceš nápad poupravit?</h3>
-      <p class="text-xs text-pink-300/70 text-center">Vyber směr a systém okamžitě vytvoří upravenou variantu:</p>
+      <p class="text-xs text-pink-300/70 text-center">Vyber směr a systém nápad okamžitě přetvoří:</p>
 
       <div class="grid grid-cols-1 gap-2.5 pt-2">
-        <button onclick="applyTweak('soft')" class="p-3 rounded-2xl glass text-xs font-semibold text-pink-200 hover:bg-rose-900/40 text-left flex items-center gap-2">
+        <button onclick="applyInteractiveTweak('soft')" class="p-3 rounded-2xl glass text-xs font-semibold text-pink-200 hover:bg-rose-900/40 text-left flex items-center gap-2">
           <span>🌸</span> Zjemnit / Více romantiky a něhy
         </button>
-        <button onclick="applyTweak('hard')" class="p-3 rounded-2xl glass text-xs font-semibold text-rose-200 hover:bg-rose-900/40 text-left flex items-center gap-2">
+        <button onclick="applyInteractiveTweak('hard')" class="p-3 rounded-2xl glass text-xs font-semibold text-rose-200 hover:bg-rose-900/40 text-left flex items-center gap-2">
           <span>⛓️</span> Přitvrdit / Více dominance a tlaku
         </button>
-        <button onclick="applyTweak('angle')" class="p-3 rounded-2xl glass text-xs font-semibold text-rose-200 hover:bg-rose-900/40 text-left flex items-center gap-2">
-          <span>📐</span> Změnit úhel / podložit polštářem / jiná opora
+        <button onclick="applyInteractiveTweak('angle')" class="p-3 rounded-2xl glass text-xs font-semibold text-rose-200 hover:bg-rose-900/40 text-left flex items-center gap-2">
+          <span>📐</span> Změnit úhel / podložit polštářem
         </button>
-        <button onclick="applyTweak('rephrase')" class="p-3 rounded-2xl glass text-xs font-semibold text-pink-200 hover:bg-rose-900/40 text-left flex items-center gap-2">
+        <button onclick="applyInteractiveTweak('rephrase')" class="p-3 rounded-2xl glass text-xs font-semibold text-pink-200 hover:bg-rose-900/40 text-left flex items-center gap-2">
           <span>💬</span> Přeformulovat / Jiný psychologický podtón
         </button>
       </div>
 
       <div class="flex gap-2 pt-2">
-        <button onclick="rateCurrentIdea(1); closeTweakModal();" class="flex-1 py-2.5 rounded-xl glass text-xs text-pink-300/60 font-semibold">Jen označit 1 🔥</button>
+        <button onclick="rateCurrentIdea(1); closeTweakModal();" class="flex-1 py-2.5 rounded-xl glass text-xs text-pink-300/60 font-semibold">Jen 1 Ohýnek 🔥</button>
         <button onclick="closeTweakModal()" class="px-4 py-2.5 rounded-xl glass text-xs text-rose-400 font-semibold">Zavřít</button>
       </div>
     </div>
@@ -228,22 +223,24 @@
         <button onclick="closeSettingsModal()" class="text-rose-400 text-lg">✕</button>
       </div>
 
-      <!-- Volba AI Poskytovatele -->
+      <!-- Volba AI -->
       <div class="space-y-2">
-        <label class="text-xs font-bold text-pink-200">Zvol poskytovatele AI (funguje na https:// adrese):</label>
+        <label class="text-xs font-bold text-pink-200">Volba AI (prohlížeč podporuje OpenRouter):</label>
         <div class="grid grid-cols-2 gap-2">
-          <button type="button" onclick="selectProvider('groq')" id="btnProvGroq" class="p-2.5 text-xs font-semibold rounded-xl glass-active text-rose-200">Groq (Doporučeno)</button>
-          <button type="button" onclick="selectProvider('gemini')" id="btnProvGemini" class="p-2.5 text-xs font-semibold rounded-xl text-pink-300/70">Google Gemini</button>
+          <button type="button" onclick="selectProvider('openrouter')" id="btnProvOpenrouter" class="p-2.5 text-xs font-semibold rounded-xl glass-active text-rose-200">OpenRouter (Funguje v prohlížeči)</button>
+          <button type="button" onclick="selectProvider('groq')" id="btnProvGroq" class="p-2.5 text-xs font-semibold rounded-xl text-pink-300/70">Groq / Gemini</button>
         </div>
       </div>
 
-      <!-- API Key Input -->
       <div class="space-y-2">
         <label class="text-xs font-bold text-pink-200 flex items-center justify-between">
-          <span id="apiKeyLabel">Groq API Klíč (gsk_...):</span>
-          <a id="apiKeyLink" href="https://console.groq.com/keys" target="_blank" class="text-[10px] text-rose-400 underline">Získat klíč zdarma ↗</a>
+          <span id="apiKeyLabel">OpenRouter API Klíč (sk-or-...):</span>
+          <a id="apiKeyLink" href="https://openrouter.ai/keys" target="_blank" class="text-[10px] text-rose-400 underline">Získat klíč ↗</a>
         </label>
-        <input type="password" id="inputApiKey" placeholder="Vlož svůj klíč..." class="w-full p-3 rounded-xl bg-black/60 border border-rose-900 text-xs text-pink-100 focus:outline-none focus:border-rose-500 font-mono">
+        <input type="password" id="inputApiKey" placeholder="Vlož klíč..." class="w-full p-3 rounded-xl bg-black/60 border border-rose-900 text-xs text-pink-100 focus:outline-none focus:border-rose-500 font-mono">
+        <p class="text-[10px] text-pink-300/60 leading-relaxed">
+          Pokud klíč nemáš, nevadí – aplikace má v sobě plnohodnotný generátor, který funguje offline.
+        </p>
       </div>
 
       <button onclick="testAiConnection()" class="w-full py-2.5 rounded-xl border border-rose-700/40 bg-rose-950/40 text-xs font-bold text-rose-200 active:scale-95 transition">
@@ -335,145 +332,97 @@
       resetPinInput();
     }
 
-    function showToast(msg) {
-      const el = document.getElementById('errorToast');
-      document.getElementById('errorMessage').innerText = msg;
-      el.classList.remove('hidden');
-      setTimeout(() => el.classList.add('hidden'), 4500);
-    }
-
-    /* 2. DETAILNÍ DVOUBAREVNÉ ANATOMICKÉ SILUETY (MODRÁ = MUŽ, RŮŽOVÁ = ŽENA) */
+    /* 2. DVOUBAREVNÉ ANATOMICKÉ SILUETY (MODRÁ = MUŽ, RŮŽOVÁ = ŽENA) */
     const SVG_ILLUSTRATIONS = {
-      // Missionary s polštářem
       m_base: `
         <svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
-          <!-- Postel & Polštář -->
           <line x1="15" y1="105" x2="225" y2="105" stroke="#4c0519" stroke-width="2" stroke-dasharray="4 4"/>
           <ellipse cx="110" cy="100" rx="24" ry="7" fill="rgba(244,63,94,0.25)" stroke="#f43f5e" stroke-width="1.5"/>
-          
-          <!-- ŽENA (Pastelová růžová: leží na zádech, pánev nahoře) -->
           <circle cx="45" cy="85" r="8" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2.5"/>
-          <!-- Trup ženy -->
-          <path d="M53 87 C70 87, 85 92, 110 93 C120 93, 135 78, 145 68 C150 72, 158 92, 168 100" 
-                fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
-
-          <!-- MUŽ (Pastelová modrá: shora, opřený o ruce) -->
+          <path d="M53 87 C70 87, 85 92, 110 93 C120 93, 135 78, 145 68 C150 72, 158 92, 168 100" fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
           <circle cx="68" cy="40" r="8.5" fill="rgba(96,165,250,0.25)" stroke="#60a5fa" stroke-width="2.5"/>
-          <!-- Trup & Nohy muže -->
-          <path d="M75 46 C95 54, 115 68, 125 82 C135 95, 160 102, 195 102" 
-                fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
-          <!-- Paže muže (opírá se o postel u její hlavy) -->
+          <path d="M75 46 C95 54, 115 68, 125 82 C135 95, 160 102, 195 102" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
           <path d="M72 48 L75 95" stroke="#60a5fa" stroke-width="2.5"/>
         </svg>
       `,
-
-      // Lžíce na boku (The Spoon)
       side_spoon: `
         <svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
           <line x1="15" y1="105" x2="225" y2="105" stroke="#4c0519" stroke-width="2" stroke-dasharray="4 4"/>
-          
-          <!-- ŽENA (Růžová: leží na boku vepředu) -->
           <circle cx="75" cy="80" r="8" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2.5"/>
-          <path d="M83 82 C105 84, 125 84, 140 84 C150 72, 165 75, 185 95" 
-                fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
-
-          <!-- MUŽ (Modrá: leží na boku těsně za ní, ruka přes ni) -->
+          <path d="M83 82 C105 84, 125 84, 140 84 C150 72, 165 75, 185 95" fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
           <circle cx="50" cy="74" r="8.5" fill="rgba(96,165,250,0.25)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M58 76 C85 78, 110 80, 128 82 C140 70, 160 74, 180 100" 
-                fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
-          <!-- Ruka muže obepínající její pas/hruď -->
+          <path d="M58 76 C85 78, 110 80, 128 82 C140 70, 160 74, 180 100" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
           <path d="M60 78 C80 72, 115 76, 125 80" stroke="#60a5fa" stroke-width="2.5"/>
         </svg>
       `,
-
-      // Sedící Lotos / Křeslo (Lap Throne)
       seated_lap: `
         <svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
           <line x1="30" y1="105" x2="210" y2="105" stroke="#4c0519" stroke-width="2" stroke-dasharray="4 4"/>
-          
-          <!-- MUŽ (Modrá: sedí vzpřímeně) -->
           <circle cx="100" cy="35" r="8.5" fill="rgba(96,165,250,0.25)" stroke="#60a5fa" stroke-width="2.5"/>
           <path d="M100 44 L102 88 L145 102" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
-          <!-- Ruce muže držící její zadeček/boky -->
           <path d="M104 55 C118 55, 130 65, 122 80" stroke="#60a5fa" stroke-width="2.5"/>
-
-          <!-- ŽENA (Růžová: sedí na něm obkročmo čelem) -->
           <circle cx="128" cy="38" r="8" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2.5"/>
           <path d="M126 46 L120 86 L85 96" fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
-          <!-- Ruce ženy kolem jeho šíje -->
           <path d="M125 50 C115 50, 105 45, 102 42" stroke="#f472b6" stroke-width="2.5"/>
         </svg>
       `,
-
-      // Motýl na hraně stolu / postele
       elevated_edge: `
         <svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
-          <!-- Hrana stolu/postele -->
           <path d="M20 75 L120 75 L120 115" stroke="#4c0519" stroke-width="2"/>
-          
-          <!-- ŽENA (Růžová: sedí na okraji stolu, nohy rozevřené) -->
           <circle cx="50" cy="62" r="8" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2.5"/>
           <path d="M58 65 L115 65 L130 45 L145 60" fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
-          
-          <!-- MUŽ (Modrá: stojí pevně mezi jejíma nohama) -->
           <circle cx="150" cy="25" r="8.5" fill="rgba(96,165,250,0.25)" stroke="#60a5fa" stroke-width="2.5"/>
           <path d="M150 34 L142 66 L125 72 L145 115" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
-          <!-- Ruce muže na jejím krku/bocích -->
           <path d="M148 45 L120 62" stroke="#60a5fa" stroke-width="2.5"/>
         </svg>
       `,
-
-      // Přišpendlená ke zdi (Standing Wall Pin)
       standing_pin: `
         <svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
-          <!-- Zeď vpravo -->
           <line x1="195" y1="10" x2="195" y2="115" stroke="#4c0519" stroke-width="3"/>
-          
-          <!-- ŽENA (Růžová: opřená zády o zeď, noha zvednutá) -->
           <circle cx="175" cy="30" r="8" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2.5"/>
           <path d="M175 38 L172 75 L165 112" fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
           <path d="M172 70 L145 50 L135 60" stroke="#f472b6" stroke-width="2.5"/>
-
-          <!-- MUŽ (Modrá: stojí těsně u ní a tiskne ji ke zdi) -->
           <circle cx="120" cy="28" r="8.5" fill="rgba(96,165,250,0.25)" stroke="#60a5fa" stroke-width="2.5"/>
           <path d="M120 37 L132 70 L125 112" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
-          <!-- Ruka muže na jejím hrdle/bocích -->
           <path d="M125 45 L165 55" stroke="#60a5fa" stroke-width="2.5"/>
         </svg>
       `,
-
-      // Prone Bone (Na břiše ploše)
       flat_prone: `
         <svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
           <line x1="15" y1="105" x2="225" y2="105" stroke="#4c0519" stroke-width="2" stroke-dasharray="4 4"/>
-          
-          <!-- ŽENA (Růžová: leží ploše na břiše) -->
           <circle cx="50" cy="92" r="8" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2.5"/>
           <path d="M58 94 L135 94 L205 102" fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
-
-          <!-- MUŽ (Modrá: leží shora přímo na jejích zádech) -->
           <circle cx="78" cy="58" r="8.5" fill="rgba(96,165,250,0.25)" stroke="#60a5fa" stroke-width="2.5"/>
           <path d="M85 62 L142 84 L190 102" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
-          <!-- Ruka muže přes její rameno / zakrytí úst zepředu -->
           <path d="M85 68 L60 88" stroke="#60a5fa" stroke-width="2.5"/>
         </svg>
       `
     };
 
-    /* 3. ROZSÁHLÁ DATABÁZE POLOŽEK */
+    /* 3. BOHATÁ ZÁKLADNÍ DATABÁZE (DESÍTKY POLOŽEK) */
     const MASTER_DATABASE = {
       missionary_starters: [
         { id: 'ms1', title: 'Missionary s polštářem pod zadkem', level: 1, isMissionary: true, svgKey: 'm_base', desc: 'Klasický romantický start s mírně vyvýšenou pánví pro hladký a něžný vstup.', keyFocus: 'Polštář přímo pod křížovou kostí natočí pánev k přední stěně a uvolní tělo.', watchOut: 'Nevkládej polštář pod bedra, ať nedochází k prohnutí v páteři.' },
         { id: 'ms2', title: 'Missionary tělo na těle (váha na přítelkyni)', level: 1, isMissionary: true, svgKey: 'm_base', desc: 'Maximální kontakt kůže na kůži, líbání na krku a pomalý krouživý grinding.', keyFocus: 'Spusť váhu na její hruď a dýchej jí do ucha; pohyb vychází z pánve.', watchOut: 'Opora na předloktích zajistí, aby neztrácela dech.' },
         { id: 'ms3', title: 'Missionary s chodidly na tvých prsou', level: 1, isMissionary: true, svgKey: 'm_base', desc: 'Její nožky opřené o tvou hruď zkracují vstup a umožňují laskání chodidel.', keyFocus: 'Tlak tvého hrudníku zužuje úhel; ruce máš volné na její nárty a kotníky.', watchOut: 'Neroztahuj kolena příliš do stran, chraň kyčle.' },
-        { id: 'ms4', title: 'Missionary s nohama kolem tvého krku', level: 1, isMissionary: true, svgKey: 'm_base', desc: 'Hluboký intimní úhel, kde tě její nohy objímají a zvedají její boky.', keyFocus: 'Pánev je přirozeně ve vzduchu; ideální pro ruku pod krkem a oční kontakt.', watchOut: 'Pevně ji jisti za boky, ať nenamáhá spodní záda.' }
+        { id: 'ms4', title: 'Missionary s nohama kolem tvého krku', level: 1, isMissionary: true, svgKey: 'm_base', desc: 'Hluboký intimní úhel, kde tě její nohy objímají a zvedají její boky.', keyFocus: 'Pánev je přirozeně ve vzduchu; ideální pro ruku pod krkem a oční kontakt.', watchOut: 'Pevně ji jisti za boky, ať nenamáhá spodní záda.' },
+        { id: 'ms5', title: 'Missionary s nohama na tvých ramenou', level: 1, isMissionary: true, svgKey: 'm_base', desc: 'Hluboké otevření pánve s těsným sevřením a plným očním kontaktem.', keyFocus: 'Uvolněné nohy na tvých ramenou dovolují souvislý tlak na přední stěnu.', watchOut: 'Netlač na její kolena dozadu příliš prudce.' }
       ],
       positions: [
         { id: 'p1', title: 'Klasická Lžíce (The Spoon)', level: 2, svgKey: 'side_spoon', desc: 'Oba na boku za sebou, tělo v těle, pomalý rytmus a ruka na jejích ňadrech a krku.', keyFocus: 'Pomalý synchronizovaný pohyb boků; volná ruka může hladit bříško a ňadra.', watchOut: 'Udržujte nohy mírně pokrčené, aby nevznikalo napětí v kříži.' },
-        { id: 'p2', title: 'Motýl na stole (The Butterfly)', level: 2, svgKey: 'elevated_edge', desc: 'Ona sedí na kraji pevného stolu nebo komody, ty stojíš pevně mezi jejíma nohama.', keyFocus: 'Pohled přímo z očí do očí; možnost chytit ji pod krkem a přirazit celou vahou.', watchOut: 'Stůl musí být stabilní a ve výšce tvých boků.' },
-        { id: 'p3', title: 'Sedící Křeslo (Lap Throne)', level: 2, svgKey: 'seated_lap', desc: 'Ty sedíš hluboko v křesle nebo na gauči, ona sedí na tobě čelem k tobě.', keyFocus: 'Dokonalé objetí, líbání celého obličeje a krku, pomalý grinding.', watchOut: 'Pozor na únavu jejích kolen při delším sezení.' },
-        { id: 'p4', title: 'Standing Wall Pin (Přišpendlená ke zdi)', level: 3, svgKey: 'standing_pin', desc: 'Ona stojí opřená zády o zeď, ty ji držíš za stehno nebo pas a přitlačuješ.', keyFocus: 'Drsná dominance; zeď neuhne, takže každý příraz jde na maximum hloubky.', watchOut: 'Musí mít dobrou oporu nohy na zemi, případně ji zvedni.' },
-        { id: 'p5', title: 'The Flatiron (Ploché Želízko)', level: 3, svgKey: 'flat_prone', desc: 'Na břiše, nohy zkřížené v kotnících, ty ležíš celou vahou na ní.', keyFocus: 'Brutální těsnost na vstupu; ideální pro zakrytí úst dlaní a ruku na zátylku.', watchOut: 'Nesmí mít zablokovaný dech – zvedej se na loktech.' }
+        { id: 'p2', title: 'Zvýšená Lžíce s přehozenou nohou', level: 2, svgKey: 'side_spoon', desc: 'Na boku, ale její horní noha je přehozená vysoko přes tvůj bok.', keyFocus: 'Zvednutá noha otevírá úhel k přední stěně a umožňuje hlubší vnoření zezadu.', watchOut: 'Netahej nohu příliš dopředu, pokud cítí tah v tříslech.' },
+        { id: 'p3', title: 'Motýl na stole (The Butterfly)', level: 2, svgKey: 'elevated_edge', desc: 'Ona sedí na kraji pevného stolu nebo komody, ty stojíš pevně mezi jejíma nohama.', keyFocus: 'Pohled přímo z očí do očí; možnost chytit ji pod krkem a přirazit celou vahou.', watchOut: 'Stůl musí být stabilní a ve výšce tvých boků.' },
+        { id: 'p4', title: 'Sedící Křeslo (Lap Throne)', level: 2, svgKey: 'seated_lap', desc: 'Ty sedíš hluboko v křesle nebo na gauči, ona sedí na tobě čelem k tobě.', keyFocus: 'Dokonalé objetí, líbání celého obličeje a krku, pomalý grinding.', watchOut: 'Pozor na únavu jejích kolen při delším sezení.' },
+        { id: 'p5', title: 'Obrácené Křeslo (Reverse Lap)', level: 2, svgKey: 'seated_lap', desc: 'Sedíš na židli nebo gauči, ona sedí v tvém klínu zády k tobě a opírá se o tebe.', keyFocus: 'Máš plný přístup k jejím ňadrům zepředu a můžeš jí zakrýt ústa zezadu.', watchOut: 'Hlídej stabilitu trupu, aby nesklouzávala dopředu.' },
+        { id: 'p6', title: 'Mořská panna (The Mermaid)', level: 2, svgKey: 'side_spoon', desc: 'Ona leží na boku s nohama pevně nataženýma dopředu u sebe.', keyFocus: 'Nohy u sebe vytvářejí neskutečně těsný tunel.', watchOut: 'Pohyb musí být pomalý, odpor vstupu je vysoký.' },
+        { id: 'p7', title: 'Kobra na břiše (The Cobra)', level: 2, svgKey: 'flat_prone', desc: 'Ona na břiše, ale horní polovinu těla má vzepřenou na dlaních se zakloněnou hlavou.', keyFocus: 'Prohnutá záda otevírají šíji pro polibky zezadu a tahání za vlasy.', watchOut: 'Hlídej prohnutí v bedrech, nesmí jít přes bolest.' },
+        { id: 'p8', title: 'Standing Wall Pin (Přišpendlená ke zdi)', level: 3, svgKey: 'standing_pin', desc: 'Ona stojí opřená zády o zeď, ty ji držíš za stehno nebo pas a přitlačuješ.', keyFocus: 'Drsná dominance; zeď neuhne, takže každý příraz jde na maximum hloubky.', watchOut: 'Musí mít dobrou oporu nohy na zemi, případně ji zvedni.' },
+        { id: 'p9', title: 'The Flatiron (Ploché Želízko)', level: 3, svgKey: 'flat_prone', desc: 'Na břiše, nohy zkřížené v kotnících, ty ležíš celou vahou na ní.', keyFocus: 'Brutální těsnost na vstupu; ideální pro zakrytí úst dlaní a ruku na zátylku.', watchOut: 'Nesmí mít zablokovaný dech – zvedej se na loktech.' },
+        { id: 'p10', title: 'Stojící Baletka (Standing Split)', level: 3, svgKey: 'standing_pin', desc: 'Ona stojí čelem ke zdi, jedna noha na zemi, druhá zvednutá vysoko na stole či opěrce.', keyFocus: 'Asymetrické roztažení vytváří hluboký a pevný vstup zezadu.', watchOut: 'Zkontroluj, že jí neklouže stojná noha na podlaze.' },
+        { id: 'p11', title: 'Schodišťový Stupínek (Stair Step)', level: 3, svgKey: 'standing_pin', desc: 'Využití schodů – ona stojí o dva schody výše opřená o zábradlí.', keyFocus: 'Dokonalá ergonomická výška pro tvrdé přírazy zezadu.', watchOut: 'Pozor na stabilitu na hranách schodů.' },
+        { id: 'p12', title: 'Boční T-Kříž (The T-Square)', level: 2, svgKey: 'side_spoon', desc: 'Ona leží na zádech, ty přistupuješ z boku kolmo k jejímu tělu.', keyFocus: 'Unikátní boční tření a přímý přístup k laskání jejího podbřišku.', watchOut: 'Její nohy musí pohodlně spočívat přes tvá stehna.' },
+        { id: 'p13', title: 'Zrcadlový sed na okraji postele', level: 2, svgKey: 'seated_lap', desc: 'Sedíte proti sobě na kraji postele, nohy propletené pod sebou.', keyFocus: 'Pomalý dech z úst do úst a pevná ruka na zátylku.', watchOut: 'Udržujte rovná záda.' },
+        { id: 'p14', title: 'Břišní kolébka (The Cradle)', level: 2, svgKey: 'side_spoon', desc: 'Ona stočená v klubíčku na boku, ty ji zezadu objímáš jako pevný štít.', keyFocus: 'Hluboká intimita, ruka na hrdle a pomalé hluboké dýchání.', watchOut: 'Tempo musí zůstat něžné a hluboké.' }
       ],
       touches: [
         { id: 't1', title: 'Pevná dlaň pod krkem', desc: 'Pevný stisk na hrdle s upřeným pohledem do očí, který dává pocit plné kontroly.' },
@@ -481,52 +430,78 @@
         { id: 't3', title: 'Tahání za vlasy u kořínků', desc: 'Pevný úchop u zátylku, jemné zaklonění hlavy a políbení odhaleného krku.' },
         { id: 't4', title: 'Držení obou rukou nad hlavou', desc: 'Jednou rukou zafixuj obě její zápěstí pevně na matraci nad její hlavou.' },
         { id: 't5', title: 'Prsty v jejích ústech', desc: 'Palec a ukazováček jemně vložené mezi její rty a zoubky během rytmu.' },
-        { id: 't6', title: 'Líbání a laskání chodidel', desc: 'Pomalé polibky po klenbě chodidla a kotnících jako projev hlubokého obdivu.' }
+        { id: 't6', title: 'Líbání a laskání chodidel', desc: 'Pomalé polibky po klenbě chodidla a kotnících jako projev hlubokého obdivu.' },
+        { id: 't7', title: 'Horké líbání podbřišku', desc: 'Líbání bříška těsně nad klínem pro vybudování nesnesitelného napětí.' },
+        { id: 't8', title: 'Pevné sevření a mačkání ňader', desc: 'Plný úchop ňader dlaněmi zepředu i zezadu při srážkách těl.' },
+        { id: 't9', title: 'Lehké škrábnutí nehty po zádech', desc: 'Pomalé linie nehtů od šíje dolů ke kříži vyvolávající husí kůži.' }
       ],
       verbals: [
         { id: 'v1', title: '„Jsi tak neuvěřitelně úzká...“', desc: 'Obdiv k jejímu sevření šeptaný přímo do ucha.' },
         { id: 'v2', title: '„Ukaž mi, co v sobě máš.“', desc: 'Výzva k odevzdání a ztrátě zábran.' },
         { id: 'v3', title: '„Miluju, jak moc jsi pro mě wet...“', desc: 'Praise ocenění její bezprostřední tělesné touhy.' },
         { id: 'v4', title: '„Těšil jsem se na tebe celý týden... konečně tě mám.“', desc: 'Upřímné vyznání obrovského chtíče a romance.' },
-        { id: 'v5', title: '„Máš to ráda tvrdě, že ano?“', desc: 'Dominantní potvrzení rozkoše uprostřed akce.' }
+        { id: 'v5', title: '„Máš to ráda tvrdě, že ano?“', desc: 'Dominantní potvrzení rozkoše uprostřed akce.' },
+        { id: 'v6', title: '„Líbí se ti to? Koukni se na mě.“', desc: 'Příkaz k intenzivnímu očnímu kontaktu.' },
+        { id: 'v7', title: '„Takhle hluboko patříš celá jen mně.“', desc: 'Vlastnické ujištění během plného splynutí.' }
       ],
       games: [
         { id: 'g1', title: 'Přerušení očního kontaktu', desc: '„Když přerušíš oční kontakt, na 30 sekund se úplně zastavím v hloubce.“' },
         { id: 'g2', title: 'Tichá poslušnost (Whisper only)', desc: '„Smíš mi jenom šeptat do ucha. Jakýkoliv hlasitý zvuk znamená okamžité zpomalení.“' },
         { id: 'g3', title: 'Hra na sochu', desc: 'Na slovo „Ztuhni“ nesmí pohnout ani svalem po dobu 30 sekund pod hrozbou trestu.' },
-        { id: 'g4', title: 'Pravidlo tří nádechů', desc: 'Musíte dýchat v naprosté synchronizaci – na nádech vstup, na výdech setrvání v hloubce.' }
+        { id: 'g4', title: 'Pravidlo tří nádechů', desc: 'Musíte dýchat v naprosté synchronizaci – na nádech vstup, na výdech setrvání v hloubce.' },
+        { id: 'g5', title: 'Slepá důvěra', desc: 'Zavaž jí oči šátkem. Nesmí je otevřít, dokud nedostane polibek na čelo.' }
       ]
     };
 
-    /* 4. STATE MANAGEMENT */
-    const STORAGE_KEY_RATINGS = 'velvet_ratings_v5';
-    const STORAGE_KEY_CUSTOM = 'velvet_custom_v5';
-    const STORAGE_KEY_API = 'velvet_ai_key_v5';
-    const STORAGE_KEY_PROVIDER = 'velvet_provider_v5';
+    /* 4. PROCEDURÁLNÍ MOTOR PRO NEKONEČNÉ GENEROVÁNÍ */
+    const DYNAMIC_ELEMENTS = {
+      positions: {
+        bases: ['na hraně postele', 'opřená o zeď', 'v hlubokém křesle', 'na břiše s polštářem', 'v sedě v pevném objetí', 'na zemi u matrace', 's jednou nohou na židli'],
+        angles: ['s nohama těsně semknutýma u sebe', 's jednou nohou přehozenou přes tvůj bok', 's pánví vyvýšenou na pevném polštáři', 's koleny přitaženými k hrudníku', 'v asymetrickém náklonu pánve'],
+        rhythms: ['pomalý vlnivý grinding bez vyklouznutí', 'stálý hluboký tlak na přední stěnu', 'hluboké přírazy s pauzou v dorazu', 'krouživý pohyb pánve tělo na těle'],
+        svgs: ['side_spoon', 'elevated_edge', 'standing_pin', 'flat_prone', 'seated_lap']
+      },
+      touches: {
+        actions: ['Pevná dlaň obepínající její hrdlo', 'Dlaň přes ústa zepředu i zezadu', 'Pevný tah za kořínky vlasů s lehkým záklonem', 'Pevné zafixování obou zápěstí nad hlavou', 'Pomalé líbání klenby chodidel a kotníků', 'Horký dech a jemné kousnutí do zátylku'],
+        nuances: ['s upřeným pohledem do jejích očí', 'doprovázený pevným stiskem boků', 's prsty v jejích ústech', 'při plném zalehnutí tělo na těle', 'spojený se šeptáním do ucha']
+      },
+      verbals: {
+        starts: ['„Miluju, jak moc jsi pro mě wet... ', '„Jsi tak neuvěřitelně úzká... ', '„Podívej se na mě a vnímej, ', '„Ani se nehni... ', '„Zbožňuju, jak pode mnou ztrácíš kontrolu... '],
+        ends: ['patříš dneska celá jen mně.“', 'ukaž mi, co v sobě máš.“', 'takhle hluboko tě nepustím.“', 'nikam nespěcháme, vychutnej si mě.“', 'všechno, co cítíš, je jen pro tebe.“']
+      },
+      games: {
+        triggers: ['Když přerušíš oční kontakt', 'Pokud vydáš hlasitější zvuk než tichý šepot', 'Na vyslovení povelu „Ztuhni“', 'Během následujících 15 přírazů', 'Dokud tě třikrát výslovně nepožádá'],
+        penalties: ['na celých 30 sekund se úplně zastavím v hloubce.', 'tempo okamžitě zpomalí na absolutní minimum.', 'musí zůstat bez hnutí bez ohledu na to, jak blízko vrcholu je.', 'smí jen zhluboka dýchat s rukama za hlavou.', 'budeš se pouze třít bez možnosti vstupu.']
+      }
+    };
+
+    /* 5. STATE MANAGEMENT */
+    const STORAGE_KEY_RATINGS = 'velvet_ratings_v6';
+    const STORAGE_KEY_CUSTOM = 'velvet_custom_v6';
+    const STORAGE_KEY_API = 'velvet_ai_key_v6';
+    const STORAGE_KEY_PROVIDER = 'velvet_provider_v6';
 
     let ratings = JSON.parse(localStorage.getItem(STORAGE_KEY_RATINGS) || '{}');
     let customItems = JSON.parse(localStorage.getItem(STORAGE_KEY_CUSTOM) || '{"position":[],"touch":[],"verbal":[],"game":[]}');
     let currentPositionCount = 3;
     let currentCategory = 'position';
     let currentIdeaItem = null;
-    let currentProvider = localStorage.getItem(STORAGE_KEY_PROVIDER) || 'groq';
+    let currentProvider = localStorage.getItem(STORAGE_KEY_PROVIDER) || 'openrouter';
 
-    function getApiKey() {
-      return localStorage.getItem(STORAGE_KEY_API) || '';
-    }
+    function getApiKey() { return localStorage.getItem(STORAGE_KEY_API) || ''; }
 
     function selectProvider(p) {
       currentProvider = p;
-      if (p === 'groq') {
-        document.getElementById('btnProvGroq').className = "p-2.5 text-xs font-semibold rounded-xl glass-active text-rose-200";
-        document.getElementById('btnProvGemini').className = "p-2.5 text-xs font-semibold rounded-xl text-pink-300/70";
-        document.getElementById('apiKeyLabel').innerText = "Groq API Klíč (gsk_...):";
-        document.getElementById('apiKeyLink').href = "https://console.groq.com/keys";
-      } else {
+      if (p === 'openrouter') {
+        document.getElementById('btnProvOpenrouter').className = "p-2.5 text-xs font-semibold rounded-xl glass-active text-rose-200";
         document.getElementById('btnProvGroq').className = "p-2.5 text-xs font-semibold rounded-xl text-pink-300/70";
-        document.getElementById('btnProvGemini').className = "p-2.5 text-xs font-semibold rounded-xl glass-active text-rose-200";
-        document.getElementById('apiKeyLabel').innerText = "Google Gemini Klíč:";
-        document.getElementById('apiKeyLink').href = "https://aistudio.google.com/app/apikey";
+        document.getElementById('apiKeyLabel').innerText = "OpenRouter API Klíč (sk-or-...):";
+        document.getElementById('apiKeyLink').href = "https://openrouter.ai/keys";
+      } else {
+        document.getElementById('btnProvOpenrouter').className = "p-2.5 text-xs font-semibold rounded-xl text-pink-300/70";
+        document.getElementById('btnProvGroq').className = "p-2.5 text-xs font-semibold rounded-xl glass-active text-rose-200";
+        document.getElementById('apiKeyLabel').innerText = "Groq / Gemini Klíč:";
+        document.getElementById('apiKeyLink').href = "https://console.groq.com/keys";
       }
     }
 
@@ -534,7 +509,7 @@
       const key = document.getElementById('inputApiKey').value.trim();
       localStorage.setItem(STORAGE_KEY_API, key);
       localStorage.setItem(STORAGE_KEY_PROVIDER, currentProvider);
-      alert('Nastavení uloženo!');
+      alert('Nastavení bylo uloženo!');
       closeSettingsModal();
     }
 
@@ -547,12 +522,12 @@
       document.getElementById('settingsModal').classList.add('hidden');
     }
 
-    /* 5. AI ENGINE S ROBUSTNÍM FALLBACKEM */
+    /* 6. AI ENGINE S OPENROUTEREM (CORS POVOLEN) */
     async function callAI(promptText) {
       const apiKey = getApiKey();
       if (!apiKey) return null;
 
-      const systemPrompt = `Jsi intimní erotický průvodce pro dospělý pár. Styl: vášeň, missionary základ, lehká dominance, chytání pod krkem, zakrývání úst zezadu, praise kink (obdiv k těsnosti/vlhkosti), hry s očním kontaktem a tichem. Vrať VÝHRADNĚ platný JSON formát:
+      const systemPrompt = `Jsi intimní erotický průvodce pro zamilovaný pár. Styl: missionary základ, vášeň, chytání pod krkem, zakrývání úst zezadu, praise kink (obdiv k těsnosti/vlhkosti), hry s očním kontaktem a tichem. Vrať VÝHRADNĚ platný JSON formát:
 {
   "title": "Název",
   "desc": "Smyslný popis",
@@ -561,15 +536,17 @@
 }`;
 
       try {
-        if (currentProvider === 'groq') {
-          const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        if (currentProvider === 'openrouter') {
+          const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${apiKey}`
+              "Authorization": `Bearer ${apiKey}`,
+              "HTTP-Referer": window.location.href,
+              "X-Title": "Velvet Desire"
             },
             body: JSON.stringify({
-              model: "llama-3.3-70b-versatile",
+              model: "meta-llama/llama-3.2-3b-instruct:free",
               messages: [
                 { role: "system", content: systemPrompt },
                 { role: "user", content: promptText }
@@ -577,31 +554,16 @@
               response_format: { type: "json_object" }
             })
           });
+
           if (res.ok) {
             const data = await res.json();
-            return JSON.parse(data.choices[0].message.content);
-          }
-        } else {
-          const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`;
-          const res = await fetch(url, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "x-goog-api-key": apiKey
-            },
-            body: JSON.stringify({
-              contents: [{ role: 'user', parts: [{ text: `${systemPrompt}\n\n${promptText}` }] }]
-            })
-          });
-          if (res.ok) {
-            const data = await res.json();
-            let raw = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "";
+            let raw = data.choices[0].message.content;
             raw = raw.replace(/^```json/i, '').replace(/^```/, '').replace(/```$/, '').trim();
             return JSON.parse(raw);
           }
         }
       } catch (e) {
-        console.warn("AI connection failed, using smart local fallback:", e);
+        console.warn("AI nelze kontaktovat, přecházím na vnitřní generátor:", e);
       }
       return null;
     }
@@ -613,15 +575,93 @@
       localStorage.setItem(STORAGE_KEY_PROVIDER, currentProvider);
 
       alert("Probíhá test spojení...");
-      const res = await callAI("Vrať JSON: { \"title\": \"Test\", \"desc\": \"OK\", \"keyFocus\": \"OK\", \"watchOut\": \"OK\" }");
+      const res = await callAI("Vrať JSON: { \"title\": \"Test OK\", \"desc\": \"Spojení funguje!\", \"keyFocus\": \"OK\", \"watchOut\": \"OK\" }");
       if (res && res.title) {
         alert("🎉 Spojení s AI funguje skvěle!");
       } else {
-        alert("⚠️ Test selhal. Pokud jsi soubor spustil přímo z plochy (file://), prohlížeč blokuje spojení. Nahraj stránku na Vercel nebo Netlify Drop.");
+        alert("⚠️ Test selhal. Pokud používáš Groq/Gemini, prohlížeč blokuje CORS. Vyzkoušej OpenRouter (openrouter.ai), který funguje v prohlížeči bez chyb.");
       }
     }
 
-    /* 6. TWEAK (POUPRAVENÍ 1 OHÝNEK) */
+    /* 7. SKUTEČNÉ GENEROVÁNÍ NOVÝCH NÁPADŮ (NIKDY SE NEOPAKUJE) */
+    async function generateFreshIdeaAction() {
+      const container = document.getElementById('ideaCardContainer');
+      container.innerHTML = `
+        <div class="glass p-8 rounded-3xl text-center space-y-3">
+          <div class="w-8 h-8 mx-auto border-2 border-rose-500 border-t-transparent rounded-full animate-spin"></div>
+          <p class="text-xs text-rose-200">Tvořím zbrusu nový nápad pro kategorii: <strong class="text-pink-300">${currentCategory}</strong>...</p>
+        </div>
+      `;
+
+      // 1. Zkusíme AI
+      let result = await callAI(`Vymysli zbrusu nový originální prvek pro kategorii: ${currentCategory} pro pár se zálibou v lehkém BDSM, vášni a missionary základu.`);
+
+      // 2. Pokud AI není připojeno, vnitřní procedurální motor okamžitě poskládá NOVOU kombinaci!
+      if (!result || !result.title) {
+        result = buildDynamicCombinatorialItem(currentCategory);
+      }
+
+      const newItem = {
+        id: 'dyn_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+        title: result.title,
+        desc: result.desc,
+        keyFocus: result.keyFocus || 'Přesné vedení pánve a těla.',
+        watchOut: result.watchOut || 'Dbejte na oboustranný komfort.',
+        level: 2,
+        svgKey: result.svgKey || 'm_base'
+      };
+
+      // Vložit do uživatelských položek
+      customItems[currentCategory].unshift(newItem);
+      localStorage.setItem(STORAGE_KEY_CUSTOM, JSON.stringify(customItems));
+
+      currentIdeaItem = newItem;
+      renderIdeaCard();
+    }
+
+    function buildDynamicCombinatorialItem(cat) {
+      if (cat === 'position') {
+        const b = DYNAMIC_ELEMENTS.positions;
+        const base = b.bases[Math.floor(Math.random() * b.bases.length)];
+        const ang = b.angles[Math.floor(Math.random() * b.angles.length)];
+        const rhy = b.rhythms[Math.floor(Math.random() * b.rhythms.length)];
+        const svg = b.svgs[Math.floor(Math.random() * b.svgs.length)];
+
+        return {
+          title: `Variace: ${base.charAt(0).toUpperCase() + base.slice(1)} (${ang})`,
+          desc: `Poloha těl ${base}, kde má partnerka nohy ${ang}. Celý pohyb probíhá jako ${rhy}.`,
+          keyFocus: 'Přesný úhel pánve vytváří souvislý tlak na stěnu bez namáhání zad.',
+          watchOut: 'Dbejte na stabilitu opory a začněte pomalejším tempem.',
+          svgKey: svg
+        };
+      } else if (cat === 'touch') {
+        const b = DYNAMIC_ELEMENTS.touches;
+        const act = b.actions[Math.floor(Math.random() * b.actions.length)];
+        const nua = b.nuances[Math.floor(Math.random() * b.nuances.length)];
+        return {
+          title: act,
+          desc: `${act} ${nua}. Vytváří silný pocit odevzdání a nadvlády.`
+        };
+      } else if (cat === 'verbal') {
+        const b = DYNAMIC_ELEMENTS.verbals;
+        const st = b.starts[Math.floor(Math.random() * b.starts.length)];
+        const en = b.ends[Math.floor(Math.random() * b.ends.length)];
+        return {
+          title: `${st}${en}`,
+          desc: 'Šeptáno přímo do ucha při hlubokém kontaktu těl.'
+        };
+      } else {
+        const b = DYNAMIC_ELEMENTS.games;
+        const trg = b.triggers[Math.floor(Math.random() * b.triggers.length)];
+        const pen = b.penalties[Math.floor(Math.random() * b.penalties.length)];
+        return {
+          title: `Pravidlo: ${trg}`,
+          desc: `${trg}, ${pen}`
+        };
+      }
+    }
+
+    /* 8. TWEAK ENGINE (1 OHÝNEK) */
     function openTweakModal() {
       if (!currentIdeaItem) return;
       document.getElementById('tweakModal').classList.remove('hidden');
@@ -630,7 +670,7 @@
       document.getElementById('tweakModal').classList.add('hidden');
     }
 
-    async function applyTweak(directionKey) {
+    async function applyInteractiveTweak(type) {
       closeTweakModal();
       const old = currentIdeaItem;
       const container = document.getElementById('ideaCardContainer');
@@ -642,11 +682,10 @@
         </div>
       `;
 
-      let aiRes = await callAI(`Uprav položku: "${old.title} - ${old.desc}" podle kritéria: ${directionKey}. Vytvoř novou modifikovanou verzi.`);
+      let aiRes = await callAI(`Uprav prvek: "${old.title} - ${old.desc}" podle požadavku: ${type}. Vytvoř upravenou verzi.`);
 
-      // Pokud AI není dostupné, použijeme chytrý lokální engine
       if (!aiRes || !aiRes.title) {
-        aiRes = createLocalTweak(old, directionKey);
+        aiRes = createLocalTweak(old, type);
       }
 
       const tweaked = {
@@ -670,32 +709,31 @@
     function createLocalTweak(item, type) {
       let title = item.title.replace(/\(.*\)/, '').trim();
       let desc = item.desc;
-      let key = item.keyFocus || '';
 
       if (type === 'soft') {
         return {
-          title: `${title} (Něžná smyslná varianta)`,
-          desc: `Zpomalte rytmus na minimum. ${desc} Nahraďte tvrdé přírazy krouživým grindingem tělo na tělo a hlubokým dýcháním do vlasů.`,
+          title: `${title} (Jemná smyslná varianta)`,
+          desc: `Zpomalte na minimum. ${desc} Nahraďte tvrdé přírazy krouživým grindingem tělo na tělo a hlubokým dýcháním do vlasů.`,
           keyFocus: 'Maximální blízkost, oční kontakt a tělesné teplo.',
-          watchOut: 'Nespěchejte s tempem, vychutnejte si klid.'
+          watchOut: 'Nespěchejte, vychutnejte si klid.'
         };
       } else if (type === 'hard') {
         return {
           title: `${title} (Dominantní varianta)`,
-          desc: `Pevné sevření boků a zvýšená intenzita. ${desc} Jedna ruka pevně fixuje šíji pod krkem nebo drží vlasy u kořínků.`,
+          desc: `Pevné sevření boků a tvrdší rytmus. ${desc} Jedna ruka pevně fixuje šíji pod krkem nebo drží vlasy u kořínků.`,
           keyFocus: 'Plná nadvláda a hluboký tah na stěnu.',
-          watchOut: 'Hlídejte dech a její signály při tvrdším tempu.'
+          watchOut: 'Hlídejte dech a signály partnerky při zvýšeném tlaku.'
         };
       } else if (type === 'angle') {
         return {
           title: `${title} (S podložením pánve)`,
           desc: `Podložte její křížovou kost pevným polštářem pro náklon o 20 stupňů. ${desc}`,
-          keyFocus: 'Změna úhlu přináší přímý tah na přední stěnu a uvolňuje spodní záda.',
+          keyFocus: 'Natočení pánve přináší přímý tah na přední stěnu a uvolňuje záda.',
           watchOut: 'Polštář nesmí tlačit do beder, pouze pod zadeček.'
         };
       } else {
         return {
-          title: `${title} (Alternativní tón)`,
+          title: `${title} (Alternativní provedení)`,
           desc: `Vyzkoušejte stejný prvek se zavázanýma očima a šeptáním přímo do ucha. ${desc}`,
           keyFocus: 'Absence zraku zdvojnásobuje citlivost každého doteku na kůži.',
           watchOut: 'Pohybujte se předvídatelně pro pocit bezpečí.'
@@ -703,38 +741,7 @@
       }
     }
 
-    /* 7. GENEROVÁNÍ NOVÉHO NÁPADU */
-    async function generateNewSmartIdea() {
-      const container = document.getElementById('ideaCardContainer');
-      container.innerHTML = `
-        <div class="glass p-8 rounded-3xl text-center space-y-3">
-          <div class="w-8 h-8 mx-auto border-2 border-rose-500 border-t-transparent rounded-full animate-spin"></div>
-          <p class="text-xs text-rose-200">Generuji nový originální nápad pro kategorii: ${currentCategory}...</p>
-        </div>
-      `;
-
-      let aiRes = await callAI(`Vymysli zbrusu nový originální prvek pro kategorii: ${currentCategory} pro pár se zálibou v lehkém BDSM, vášni a missionary základu.`);
-
-      if (aiRes && aiRes.title) {
-        const newItem = {
-          id: 'fresh_' + Date.now(),
-          title: aiRes.title,
-          desc: aiRes.desc,
-          keyFocus: aiRes.keyFocus || 'Nové doporučení.',
-          watchOut: aiRes.watchOut || 'Dbejte na oboustranný komfort.',
-          level: 2,
-          svgKey: 'm_base'
-        };
-        customItems[currentCategory].unshift(newItem);
-        localStorage.setItem(STORAGE_KEY_CUSTOM, JSON.stringify(customItems));
-        currentIdeaItem = newItem;
-        renderIdeaCard();
-      } else {
-        loadRandomIdea();
-      }
-    }
-
-    /* 8. RATING ENGINE & DATA SOURCE */
+    /* 9. RATING ENGINE & DATA SOURCE */
     function saveRating(id, flames) {
       ratings[id] = flames;
       localStorage.setItem(STORAGE_KEY_RATINGS, JSON.stringify(ratings));
@@ -767,7 +774,7 @@
       return valid[valid.length - 1];
     }
 
-    /* 9. VEČERNÍ PLÁN */
+    /* 10. VEČERNÍ PLÁN */
     function changePositionCount(delta) {
       let n = currentPositionCount + delta;
       if (n >= 1 && n <= 5) {
@@ -868,7 +875,7 @@
       });
     }
 
-    /* 10. OBJEVOVÁNÍ A KARTY */
+    /* 11. OBJEVOVÁNÍ A KARTY */
     function setIdeaCategory(cat) {
       currentCategory = cat;
       ['btnCatPos', 'btnCatTouch', 'btnCatVerbal', 'btnCatGame'].forEach(id => {
@@ -923,7 +930,7 @@
         `;
         extraFocusHtml = `
           <div class="text-left space-y-2 mt-3 p-3 bg-black/40 rounded-2xl border border-rose-950">
-            <p class="text-[11px] text-pink-200/90 leading-relaxed"><strong class="text-rose-300">🎯 Klíč:</strong> ${currentIdeaItem.keyFocus || 'Stabilní kontakt.'}</p>
+            <p class="text-[11px] text-pink-200/90 leading-relaxed"><strong class="text-rose-300">🎯 Klíč:</strong> ${currentIdeaItem.keyFocus || 'Stabilní kontakt těl.'}</p>
             <p class="text-[11px] text-pink-200/70 leading-relaxed"><strong class="text-amber-300">⚠️ Pozor na:</strong> ${currentIdeaItem.watchOut || 'Dbejte na pohodlí.'}</p>
           </div>
         `;
@@ -950,7 +957,7 @@
       loadRandomIdea();
     }
 
-    /* 11. OBLÍBENÉ */
+    /* 12. OBLÍBENÉ */
     function renderFavorites() {
       const container = document.getElementById('favoritesList');
       container.innerHTML = '';
@@ -980,9 +987,9 @@
       });
     }
 
-    /* 12. SYNC EXPORT/IMPORT */
+    /* 13. SYNCHRONIZACE EXPORT/IMPORT */
     function copySyncPayload() {
-      const payload = { ratings, customItems };
+      const payload = { ratings, customItems, key: getApiKey(), prov: currentProvider };
       const str = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
       navigator.clipboard.writeText(str).then(() => {
         alert("Sync Kód zkopírován do schránky! Pošli si ho na druhé zařízení.");
@@ -998,6 +1005,8 @@
         const d = JSON.parse(decodeURIComponent(escape(atob(str.trim()))));
         if (d.ratings) ratings = d.ratings;
         if (d.customItems) customItems = d.customItems;
+        if (d.key) localStorage.setItem(STORAGE_KEY_API, d.key);
+        if (d.prov) { currentProvider = d.prov; localStorage.setItem(STORAGE_KEY_PROVIDER, d.prov); }
         localStorage.setItem(STORAGE_KEY_RATINGS, JSON.stringify(ratings));
         localStorage.setItem(STORAGE_KEY_CUSTOM, JSON.stringify(customItems));
         alert("Synchronizace úspěšná!");
@@ -1007,7 +1016,7 @@
       }
     }
 
-    /* 13. PŘEPÍNÁNÍ ZÁLOŽEK & START */
+    /* 14. PŘEPÍNÁNÍ ZÁLOŽEK & START */
     function switchTab(tab) {
       ['plan', 'ideas', 'favs'].forEach(t => {
         const el = document.getElementById('tab' + capitalize(t));
