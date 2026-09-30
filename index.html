@@ -18,7 +18,7 @@
     }
     .cinzel { font-family: 'Cinzel', serif; }
     .glass {
-      background: rgba(24, 4, 15, 0.85);
+      background: rgba(24, 4, 15, 0.88);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(244, 63, 94, 0.22);
@@ -103,9 +103,9 @@
     </div>
   </header>
 
-  <!-- ==================== HLÁŠENÍ CHYB / NOTIFIKACE ==================== -->
+  <!-- ==================== TOAST NOTIFIKACE ==================== -->
   <div id="errorToast" class="fixed top-16 inset-x-4 z-50 p-3 rounded-2xl bg-rose-950/95 border border-rose-500/80 text-rose-100 text-xs text-center shadow-2xl hidden">
-    <span id="errorMessage">Chyba</span>
+    <span id="errorMessage">Zpráva</span>
   </div>
 
   <!-- ==================== MAIN ==================== -->
@@ -156,7 +156,7 @@
         <button onclick="setIdeaCategory('game')" id="btnCatGame" class="py-2 text-[11px] font-semibold rounded-xl text-pink-300/70 transition">Hry</button>
       </div>
 
-      <div id="ideaCardContainer" class="min-h-[360px] flex items-center justify-center"></div>
+      <div id="ideaCardContainer" class="min-h-[380px] flex items-center justify-center"></div>
 
       <!-- Hodnocení 0, 1, 2 -->
       <div class="space-y-2">
@@ -192,11 +192,11 @@
 
   </main>
 
-  <!-- ==================== TWEAK MODAL (POUPRAVENÍ) ==================== -->
+  <!-- ==================== TWEAK MODAL ==================== -->
   <div id="tweakModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-5 hidden">
     <div class="glass w-full max-w-sm p-6 rounded-3xl border border-rose-700/50 space-y-4">
       <h3 class="cinzel text-base font-bold text-rose-100 text-center">Jak chceš nápad poupravit?</h3>
-      <p class="text-xs text-pink-300/70 text-center">Vyber směr a systém nápad okamžitě přetvoří:</p>
+      <p class="text-xs text-pink-300/70 text-center">Vyber směr a systém vytvoří stručnou upravenou variantu v češtině:</p>
 
       <div class="grid grid-cols-1 gap-2.5 pt-2">
         <button onclick="applyInteractiveTweak('soft')" class="p-3 rounded-2xl glass text-xs font-semibold text-pink-200 hover:bg-rose-900/40 text-left flex items-center gap-2">
@@ -209,7 +209,7 @@
           <span>📐</span> Změnit úhel / podložit polštářem
         </button>
         <button onclick="applyInteractiveTweak('rephrase')" class="p-3 rounded-2xl glass text-xs font-semibold text-pink-200 hover:bg-rose-900/40 text-left flex items-center gap-2">
-          <span>💬</span> Přeformulovat / Jiný tón slov
+          <span>💬</span> Jiná slova / alternativa
         </button>
       </div>
 
@@ -229,12 +229,10 @@
       </div>
 
       <div class="space-y-2">
-        <label class="text-xs font-bold text-pink-200 flex items-center justify-between">
-          <span>Vlož API Klíč (Auto-detekce):</span>
-        </label>
-        <input type="password" id="inputApiKey" placeholder="Vlož klíč z OpenRouter, Groq nebo Gemini..." class="w-full p-3 rounded-xl bg-black/60 border border-rose-900 text-xs text-pink-100 focus:outline-none focus:border-rose-500 font-mono">
+        <label class="text-xs font-bold text-pink-200">Vlož API Klíč (Auto-detekce zdarma):</label>
+        <input type="password" id="inputApiKey" placeholder="Vlož klíč z OpenRouter (sk-or-)..." class="w-full p-3 rounded-xl bg-black/60 border border-rose-900 text-xs text-pink-100 focus:outline-none focus:border-rose-500 font-mono">
         <p class="text-[10px] text-pink-300/70 leading-relaxed">
-          💡 <strong>Tip pro GitHub Pages:</strong> Doporučujeme bezplatný klíč z <a href="https://openrouter.ai/keys" target="_blank" class="text-rose-400 underline font-bold">openrouter.ai/keys</a> (začíná na <code>sk-or-</code>), který jako jediný nemá v prohlížeči CORS blokace.
+          Bezplatný klíč z <a href="https://openrouter.ai/keys" target="_blank" class="text-rose-400 underline font-bold">openrouter.ai/keys</a> (stojí <strong>0 Kč</strong> na bezplatném modelu).
         </p>
       </div>
 
@@ -289,7 +287,7 @@
     </div>
   </nav>
 
-  <!-- ==================== JAVASCRIPT ==================== -->
+  <!-- ==================== JAVASCRIPT LOGIKA ==================== -->
   <script>
     /* 1. PEVNÝ PIN: 270226 */
     const MASTER_PIN = '270226';
@@ -334,250 +332,279 @@
       setTimeout(() => el.classList.add('hidden'), 5500);
     }
 
-    /* 2. 16 UNIKÁTNÍCH DVOUBAREVNÝCH ANATOMICKÝCH SILUET (MODRÁ = MUŽ, RŮŽOVÁ = ŽENA) */
+    /* 2. VYSOKÁ ANATOMICKÁ ČITELNOST: 16 PŘESNÝCH SILUET S POPISEM ROLÍ */
     const SVG_ILLUSTRATIONS = {
       // 1. Missionary s polštářem
-      m_pillow: `
-        <svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
+      m_pillow: {
+        caption: "🌸 Žena leží na zádech s vyvýšenou pánví · 🔵 Muž shora na předloktích",
+        svg: `<svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
           <line x1="15" y1="105" x2="225" y2="105" stroke="#4c0519" stroke-width="2" stroke-dasharray="4 4"/>
-          <ellipse cx="110" cy="100" rx="24" ry="7" fill="rgba(244,63,94,0.25)" stroke="#f43f5e" stroke-width="1.5"/>
-          <circle cx="45" cy="85" r="8" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2.5"/>
-          <path d="M53 87 C70 87, 85 92, 110 93 C120 93, 135 78, 145 68 C150 72, 158 92, 168 100" fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
-          <circle cx="68" cy="40" r="8.5" fill="rgba(96,165,250,0.25)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M75 46 C95 54, 115 68, 125 82 C135 95, 160 102, 195 102" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M72 48 L75 95" stroke="#60a5fa" stroke-width="2.5"/>
-        </svg>
-      `,
+          <ellipse cx="110" cy="100" rx="24" ry="7" fill="rgba(244,63,94,0.35)" stroke="#f43f5e" stroke-width="1.5"/>
+          <circle cx="45" cy="85" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>
+          <path d="M53 87 C70 87, 85 92, 110 93 C120 93, 135 78, 145 68 C150 72, 158 92, 168 100" fill="rgba(244,114,182,0.3)" stroke="#f472b6" stroke-width="3"/>
+          <circle cx="68" cy="40" r="9" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M75 46 C95 54, 115 68, 125 82 C135 95, 160 102, 195 102" fill="rgba(56,189,248,0.3)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M72 48 L75 95" stroke="#38bdf8" stroke-width="3"/>
+        </svg>`
+      },
+
       // 2. Missionary nohy na ramenou
-      m_shoulders: `
-        <svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
+      m_shoulders: {
+        caption: "🌸 Žena má nohy vytažené na jeho ramenou · 🔵 Muž klečí vzpřímeně shora",
+        svg: `<svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
           <line x1="15" y1="105" x2="225" y2="105" stroke="#4c0519" stroke-width="2" stroke-dasharray="4 4"/>
-          <circle cx="40" cy="90" r="8" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2.5"/>
-          <path d="M48 92 L95 92 L105 45 L95 38" fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
-          <circle cx="95" cy="30" r="8.5" fill="rgba(96,165,250,0.25)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M98 38 L105 85 L145 100 L180 100" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M98 48 L65 88" stroke="#60a5fa" stroke-width="2.5"/>
-        </svg>
-      `,
+          <circle cx="40" cy="90" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>
+          <path d="M48 92 L95 92 L105 45 L95 38" fill="rgba(244,114,182,0.3)" stroke="#f472b6" stroke-width="3"/>
+          <circle cx="95" cy="30" r="9" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M98 38 L105 85 L145 100 L180 100" fill="rgba(56,189,248,0.3)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M98 48 L65 88" stroke="#38bdf8" stroke-width="3"/>
+        </svg>`
+      },
+
       // 3. Missionary nohy do širokého V
-      m_wide_v: `
-        <svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
+      m_wide_v: {
+        caption: "🌸 Žena má nohy doširoka otevřené · 🔵 Muž klečí mezi jejími stehny",
+        svg: `<svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
           <line x1="15" y1="105" x2="225" y2="105" stroke="#4c0519" stroke-width="2" stroke-dasharray="4 4"/>
-          <circle cx="40" cy="88" r="8" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2.5"/>
-          <path d="M48 90 L100 90 L135 60 L145 75" fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
-          <circle cx="75" cy="38" r="8.5" fill="rgba(96,165,250,0.25)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M78 46 L95 85 L135 100 L170 100" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M80 50 L115 65" stroke="#60a5fa" stroke-width="2.5"/>
-        </svg>
-      `,
+          <circle cx="40" cy="88" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>
+          <path d="M48 90 L100 90 L135 60 L145 75" fill="rgba(244,114,182,0.3)" stroke="#f472b6" stroke-width="3"/>
+          <circle cx="75" cy="38" r="9" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M78 46 L95 85 L135 100 L170 100" fill="rgba(56,189,248,0.3)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M80 50 L115 65" stroke="#38bdf8" stroke-width="3"/>
+        </svg>`
+      },
+
       // 4. Missionary na kraji postele
-      m_edge: `
-        <svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
+      m_edge: {
+        caption: "🌸 Žena leží boky na kraji postele · 🔵 Muž stojí na podlaze",
+        svg: `<svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
           <path d="M15 75 L115 75 L115 115" stroke="#4c0519" stroke-width="2"/>
-          <circle cx="40" cy="65" r="8" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2.5"/>
-          <path d="M48 68 L110 68 L125 45 L135 55" fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
-          <circle cx="140" cy="22" r="8.5" fill="rgba(96,165,250,0.25)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M140 30 L132 60 L120 68 L138 115" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M135 42 L115 55" stroke="#60a5fa" stroke-width="2.5"/>
-        </svg>
-      `,
+          <circle cx="40" cy="65" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>
+          <path d="M48 68 L110 68 L125 45 L135 55" fill="rgba(244,114,182,0.3)" stroke="#f472b6" stroke-width="3"/>
+          <circle cx="140" cy="22" r="9" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M140 30 L132 60 L120 68 L138 115" fill="rgba(56,189,248,0.3)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M135 42 L115 55" stroke="#38bdf8" stroke-width="3"/>
+        </svg>`
+      },
+
       // 5. Klasická Lžíce (Spoon)
-      side_spoon: `
-        <svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
+      side_spoon: {
+        caption: "🌸 Žena leží zády na boku · 🔵 Muž za ní v těsném objetí tělo na těle",
+        svg: `<svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
           <line x1="15" y1="105" x2="225" y2="105" stroke="#4c0519" stroke-width="2" stroke-dasharray="4 4"/>
-          <circle cx="75" cy="80" r="8" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2.5"/>
-          <path d="M83 82 C105 84, 125 84, 140 84 C150 72, 165 75, 185 95" fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
-          <circle cx="50" cy="74" r="8.5" fill="rgba(96,165,250,0.25)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M58 76 C85 78, 110 80, 128 82 C140 70, 160 74, 180 100" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M60 78 C80 72, 115 76, 125 80" stroke="#60a5fa" stroke-width="2.5"/>
-        </svg>
-      `,
+          <circle cx="75" cy="80" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>
+          <path d="M83 82 C105 84, 125 84, 140 84 C150 72, 165 75, 185 95" fill="rgba(244,114,182,0.3)" stroke="#f472b6" stroke-width="3"/>
+          <circle cx="50" cy="74" r="9" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M58 76 C85 78, 110 80, 128 82 C140 70, 160 74, 180 100" fill="rgba(56,189,248,0.3)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M60 78 C80 72, 115 76, 125 80" stroke="#38bdf8" stroke-width="3"/>
+        </svg>`
+      },
+
       // 6. Lžíce s přehozenou nohou
-      side_leg_up: `
-        <svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
+      side_leg_up: {
+        caption: "🌸 Žena má horní nohu přehozenou přes bok · 🔵 Muž proniká zezadu",
+        svg: `<svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
           <line x1="15" y1="105" x2="225" y2="105" stroke="#4c0519" stroke-width="2" stroke-dasharray="4 4"/>
-          <circle cx="70" cy="80" r="8" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2.5"/>
-          <path d="M78 82 L130 82 L138 48 L155 58" fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
-          <circle cx="48" cy="74" r="8.5" fill="rgba(96,165,250,0.25)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M55 76 L120 78 L145 95 L175 102" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M55 78 L105 78" stroke="#60a5fa" stroke-width="2.5"/>
-        </svg>
-      `,
-      // 7. Sedící Lotos čelem
-      seated_lotus: `
-        <svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="70" cy="80" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>
+          <path d="M78 82 L130 82 L138 48 L155 58" fill="rgba(244,114,182,0.3)" stroke="#f472b6" stroke-width="3"/>
+          <circle cx="48" cy="74" r="9" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M55 76 L120 78 L145 95 L175 102" fill="rgba(56,189,248,0.3)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M55 78 L105 78" stroke="#38bdf8" stroke-width="3"/>
+        </svg>`
+      },
+
+      // 7. Sedící Lotos
+      seated_lotus: {
+        caption: "🔵 Muž sedí vzpřímeně · 🌸 Žena sedí na něm obkročmo v pevném objetí",
+        svg: `<svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
           <line x1="30" y1="105" x2="210" y2="105" stroke="#4c0519" stroke-width="2" stroke-dasharray="4 4"/>
-          <circle cx="100" cy="35" r="8.5" fill="rgba(96,165,250,0.25)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M100 44 L102 88 L145 102" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M104 55 C118 55, 130 65, 122 80" stroke="#60a5fa" stroke-width="2.5"/>
-          <circle cx="128" cy="38" r="8" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2.5"/>
-          <path d="M126 46 L120 86 L85 96" fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
-          <path d="M125 50 C115 50, 105 45, 102 42" stroke="#f472b6" stroke-width="2.5"/>
-        </svg>
-      `,
-      // 8. Sedící zády v klínu
-      seated_reverse: `
-        <svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="100" cy="35" r="9" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M100 44 L102 88 L145 102" fill="rgba(56,189,248,0.3)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M104 55 C118 55, 130 65, 122 80" stroke="#38bdf8" stroke-width="3"/>
+          <circle cx="128" cy="38" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>
+          <path d="M126 46 L120 86 L85 96" fill="rgba(244,114,182,0.3)" stroke="#f472b6" stroke-width="3"/>
+          <path d="M125 50 C115 50, 105 45, 102 42" stroke="#f472b6" stroke-width="3"/>
+        </svg>`
+      },
+
+      // 8. Sedící v klínu zády
+      seated_reverse: {
+        caption: "🔵 Muž sedí v křesle/na zemi · 🌸 Žena sedí v jeho klínu zády k němu",
+        svg: `<svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
           <line x1="30" y1="105" x2="210" y2="105" stroke="#4c0519" stroke-width="2" stroke-dasharray="4 4"/>
-          <circle cx="85" cy="35" r="8.5" fill="rgba(96,165,250,0.25)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M85 44 L88 88 L130 102" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
-          <circle cx="110" cy="40" r="8" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2.5"/>
-          <path d="M110 48 L108 86 L145 96" fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
-          <path d="M90 55 C105 55, 115 55, 125 60" stroke="#60a5fa" stroke-width="2.5"/>
-        </svg>
-      `,
+          <circle cx="85" cy="35" r="9" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M85 44 L88 88 L130 102" fill="rgba(56,189,248,0.3)" stroke="#38bdf8" stroke-width="3"/>
+          <circle cx="110" cy="40" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>
+          <path d="M110 48 L108 86 L145 96" fill="rgba(244,114,182,0.3)" stroke="#f472b6" stroke-width="3"/>
+          <path d="M90 55 C105 55, 115 55, 125 60" stroke="#38bdf8" stroke-width="3"/>
+        </svg>`
+      },
+
       // 9. Motýl na stole
-      butterfly_table: `
-        <svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
+      butterfly_table: {
+        caption: "🌸 Žena sedí na hraně stolu opřená vzad · 🔵 Muž stojí pevně mezi jejíma nohama",
+        svg: `<svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
           <path d="M20 75 L120 75 L120 115" stroke="#4c0519" stroke-width="2"/>
-          <circle cx="50" cy="62" r="8" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2.5"/>
-          <path d="M58 65 L115 65 L130 45 L145 60" fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
-          <circle cx="150" cy="25" r="8.5" fill="rgba(96,165,250,0.25)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M150 34 L142 66 L125 72 L145 115" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M148 45 L120 62" stroke="#60a5fa" stroke-width="2.5"/>
-        </svg>
-      `,
+          <circle cx="50" cy="62" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>
+          <path d="M58 65 L115 65 L130 45 L145 60" fill="rgba(244,114,182,0.3)" stroke="#f472b6" stroke-width="3"/>
+          <circle cx="150" cy="25" r="9" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M150 34 L142 66 L125 72 L145 115" fill="rgba(56,189,248,0.3)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M148 45 L120 62" stroke="#38bdf8" stroke-width="3"/>
+        </svg>`
+      },
+
       // 10. Klasický Doggy
-      doggy_classic: `
-        <svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
+      doggy_classic: {
+        caption: "🌸 Žena klečí na všech čtyřech s prohnutými zády · 🔵 Muž klečí za ní",
+        svg: `<svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
           <line x1="15" y1="105" x2="225" y2="105" stroke="#4c0519" stroke-width="2" stroke-dasharray="4 4"/>
-          <circle cx="60" cy="55" r="8" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2.5"/>
-          <path d="M68 58 L120 58 L125 95 L145 102" fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
-          <path d="M68 62 L70 95" stroke="#f472b6" stroke-width="2.5"/>
-          <circle cx="160" cy="28" r="8.5" fill="rgba(96,165,250,0.25)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M160 36 L148 65 L135 68 L155 102 L180 102" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M155 45 L125 58" stroke="#60a5fa" stroke-width="2.5"/>
-        </svg>
-      `,
+          <circle cx="60" cy="55" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>
+          <path d="M68 58 L120 58 L125 95 L145 102" fill="rgba(244,114,182,0.3)" stroke="#f472b6" stroke-width="3"/>
+          <path d="M68 62 L70 95" stroke="#f472b6" stroke-width="3"/>
+          <circle cx="160" cy="28" r="9" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M160 36 L148 65 L135 68 L155 102 L180 102" fill="rgba(56,189,248,0.3)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M155 45 L125 58" stroke="#38bdf8" stroke-width="3"/>
+        </svg>`
+      },
+
       // 11. Doggy čelo na posteli (Ass Up)
-      doggy_ass_up: `
-        <svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
+      doggy_ass_up: {
+        caption: "🌸 Žena má hrudník na matraci a pánev vysoko · 🔵 Muž proniká strmě shora",
+        svg: `<svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
           <line x1="15" y1="105" x2="225" y2="105" stroke="#4c0519" stroke-width="2" stroke-dasharray="4 4"/>
-          <circle cx="50" cy="95" r="8" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2.5"/>
-          <path d="M58 95 L80 85 L115 55 L125 90 L145 102" fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
-          <circle cx="155" cy="30" r="8.5" fill="rgba(96,165,250,0.25)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M155 38 L142 66 L125 70 L150 102" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M150 48 L115 58" stroke="#60a5fa" stroke-width="2.5"/>
-        </svg>
-      `,
+          <circle cx="50" cy="95" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>
+          <path d="M58 95 L80 85 L115 55 L125 90 L145 102" fill="rgba(244,114,182,0.3)" stroke="#f472b6" stroke-width="3"/>
+          <circle cx="155" cy="30" r="9" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M155 38 L142 66 L125 70 L150 102" fill="rgba(56,189,248,0.3)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M150 48 L115 58" stroke="#38bdf8" stroke-width="3"/>
+        </svg>`
+      },
+
       // 12. Prone Bone (Na břiše ploše)
-      prone_bone: `
-        <svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
+      prone_bone: {
+        caption: "🌸 Žena leží ploše na břiše, nohy u sebe · 🔵 Muž leží shora celým tělem",
+        svg: `<svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
           <line x1="15" y1="105" x2="225" y2="105" stroke="#4c0519" stroke-width="2" stroke-dasharray="4 4"/>
-          <circle cx="50" cy="92" r="8" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2.5"/>
-          <path d="M58 94 L135 94 L205 102" fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
-          <circle cx="78" cy="58" r="8.5" fill="rgba(96,165,250,0.25)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M85 62 L142 84 L190 102" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M85 68 L60 88" stroke="#60a5fa" stroke-width="2.5"/>
-        </svg>
-      `,
+          <circle cx="50" cy="92" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>
+          <path d="M58 94 L135 94 L205 102" fill="rgba(244,114,182,0.3)" stroke="#f472b6" stroke-width="3"/>
+          <circle cx="78" cy="58" r="9" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M85 62 L142 84 L190 102" fill="rgba(56,189,248,0.3)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M85 68 L60 88" stroke="#38bdf8" stroke-width="3"/>
+        </svg>`
+      },
+
       // 13. Doggy na kraji postele nohy visí
-      doggy_edge: `
-        <svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
+      doggy_edge: {
+        caption: "🌸 Žena leží břichem na posteli, nohy dolů · 🔵 Muž stojí za ní",
+        svg: `<svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
           <path d="M15 75 L115 75 L115 115" stroke="#4c0519" stroke-width="2"/>
-          <circle cx="50" cy="65" r="8" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2.5"/>
-          <path d="M58 68 L110 68 L118 108" fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
-          <circle cx="150" cy="25" r="8.5" fill="rgba(96,165,250,0.25)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M150 34 L140 65 L125 70 L140 115" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M145 45 L110 65" stroke="#60a5fa" stroke-width="2.5"/>
-        </svg>
-      `,
+          <circle cx="50" cy="65" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>
+          <path d="M58 68 L110 68 L118 108" fill="rgba(244,114,182,0.3)" stroke="#f472b6" stroke-width="3"/>
+          <circle cx="150" cy="25" r="9" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M150 34 L140 65 L125 70 L140 115" fill="rgba(56,189,248,0.3)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M145 45 L110 65" stroke="#38bdf8" stroke-width="3"/>
+        </svg>`
+      },
+
       // 14. Ve stoje u zdi (Standing Wall Pin)
-      standing_wall: `
-        <svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
+      standing_wall: {
+        caption: "🌸 Žena se opírá zády o zeď, noha nahoru · 🔵 Muž stojí a tiskne ji k sobě",
+        svg: `<svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
           <line x1="195" y1="10" x2="195" y2="115" stroke="#4c0519" stroke-width="3"/>
-          <circle cx="175" cy="30" r="8" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2.5"/>
-          <path d="M175 38 L172 75 L165 112" fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
-          <path d="M172 70 L145 50 L135 60" stroke="#f472b6" stroke-width="2.5"/>
-          <circle cx="120" cy="28" r="8.5" fill="rgba(96,165,250,0.25)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M120 37 L132 70 L125 112" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M125 45 L165 55" stroke="#60a5fa" stroke-width="2.5"/>
-        </svg>
-      `,
+          <circle cx="175" cy="30" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>
+          <path d="M175 38 L172 75 L165 112" fill="rgba(244,114,182,0.3)" stroke="#f472b6" stroke-width="3"/>
+          <path d="M172 70 L145 50 L135 60" stroke="#f472b6" stroke-width="3"/>
+          <circle cx="120" cy="28" r="9" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M120 37 L132 70 L125 112" fill="rgba(56,189,248,0.3)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M125 45 L165 55" stroke="#38bdf8" stroke-width="3"/>
+        </svg>`
+      },
+
       // 15. Kovadlina (The Anvil)
-      anvil: `
-        <svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
+      anvil: {
+        caption: "🌸 Žena leží na zádech, kolena má u uší · 🔵 Muž se opírá shora celou vahou",
+        svg: `<svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
           <line x1="15" y1="105" x2="225" y2="105" stroke="#4c0519" stroke-width="2" stroke-dasharray="4 4"/>
-          <circle cx="45" cy="90" r="8" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2.5"/>
-          <path d="M53 92 L90 90 L85 50 L65 58" fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
-          <circle cx="75" cy="30" r="8.5" fill="rgba(96,165,250,0.25)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M80 38 L92 82 L130 100 L165 100" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M85 50 L50 85" stroke="#60a5fa" stroke-width="2.5"/>
-        </svg>
-      `,
+          <circle cx="45" cy="90" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>
+          <path d="M53 92 L90 90 L85 50 L65 58" fill="rgba(244,114,182,0.3)" stroke="#f472b6" stroke-width="3"/>
+          <circle cx="75" cy="30" r="9" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M80 38 L92 82 L130 100 L165 100" fill="rgba(56,189,248,0.3)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M85 50 L50 85" stroke="#38bdf8" stroke-width="3"/>
+        </svg>`
+      },
+
       // 16. Preclík (The Pretzel)
-      pretzel: `
-        <svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
+      pretzel: {
+        caption: "🌸 Žena na boku v rotaci s nohou nahoře · 🔵 Muž klečí kolmo mezi jejíma nohama",
+        svg: `<svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">
           <line x1="15" y1="105" x2="225" y2="105" stroke="#4c0519" stroke-width="2" stroke-dasharray="4 4"/>
-          <circle cx="50" cy="85" r="8" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2.5"/>
-          <path d="M58 87 L105 87 L160 98" stroke="#f472b6" stroke-width="2.5"/>
-          <path d="M105 87 L125 50" fill="rgba(244,114,182,0.2)" stroke="#f472b6" stroke-width="2.5"/>
-          <circle cx="120" cy="34" r="8.5" fill="rgba(96,165,250,0.25)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M120 42 L110 85 L150 100" fill="rgba(96,165,250,0.2)" stroke="#60a5fa" stroke-width="2.5"/>
-          <path d="M120 52 L85 82" stroke="#60a5fa" stroke-width="2.5"/>
-        </svg>
-      `
+          <circle cx="50" cy="85" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>
+          <path d="M58 87 L105 87 L160 98" stroke="#f472b6" stroke-width="3"/>
+          <path d="M105 87 L125 50" fill="rgba(244,114,182,0.3)" stroke="#f472b6" stroke-width="3"/>
+          <circle cx="120" cy="34" r="9" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M120 42 L110 85 L150 100" fill="rgba(56,189,248,0.3)" stroke="#38bdf8" stroke-width="3"/>
+          <path d="M120 52 L85 82" stroke="#38bdf8" stroke-width="3"/>
+        </svg>`
+      }
     };
 
-    /* 3. ROZSÁHLÁ ZÁKLADNÍ KNIHOVNA S UNIKÁTNÍMI OBRÁZKY PRO KAŽDOU POZICI */
+    /* 3. ROZSÁHLÁ ZÁKLADNÍ DATABÁZE V ČEŠTINĚ */
     const MASTER_DATABASE = {
       missionary_starters: [
-        { id: 'ms1', title: 'Missionary s polštářem pod zadkem', level: 1, isMissionary: true, svgKey: 'm_pillow', desc: 'Klasický romantický start s mírně vyvýšenou pánví pro hladký a něžný vstup.', keyFocus: 'Polštář přímo pod křížovou kostí natočí pánev k přední stěně a uvolní tělo.', watchOut: 'Nevkládej polštář pod bedra, ať nedochází k prohnutí v páteři.' },
+        { id: 'ms1', title: 'Missionary s polštářem pod zadkem', level: 1, isMissionary: true, svgKey: 'm_pillow', desc: 'Klasický romantický start. Pánev je mírně vyvýšená pro hladký a něžný vstup.', keyFocus: 'Polštář natočí pánev k přední stěně a uvolní tělo.', watchOut: 'Nevkládej polštář pod bedra, ať se neprohýbá páteř.' },
         { id: 'ms2', title: 'Missionary s nohama na ramenou', level: 1, isMissionary: true, svgKey: 'm_shoulders', desc: 'Hluboké otevření pánve s těsným sevřením a plným očním kontaktem.', keyFocus: 'Uvolněné nohy na tvých ramenou dovolují souvislý tlak na přední stěnu.', watchOut: 'Netlač na její kolena dozadu příliš prudce.' },
         { id: 'ms3', title: 'Missionary s nohama do širokého V', level: 1, isMissionary: true, svgKey: 'm_wide_v', desc: 'Plná otevřenost klína, ruce volné pro hlazení hrdla a prsou.', keyFocus: 'Dlaně drží její stehna doširoka a umožňují hluboké polibky.', watchOut: 'Netlač kolena dolů k matraci násilím.' },
         { id: 'ms4', title: 'Missionary na kraji postele ve stoje', level: 1, isMissionary: true, svgKey: 'm_edge', desc: 'Ona leží na zádech na kraji matrace, ty stojíš. Dokonalá kontrola boků.', keyFocus: 'Boky přesně na hraně; můžeš ji přitahovat k sobě celou silou.', watchOut: 'Podlož hranu matrace dekou pro ochranu kostrče.' }
       ],
       positions: [
-        { id: 'p1', title: 'Klasická Lžíce (The Spoon)', level: 2, svgKey: 'side_spoon', desc: 'Oba na boku za sebou, tělo v těle, pomalý rytmus a ruka na jejích ňadrech a krku.', keyFocus: 'Pomalý synchronizovaný pohyb boků; volná ruka může hladit bříško a ňadra.', watchOut: 'Udržujte nohy mírně pokrčené, aby nevznikalo napětí v kříži.' },
-        { id: 'p2', title: 'Zvýšená Lžíce s přehozenou nohou', level: 2, svgKey: 'side_leg_up', desc: 'Na boku, ale její horní noha je přehozená vysoko přes tvůj bok.', keyFocus: 'Zvednutá noha otevírá úhel k přední stěně a umožňuje hlubší vnoření zezadu.', watchOut: 'Netahej nohu příliš dopředu, pokud cítí tah v tříslech.' },
-        { id: 'p3', title: 'Sedící Lotos v pevném objetí', level: 2, svgKey: 'seated_lotus', desc: 'Sedíš vzpřímeně, ona sedí na tobě čelem k tobě s nohama kolem tvého pasu.', keyFocus: 'Dokonalé objetí, líbání celého obličeje a krku, pomalý krouživý grinding.', watchOut: 'Pozor na únavu jejích kolen při delším sezení.' },
-        { id: 'p4', title: 'Obrácené Křeslo (Sedící v klínu zády)', level: 2, svgKey: 'seated_reverse', desc: 'Sedíš na židli nebo gauči, ona sedí v tvém klínu zády k tobě a opírá se o tebe.', keyFocus: 'Máš plný přístup k jejím ňadrům zepředu a můžeš jí zakrýt ústa zezadu.', watchOut: 'Hlídej stabilitu trupu, aby nesklouzávala dopředu.' },
-        { id: 'p5', title: 'Motýl na stole (The Butterfly)', level: 2, svgKey: 'butterfly_table', desc: 'Ona sedí na kraji pevného stolu nebo komody, ty stojíš pevně mezi jejíma nohama.', keyFocus: 'Pohled přímo z očí do očí; možnost chytit ji pod krkem a přirazit celou vahou.', watchOut: 'Stůl musí být stabilní a ve výšce tvých boků.' },
-        { id: 'p6', title: 'Klasický Doggy s pevnou dominancí', level: 3, svgKey: 'doggy_classic', desc: 'Ona na všech čtyřech, pevný úchop za boky nebo vlasy u zátylku.', keyFocus: 'Pevné stabilní tempo a plná kontrola nad rytmem z pozice za ní.', watchOut: 'Hlídej prohnutí v bedrech, aby nedocházelo k bolesti.' },
-        { id: 'p7', title: 'Doggy s čelem na matraci (Ass-Up)', level: 3, svgKey: 'doggy_ass_up', desc: 'Hrudník položený ploše na matraci, pánev vysoce zvednutá. Cílí na A-spot.', keyFocus: 'Strmý náklon pánve směřuje každý příraz do nejhlubšího bodu.', watchOut: 'Nutná dostatečná vlhkost vzhledem k přímému úhlu.' },
-        { id: 'p8', title: 'Prone Bone (Ploše na břiše)', level: 3, svgKey: 'prone_bone', desc: 'Ona leží celým tělem na břiše s nohama pevně u sebe. Brutální těsnost vstupu.', keyFocus: 'Semknutá stehna zužují kanál na maximum; zalehni ji celou vahou.', watchOut: 'Netlač svou vahou na její plíce – zvedej se mírně na loktech.' },
-        { id: 'p9', title: 'Doggy na kraji postele (Nohy visí dolů)', level: 3, svgKey: 'doggy_edge', desc: 'Břichem na kraji matrace, nohy volně spuštěné k zemi, ty stojíš za ní.', keyFocus: 'Gravitace rozevírá tělo, zatímco ty máš absolutní stabilitu a sílu v nohou.', watchOut: 'Podlož hranu matrace polštářem pod její stehna.' },
-        { id: 'p10', title: 'Standing Wall Pin (Přišpendlená ke zdi)', level: 3, svgKey: 'standing_wall', desc: 'Ona stojí opřená zády o zeď, ty ji držíš za stehno nebo pas a přitlačuješ.', keyFocus: 'Drsná dominance; zeď neuhne, takže každý příraz jde na maximum hloubky.', watchOut: 'Musí mít dobrou oporu nohy na zemi, případně ji zvedni.' },
-        { id: 'p11', title: 'Kovadlina (The Anvil)', level: 3, svgKey: 'anvil', desc: 'Záda na posteli, kolena přitlačená až k jejím uším, pánev vysoko ve vzduchu.', keyFocus: 'Nejhlubší možný úhel vůbec. Poševní kanál se zkrátí a kontakt je maximální.', watchOut: 'Vyžaduje flexibilitu v bedrech, postupuj opatrně.' },
-        { id: 'p12', title: 'Překřížený Preclík (The Pretzel)', level: 2, svgKey: 'pretzel', desc: 'Ona leží na boku, ty klečíš kolmo k ní. Jedna noha rovně, druhá u tvého ramene.', keyFocus: 'Rotace pánve vytváří obrovský tlak na boční stěnu a velmi těsný vstup.', watchOut: 'Netahej horní nohu přes bolestivý odpor kyčle.' }
+        { id: 'p1', title: 'Klasická Lžíce (The Spoon)', level: 2, svgKey: 'side_spoon', desc: 'Oba na boku za sebou, tělo v těle, pomalý rytmus a ruka na jejích ňadrech.', keyFocus: 'Pomalý pohyb boků tělo na těle.', watchOut: 'Mírně pokrčené nohy chrání před napětím v kříži.' },
+        { id: 'p2', title: 'Zvýšená Lžíce s přehozenou nohou', level: 2, svgKey: 'side_leg_up', desc: 'Na boku, její horní noha je přehozená vysoko přes tvůj bok.', keyFocus: 'Otevírá úhel k přední stěně zezadu.', watchOut: 'Netahej nohu příliš dopředu při odporu v tříslech.' },
+        { id: 'p3', title: 'Sedící Lotos v pevném objetí', level: 2, svgKey: 'seated_lotus', desc: 'Sedíš vzpřímeně, ona sedí na tobě čelem s nohama kolem tvého pasu.', keyFocus: 'Krouživý grinding celou vahou pánve a dýchání do ucha.', watchOut: 'Pozor na únavu jejích kolen při delším sezení.' },
+        { id: 'p4', title: 'Obrácené Křeslo (Sedící v klínu zády)', level: 2, svgKey: 'seated_reverse', desc: 'Sedíš na židli nebo gauči, ona sedí v tvém klínu zády k tobě.', keyFocus: 'Volný přístup k ňadrům a zakrytí úst zezadu.', watchOut: 'Hlídej stabilitu trupu, ať nesklouzává.' },
+        { id: 'p5', title: 'Motýl na stole (The Butterfly)', level: 2, svgKey: 'butterfly_table', desc: 'Ona sedí na kraji stolu, ty stojíš pevně mezi jejíma nohama.', keyFocus: 'Přímý oční kontakt a pevný stisk za boky a hrdlo.', watchOut: 'Stůl musí být stabilní a ve výšce tvých boků.' },
+        { id: 'p6', title: 'Klasický Doggy s pevnou dominancí', level: 3, svgKey: 'doggy_classic', desc: 'Ona na všech čtyřech, pevný úchop za boky nebo vlasy u zátylku.', keyFocus: 'Pevné stabilní tempo a plná kontrola nad rytmem.', watchOut: 'Hlídej prohnutí v bedrech.' },
+        { id: 'p7', title: 'Doggy s čelem na matraci (Ass-Up)', level: 3, svgKey: 'doggy_ass_up', desc: 'Hrudník položený na matraci, pánev vysoce zvednutá. Cílí na A-spot.', keyFocus: 'Strmý náklon pánve směřuje každý příraz do hloubky.', watchOut: 'Nutná dostatečná vlhkost pro přímý úhel.' },
+        { id: 'p8', title: 'Prone Bone (Ploše na břiše)', level: 3, svgKey: 'prone_bone', desc: 'Ona leží ploše na břiše s nohama pevně u sebe. Brutální těsnost vstupu.', keyFocus: 'Semknutá stehna zužují kanál na maximum; zalehni ji vahou.', watchOut: 'Netlač svou vahou na její plíce, drž se na loktech.' },
+        { id: 'p9', title: 'Doggy na kraji postele (Nohy visí)', level: 3, svgKey: 'doggy_edge', desc: 'Břichem na kraji matrace, nohy spuštěné dolů, ty stojíš za ní.', keyFocus: 'Gravitace rozevírá tělo, zatímco ty máš absolutní sílu.', watchOut: 'Podlož hranu matrace pod její stehna polštářem.' },
+        { id: 'p10', title: 'Standing Wall Pin (U zdi)', level: 3, svgKey: 'standing_wall', desc: 'Ona stojí opřená zády o zeď, ty ji držíš za stehno a přitlačuješ.', keyFocus: 'Drsná dominance; zeď neuhne a zintenzivňuje každý centimetr.', watchOut: 'Musí mít pevnou oporu nohy na zemi.' },
+        { id: 'p11', title: 'Kovadlina (The Anvil)', level: 3, svgKey: 'anvil', desc: 'Záda na posteli, kolena přitlačená až k jejím uším, pánev ve vzduchu.', keyFocus: 'Nejhlubší možný úhel, kanál se zkrátí na minimum.', watchOut: 'Vyžaduje flexibilitu v bedrech, postupuj opatrně.' },
+        { id: 'p12', title: 'Překřížený Preclík (The Pretzel)', level: 2, svgKey: 'pretzel', desc: 'Ona leží na boku, ty klečíš kolmo. Jedna noha rovně, druhá u tvého ramene.', keyFocus: 'Rotace pánve vytváří obrovský tlak na boční stěnu.', watchOut: 'Netahej horní nohu přes odpor kyčle.' }
       ],
       touches: [
-        { id: 't1', title: 'Pevná dlaň pod krkem', desc: 'Pevný stisk na hrdle s upřeným pohledem do očí, který dává pocit plné kontroly.' },
-        { id: 't2', title: 'Zakrytí pusy dlaní zezadu', desc: 'Dlaň přitlačená přes její ústa při poloze zezadu, tlumení jejích vzdechů.' },
-        { id: 't3', title: 'Tahání za vlasy u kořínků', desc: 'Pevný úchop u zátylku, jemné zaklonění hlavy a políbení odhaleného krku.' },
-        { id: 't4', title: 'Držení obou rukou nad hlavou', desc: 'Jednou rukou zafixuj obě její zápěstí pevně na matraci nad její hlavou.' },
-        { id: 't5', title: 'Prsty v jejích ústech', desc: 'Palec a ukazováček jemně vložené mezi její rty a zoubky během rytmu.' },
-        { id: 't6', title: 'Líbání a laskání chodidel', desc: 'Pomalé polibky po klenbě chodidla a kotnících jako projev hlubokého obdivu.' },
-        { id: 't7', title: 'Horké líbání podbřišku', desc: 'Líbání bříška těsně nad klínem pro vybudování nesnesitelného napětí.' },
-        { id: 't8', title: 'Pevné sevření a mačkání ňader', desc: 'Plný úchop ňader dlaněmi zepředu i zezadu při srážkách těl.' }
+        { id: 't1', title: 'Pevná dlaň pod krkem', desc: 'Pevný stisk na hrdle s upřeným pohledem do očí pro pocit plné kontroly.' },
+        { id: 't2', title: 'Zakrytí pusy dlaní zezadu', desc: 'Dlaň přitlačená přes její ústa při poloze zezadu tlumí její vzdechy.' },
+        { id: 't3', title: 'Tahání za vlasy u kořínků', desc: 'Pevný úchop u zátylku, zaklonění hlavy a políbení odhaleného krku.' },
+        { id: 't4', title: 'Držení obou rukou nad hlavou', desc: 'Jednou rukou zafixuj obě její zápěstí pevně na matraci nad hlavou.' },
+        { id: 't5', title: 'Prsty v jejích ústech', desc: 'Palec a ukazováček vložené mezi její rty a zuby během rytmu.' },
+        { id: 't6', title: 'Líbání chodidel a kotníků', desc: 'Pomalé polibky po klenbě chodidla jako projev fascinace jejím tělem.' },
+        { id: 't7', title: 'Horké líbání podbřišku', desc: 'Líbání bříška těsně nad klínem budující nesnesitelné napětí.' },
+        { id: 't8', title: 'Pevné mačkání ňader', desc: 'Plný úchop ňader dlaněmi zepředu i zezadu při srážkách těl.' }
       ],
       verbals: [
         { id: 'v1', title: '„Jsi tak neuvěřitelně úzká...“', desc: 'Obdiv k jejímu sevření šeptaný přímo do ucha.' },
         { id: 'v2', title: '„Ukaž mi, co v sobě máš.“', desc: 'Výzva k odevzdání a ztrátě zábran.' },
         { id: 'v3', title: '„Miluju, jak moc jsi pro mě wet...“', desc: 'Praise ocenění její bezprostřední tělesné touhy.' },
-        { id: 'v4', title: '„Těšil jsem se na tebe celý týden... konečně tě mám.“', desc: 'Upřímné vyznání obrovského chtíče a romance.' },
+        { id: 'v4', title: '„Těšil jsem se na tebe celý týden... konečně tě mám.“', desc: 'Upřímné vyznání touhy a nadvlády.' },
         { id: 'v5', title: '„Máš to ráda tvrdě, že ano?“', desc: 'Dominantní potvrzení rozkoše uprostřed akce.' },
-        { id: 'v6', title: '„Líbí se ti to? Koukni se na mě.“', desc: 'Příkaz k intenzivnímu očnímu kontaktu.' },
-        { id: 'v7', title: '„Takhle hluboko patříš celá jen mně.“', desc: 'Vlastnické ujištění během plného splynutí.' }
+        { id: 'v6', title: '„Takhle hluboko patříš celá jen mně.“', desc: 'Vlastnické ujištění během plného splynutí.' }
       ],
       games: [
         { id: 'g1', title: 'Přerušení očního kontaktu', desc: '„Když přerušíš oční kontakt, na 30 sekund se úplně zastavím v hloubce.“' },
         { id: 'g2', title: 'Tichá poslušnost (Whisper only)', desc: '„Smíš mi jenom šeptat do ucha. Jakýkoliv hlasitý zvuk znamená okamžité zpomalení.“' },
         { id: 'g3', title: 'Hra na sochu', desc: 'Na slovo „Ztuhni“ nesmí pohnout ani svalem po dobu 30 sekund pod hrozbou trestu.' },
-        { id: 'g4', title: 'Pravidlo tří nádechů', desc: 'Musíte dýchat v naprosté synchronizaci – na nádech vstup, na výdech setrvání v hloubce.' },
-        { id: 'g5', title: 'Slepá důvěra', desc: 'Zavaž jí oči šátkem. Nesmí je otevřít, dokud nedostane polibek na čelo.' }
+        { id: 'g4', title: 'Pravidlo tří nádechů', desc: 'Musíte dýchat v naprosté synchronizaci – na nádech vstup, na výdech setrvání v hloubce.' }
       ]
     };
 
-    /* 4. DYNAMICKÝ KOMBINAČNÍ ENGINE (NIKDY SE NEOPAKUJE) */
+    /* 4. DYNAMICKÝ KOMBINAČNÍ ENGINE (NEKONEČNÁ ČEŠTINA BEZ API) */
     const PROCEDURAL_COMBINATIONS = {
       positions: [
-        { base: 'na hraně postele s nohama těsně semknutýma', svg: 'm_edge', desc: 'Její pánev je těsně na hraně matrace, nohy držíš pevně semknuté.', key: 'Maximální zúžení vstupu a plná síla boků shora.' },
-        { base: 'opřená o zeď s jednou nohou přes tvůj bok', svg: 'standing_wall', desc: 'Stojíte čelem k sobě u pevné zdi, její noha tě pevně obepíná.', key: 'Drsná nadvláda; zeď nedovolí žádný úhyb a zintenzivňuje každý centimetr.' },
-        { base: 'v hlubokém křesle v pevném objetí čelem', svg: 'seated_lotus', desc: 'Sedíš v křesle, ona v tvém klínu, dlaně zapletené do jejích vlasů.', key: 'Pomalý krouživý grinding celou vahou pánve a dýchání do ucha.' },
-        { base: 'na břiše s dvěma polštáři pod pánví', svg: 'prone_bone', desc: 'Boky jsou vyvýšené, nohy spuštěné dolů, ležíš celou vahou na ní.', key: 'Přímý tah na přední stěnu zezadu bez namáhání spodních zad.' },
-        { base: 'na boku s koleny přitaženými k obličeji', svg: 'pretzel', desc: 'Oba na boku, její kolena máš přitažená k její hrudi v rotaci.', key: 'Spojení maximálního zkrácení kanálu a bočního sevření stěn.' },
-        { base: 'na zádech se zvednutou pánví a nožkami na tvých prsou', svg: 'm_shoulders', desc: 'Chodidla opřená o tvůj hrudník ti umožňují dávkovat hloubku a zúžení.', key: 'Tlakem hrudníku dopředu zkracuješ úhel a máš volné ruce na kotníky.' }
+        { title: 'Variace na hraně postele', svg: 'm_edge', desc: 'Její pánev leží přesně na hraně matrace, nohy držíš pevně semknuté.', key: 'Maximální zúžení vstupu a plná dominance shora.', watch: 'Hlídej komfort stehen o hranu matrace.' },
+        { title: 'Přišpendlení u zdi s nohou v boku', svg: 'standing_wall', desc: 'Ona se opírá zády o zeď, nohu má zvednutou kolem tvého pasu.', key: 'Zeď nedovolí žádný úhyb a zintenzivňuje každý centimetr.', watch: 'Zajistěte, aby jí neklouzala stojná noha.' },
+        { title: 'Lotos v hlubokém křesle', svg: 'seated_lotus', desc: 'Sedíš v křesle, ona v tvém klínu, dlaně zapletené do jejích vlasů.', key: 'Pomalý krouživý grinding celou vahou pánve a dýchání do ucha.', watch: 'Udržujte vzpřímená záda.' },
+        { title: 'Prone Bone s polštáři pod pánví', svg: 'prone_bone', desc: 'Boky jsou vyvýšené, nohy spuštěné dolů, ležíš celou vahou na ní.', key: 'Přímý tah na přední stěnu zezadu bez namáhání zad.', watch: 'Netlač svou vahou na její žebra.' },
+        { title: 'Boční Preclík s koleny u hrudníku', svg: 'pretzel', desc: 'Oba na boku, její kolena máš přitažená k její hrudi v rotaci.', key: 'Spojení maximálního zkrácení kanálu a bočního sevření stěn.', watch: 'Netahej nohy přes nepříjemný tah v kyčli.' },
+        { title: 'Missionary s chodidly na hrudníku', svg: 'm_shoulders', desc: 'Chodidla opřená o tvůj hrudník ti umožňují dávkovat hloubku a těsnost.', key: 'Tlakem hrudníku dopředu zkracuješ úhel a máš volné ruce.', watch: 'Netlač kolena do stran.' }
       ],
       touches: [
         { title: 'Pevný stisk pod krkem s fixací zápěstí', desc: 'Jedna ruka pevně obepíná hrdlo, druhá tiskne obě její ruce k matraci.' },
@@ -598,10 +625,10 @@
       ]
     };
 
-    /* 5. STATE MANAGEMENT */
-    const STORAGE_KEY_RATINGS = 'velvet_ratings_v7';
-    const STORAGE_KEY_CUSTOM = 'velvet_custom_v7';
-    const STORAGE_KEY_API = 'velvet_api_key_v7';
+    /* 5. STATE & STORAGE */
+    const STORAGE_KEY_RATINGS = 'velvet_ratings_v8';
+    const STORAGE_KEY_CUSTOM = 'velvet_custom_v8';
+    const STORAGE_KEY_API = 'velvet_api_key_v8';
 
     let ratings = JSON.parse(localStorage.getItem(STORAGE_KEY_RATINGS) || '{}');
     let customItems = JSON.parse(localStorage.getItem(STORAGE_KEY_CUSTOM) || '{"position":[],"touch":[],"verbal":[],"game":[]}');
@@ -626,19 +653,25 @@
       document.getElementById('settingsModal').classList.add('hidden');
     }
 
-    /* 6. AI ENGINE S AUTO-DETEKCÍ A PŘESNÝM VÝPISEM CHYB */
+    /* 6. AI ENGINE S PŘÍSNÝM ČESKÝM A STRUČNÝM PROMPTEM */
     async function callAI(promptText) {
       const apiKey = getApiKey();
       if (!apiKey) return null;
 
-      // Automatická detekce podle tvaru klíče
       let provider = "openrouter";
       if (apiKey.startsWith("gsk_")) provider = "groq";
       else if (apiKey.startsWith("AIza") || apiKey.startsWith("AQ")) provider = "gemini";
 
+      // Striktní instrukce: ČEŠTINA, MAX 2 VĚTY, ŽÁDNÁ ANGLIČTINA
       const systemPrompt = `Jsi intimní erotický průvodce pro dospělý pár. Styl: missionary základ, vášeň, chytání pod krkem, zakrývání úst zezadu, praise kink (obdiv k těsnosti/vlhkosti), hry s očním kontaktem a tichem.
+PRAVIDLA:
+1. Odpovídej VÝHRADNĚ V ČEŠTINĚ! Žádné anglické výrazy ani překlady!
+2. Buď MAXIMÁLNĚ STRUČNÝ (popis max 2 věty, klíč 1 věta). Žádné dlouhé romány!
+3. V poli "svgKey" MUSÍŠ zvolit přesně jeden z těchto klíčů, který nejlépe odpovídá poloze:
+m_pillow, m_shoulders, m_wide_v, m_edge, side_spoon, side_leg_up, seated_lotus, seated_reverse, butterfly_table, doggy_classic, doggy_ass_up, prone_bone, doggy_edge, standing_wall, anvil, pretzel
+
 Vrať VÝHRADNĚ platný JSON formát:
-{"title":"Název","desc":"Smyslný popis","keyFocus":"Klíč k dokonalému účinku","watchOut":"Na co dát pozor"}`;
+{"title":"Krátký název","desc":"Smyslný popis (max 2 věty)","keyFocus":"Klíčový vjem (1 věta)","watchOut":"Na co dát pozor (1 věta)","svgKey":"zvolený_klíč"}`;
 
       try {
         let res;
@@ -652,7 +685,7 @@ Vrať VÝHRADNĚ platný JSON formát:
               "X-Title": "Velvet Desire"
             },
             body: JSON.stringify({
-              model: "openrouter/free", // nejnovější bezplatný router OpenRouteru
+              model: "openrouter/free",
               messages: [
                 { role: "system", content: systemPrompt },
                 { role: "user", content: promptText }
@@ -682,26 +715,20 @@ Vrať VÝHRADNĚ platný JSON formát:
               "x-goog-api-key": apiKey
             },
             body: JSON.stringify({
-              contents: [{ role: "user", parts: [{ text: `${systemPrompt}\n\n${promptText}` }] }]
+              contents: [{ role: 'user', parts: [{ text: `${systemPrompt}\n\n${promptText}` }] }]
             })
           });
         }
 
-        if (!res.ok) {
+        if (!res || !res.ok) {
           const errBody = await res.json().catch(() => ({}));
           const errMsg = errBody.error?.message || `HTTP ${res.status}`;
           throw new Error(`[${provider.toUpperCase()}] ${errMsg}`);
         }
 
         const data = await res.json();
-        let rawText = "";
-        if (provider === "gemini") {
-          rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
-        } else {
-          rawText = data.choices?.[0]?.message?.content || "";
-        }
-
-        const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+        let rawText = provider === "gemini" ? data.candidates?.[0]?.content?.parts?.[0]?.text : data.choices?.[0]?.message?.content;
+        const jsonMatch = (rawText || "").match(/\{[\s\S]*\}/);
         if (jsonMatch) {
           return JSON.parse(jsonMatch[0]);
         }
@@ -717,31 +744,36 @@ Vrať VÝHRADNĚ platný JSON formát:
       if (!apiKey) { alert("Vlož prosím nejprve klíč."); return; }
       localStorage.setItem(STORAGE_KEY_API, apiKey);
 
-      alert("Probíhá test spojení...");
-      const res = await callAI("Vrať testovací JSON objekt: { \"title\": \"Test OK\", \"desc\": \"Spojení funguje!\", \"keyFocus\": \"OK\", \"watchOut\": \"OK\" }");
+      alert("Probíhá test spojení s AI...");
+      const res = await callAI("Vrať stručný test v češtině: { \"title\": \"Test OK\", \"desc\": \"Spojení funguje!\", \"keyFocus\": \"Vše v pořádku.\", \"watchOut\": \"Žádné riziko.\", \"svgKey\": \"m_pillow\" }");
       if (res && res.title) {
-        alert("🎉 Spojení s AI funguje skvěle!");
+        alert("🎉 Spojení s AI funguje skvěle a odpovídá v češtině!");
       } else {
-        alert("⚠️ Test selhal. Sleduj červenou hlášku v horní liště, kde je přesný důvod chyby přímo ze serveru.");
+        alert("⚠️ Test selhal. Sleduj červenou hlášku nahoře, kde je přesný důvod.");
       }
     }
 
-    /* 7. SKUTEČNÉ GENEROVÁNÍ NOVÝCH NÁPADŮ (NIKDY SE NEOPAKUJE) */
+    /* 7. GENEROVÁNÍ NOVÝCH NÁPADŮ */
     async function generateFreshIdeaAction() {
       const container = document.getElementById('ideaCardContainer');
       container.innerHTML = `
         <div class="glass p-8 rounded-3xl text-center space-y-3">
           <div class="w-8 h-8 mx-auto border-2 border-rose-500 border-t-transparent rounded-full animate-spin"></div>
-          <p class="text-xs text-rose-200">Tvořím zbrusu nový nápad pro kategorii: <strong class="text-pink-300">${currentCategory}</strong>...</p>
+          <p class="text-xs text-rose-200">Tvořím nový stručný nápad v češtině pro: <strong class="text-pink-300">${currentCategory}</strong>...</p>
         </div>
       `;
 
-      // 1. Zkusíme AI
-      let result = await callAI(`Vymysli zbrusu nový originální prvek pro kategorii: ${currentCategory} pro pár se zálibou v lehkém BDSM, vášni a missionary základu.`);
+      let result = await callAI(`Vymysli zbrusu nový originální prvek pro kategorii: ${currentCategory} pro pár se zálibou v lehkém BDSM, vášni a missionary základu. Piš POUZE ČESKY a STRUČNĚ (max 2 věty).`);
 
-      // 2. Pokud AI selže nebo není klíč, vnitřní procedurální motor poskládá NOVOU kombinaci
       if (!result || !result.title) {
         result = buildDynamicProceduralItem(currentCategory);
+      }
+
+      // Validace svgKey
+      let finalSvgKey = result.svgKey;
+      if (!finalSvgKey || !SVG_ILLUSTRATIONS[finalSvgKey]) {
+        const availableKeys = Object.keys(SVG_ILLUSTRATIONS);
+        finalSvgKey = availableKeys[Math.floor(Math.random() * availableKeys.length)];
       }
 
       const newItem = {
@@ -751,7 +783,7 @@ Vrať VÝHRADNĚ platný JSON formát:
         keyFocus: result.keyFocus || 'Přesné vedení pánve a těla.',
         watchOut: result.watchOut || 'Dbejte na oboustranný komfort.',
         level: 2,
-        svgKey: result.svgKey || 'm_pillow'
+        svgKey: finalSvgKey
       };
 
       customItems[currentCategory].unshift(newItem);
@@ -766,24 +798,24 @@ Vrať VÝHRADNĚ platný JSON formát:
         const pool = PROCEDURAL_COMBINATIONS.positions;
         const item = pool[Math.floor(Math.random() * pool.length)];
         return {
-          title: `Variace: ${item.base.charAt(0).toUpperCase() + item.base.slice(1)}`,
+          title: item.title,
           desc: item.desc,
           keyFocus: item.key,
-          watchOut: 'Dbejte na stabilitu a začněte pomalejším tempem.',
+          watchOut: item.watch,
           svgKey: item.svg
         };
       } else if (cat === 'touch') {
         const pool = PROCEDURAL_COMBINATIONS.touches;
         const item = pool[Math.floor(Math.random() * pool.length)];
-        return { title: item.title, desc: item.desc };
+        return { title: item.title, desc: item.desc, keyFocus: 'Pevný dotek budující napětí.', watchOut: 'Vnímej její dech.' };
       } else if (cat === 'verbal') {
         const pool = PROCEDURAL_COMBINATIONS.verbals;
         const item = pool[Math.floor(Math.random() * pool.length)];
-        return { title: item.title, desc: item.desc };
+        return { title: item.title, desc: item.desc, keyFocus: 'Šeptáno těsně u ucha.', watchOut: 'Nespěchej s dikcí.' };
       } else {
         const pool = PROCEDURAL_COMBINATIONS.games;
         const item = pool[Math.floor(Math.random() * pool.length)];
-        return { title: item.title, desc: item.desc };
+        return { title: item.title, desc: item.desc, keyFocus: 'Hlídání pravidel zvyšuje vzrušení.', watchOut: 'Odměna následuje po splnění.' };
       }
     }
 
@@ -804,24 +836,27 @@ Vrať VÝHRADNĚ platný JSON formát:
       container.innerHTML = `
         <div class="glass p-8 rounded-3xl text-center space-y-3">
           <div class="w-8 h-8 mx-auto border-2 border-rose-500 border-t-transparent rounded-full animate-spin"></div>
-          <p class="text-xs text-rose-200">Vytvářím upravenou variantu podle tvého přání...</p>
+          <p class="text-xs text-rose-200">Upravuji nápad na stručnou variantu v češtině...</p>
         </div>
       `;
 
-      let aiRes = await callAI(`Uprav prvek: "${old.title} - ${old.desc}" podle požadavku: ${type}. Vytvoř upravenou verzi.`);
+      let aiRes = await callAI(`Uprav prvek: "${old.title} - ${old.desc}" podle požadavku: ${type}. Piš STRUČNĚ ČESKY (max 2 věty).`);
 
       if (!aiRes || !aiRes.title) {
         aiRes = createLocalTweak(old, type);
       }
+
+      let finalSvgKey = aiRes.svgKey || old.svgKey;
+      if (!SVG_ILLUSTRATIONS[finalSvgKey]) finalSvgKey = old.svgKey || 'm_pillow';
 
       const tweaked = {
         id: 'twk_' + Date.now(),
         title: aiRes.title,
         desc: aiRes.desc,
         keyFocus: aiRes.keyFocus || 'Přizpůsobeno tvé volbě.',
-        watchOut: aiRes.watchOut || 'Dbejte na vzájemný signál a dech.',
+        watchOut: aiRes.watchOut || 'Dbejte na vzájemný signál.',
         level: old.level || 2,
-        svgKey: old.svgKey || 'm_pillow'
+        svgKey: finalSvgKey
       };
 
       customItems[currentCategory].unshift(tweaked);
@@ -838,36 +873,36 @@ Vrať VÝHRADNĚ platný JSON formát:
 
       if (type === 'soft') {
         return {
-          title: `${title} (Něžná smyslná varianta)`,
-          desc: `Zpomalte na minimum. ${desc} Nahraďte tvrdé přírazy krouživým grindingem tělo na tělo a hlubokým dýcháním do vlasů.`,
+          title: `${title} (Něžná varianta)`,
+          desc: `Zpomalte na minimum. Přejděte v pomalý krouživý grinding tělo na tělo a dýchání do vlasů.`,
           keyFocus: 'Maximální blízkost, oční kontakt a tělesné teplo.',
           watchOut: 'Nespěchejte, vychutnejte si klid.'
         };
       } else if (type === 'hard') {
         return {
           title: `${title} (Dominantní varianta)`,
-          desc: `Pevné sevření boků a tvrdší rytmus. ${desc} Jedna ruka pevně fixuje šíji pod krkem nebo drží vlasy u kořínků.`,
+          desc: `Pevné sevření boků a tvrdší rytmus. Jedna ruka pevně fixuje šíji pod krkem nebo drží vlasy u kořínků.`,
           keyFocus: 'Plná nadvláda a hluboký tah na stěnu.',
-          watchOut: 'Hlídejte dech a signály partnerky při zvýšeném tlaku.'
+          watchOut: 'Hlídejte dech a její signály.'
         };
       } else if (type === 'angle') {
         return {
-          title: `${title} (S podložením pánve)`,
-          desc: `Podložte její křížovou kost pevným polštářem pro náklon o 20 stupňů. ${desc}`,
+          title: `${title} (S polštářem)`,
+          desc: `Podložte její křížovou kost pevným polštářem pro náklon pánve o 20 stupňů.`,
           keyFocus: 'Natočení pánve přináší přímý tah na přední stěnu a uvolňuje záda.',
-          watchOut: 'Polštář nesmí tlačit do beder, pouze pod zadeček.'
+          watchOut: 'Polštář nesmí tlačit do beder.'
         };
       } else {
         return {
-          title: `${title} (Alternativní provedení)`,
-          desc: `Vyzkoušejte stejný prvek se zavázanýma očima a šeptáním přímo do ucha. ${desc}`,
-          keyFocus: 'Absence zraku zdvojnásobuje citlivost každého doteku na kůži.',
+          title: `${title} (Slepá varianta)`,
+          desc: `Vyzkoušejte stejný prvek se zavázanýma očima a šeptáním přímo do ucha.`,
+          keyFocus: 'Absence zraku zdvojnásobuje citlivost každého doteku.',
           watchOut: 'Pohybujte se předvídatelně pro pocit bezpečí.'
         };
       }
     }
 
-    /* 9. RATING ENGINE & DATA SOURCE */
+    /* 9. RATING & DATA SOURCE */
     function saveRating(id, flames) {
       ratings[id] = flames;
       localStorage.setItem(STORAGE_KEY_RATINGS, JSON.stringify(ratings));
@@ -925,7 +960,7 @@ Vrať VÝHRADNĚ platný JSON formát:
       selectedSteps.push({ pos: starter, stepName: "1. Krok: Romantický základ (Missionary)", stage: 1 });
       usedPosIds.push(starter.id);
 
-      // Další kroky: Eskalace
+      // Další kroky
       const allPos = getAllCategoryItems('position');
       for (let i = 2; i <= count; i++) {
         let label = (i === count) ? `${i}. Krok: Maximální finále a dominance` : `${i}. Krok: Eskalace napětí a stimulace`;
@@ -947,6 +982,8 @@ Vrať VÝHRADNĚ platný JSON formát:
         const pRating = getRating(step.pos.id);
         let flameBadge = pRating === 2 ? '🔥🔥' : (pRating === 1 ? '🔥' : '');
 
+        const illData = SVG_ILLUSTRATIONS[step.pos.svgKey] || SVG_ILLUSTRATIONS.m_pillow;
+
         card.innerHTML = `
           <div class="flex items-center justify-between">
             <span class="text-[10px] font-bold tracking-wider uppercase text-rose-300 bg-rose-950/70 px-3 py-1 rounded-full border border-rose-800/40">
@@ -955,17 +992,16 @@ Vrať VÝHRADNĚ platný JSON formát:
             <span class="text-sm">${flameBadge}</span>
           </div>
 
-          <div class="rounded-2xl bg-black/60 p-2 border border-rose-950/80 flex flex-col items-center justify-center glow-rose">
-            ${SVG_ILLUSTRATIONS[step.pos.svgKey] || SVG_ILLUSTRATIONS.m_pillow}
-            <div class="flex items-center gap-4 text-[10px] font-semibold text-pink-300/60 mt-1">
-              <span>🔵 Muž</span>
-              <span>🌸 Žena</span>
-            </div>
+          <div class="rounded-2xl bg-black/60 p-3 border border-rose-950/80 flex flex-col items-center justify-center glow-rose">
+            ${illData.svg}
+            <p class="text-[11px] font-medium text-pink-200/80 text-center mt-2 px-2 bg-rose-950/40 py-1 rounded-xl border border-rose-900/30">
+              ${illData.caption}
+            </p>
           </div>
 
           <div>
             <h3 class="cinzel text-lg font-bold text-rose-100">${step.pos.title}</h3>
-            <p class="text-xs text-pink-200/70 mt-1 leading-relaxed">${step.pos.desc}</p>
+            <p class="text-xs text-pink-200/80 mt-1 leading-relaxed">${step.pos.desc}</p>
           </div>
 
           <div class="space-y-2 pt-2 border-t border-rose-950/70">
@@ -1045,13 +1081,13 @@ Vrať VÝHRADNĚ platný JSON formát:
       let illustrationHtml = '';
       let extraFocusHtml = '';
       if (currentCategory === 'position') {
+        const illData = SVG_ILLUSTRATIONS[currentIdeaItem.svgKey] || SVG_ILLUSTRATIONS.m_pillow;
         illustrationHtml = `
-          <div class="rounded-2xl bg-black/60 p-2 my-2 border border-rose-950 flex flex-col items-center justify-center glow-rose">
-            ${SVG_ILLUSTRATIONS[currentIdeaItem.svgKey] || SVG_ILLUSTRATIONS.m_pillow}
-            <div class="flex items-center gap-4 text-[10px] font-semibold text-pink-300/60 mt-1">
-              <span>🔵 Muž</span>
-              <span>🌸 Žena</span>
-            </div>
+          <div class="rounded-2xl bg-black/60 p-3 my-2 border border-rose-950 flex flex-col items-center justify-center glow-rose">
+            ${illData.svg}
+            <p class="text-[11px] font-medium text-pink-200/80 text-center mt-2 px-2 bg-rose-950/40 py-1 rounded-xl border border-rose-900/30">
+              ${illData.caption}
+            </p>
           </div>
         `;
         extraFocusHtml = `
