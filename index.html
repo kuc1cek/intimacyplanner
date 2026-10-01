@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Velvet & Desire | Intimní Průvodce</title>
+  <title>Velvet & Desire | Club Edition</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Three.js pro interaktivní parametrické 3D -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -40,13 +38,6 @@
       20%, 80% { transform: translate3d(2px, 0, 0); }
       30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
       40%, 60% { transform: translate3d(4px, 0, 0); }
-    }
-    .canvas-3d {
-      touch-action: none;
-      cursor: grab;
-    }
-    .canvas-3d:active {
-      cursor: grabbing;
     }
     ::-webkit-scrollbar { display: none; }
   </style>
@@ -95,13 +86,13 @@
       <h1 class="cinzel text-xl font-bold tracking-wider bg-gradient-to-r from-rose-200 via-pink-400 to-rose-300 bg-clip-text text-transparent">
         VELVET & DESIRE
       </h1>
-      <p class="text-[10px] text-pink-300/60 tracking-wider">INTIMNÍ KNIHOVNA</p>
+      <p class="text-[10px] text-pink-300/60 tracking-wider">CLUB EDITION · INTIMNÍ PRŮVODCE</p>
     </div>
     <div class="flex items-center gap-2">
-      <button onclick="openSettingsModal()" class="p-2.5 rounded-xl glass text-rose-300 hover:text-rose-100 active:scale-95 transition">
+      <button onclick="openSettingsModal()" class="p-2.5 rounded-xl glass text-rose-300 hover:text-rose-100 active:scale-95 transition" title="Nastavení AI">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
       </button>
-      <button onclick="lockScreen()" class="p-2.5 rounded-xl glass text-rose-300 hover:text-rose-100 active:scale-95 transition">
+      <button onclick="lockScreen()" class="p-2.5 rounded-xl glass text-rose-300 hover:text-rose-100 active:scale-95 transition" title="Zamknout">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
       </button>
     </div>
@@ -120,7 +111,7 @@
       <div class="glass p-5 rounded-3xl relative overflow-hidden">
         <h2 class="cinzel text-lg font-bold text-rose-200 mb-1">Večerní Plán</h2>
         <p class="text-xs text-pink-300/70 mb-4 leading-relaxed">
-          Sestaví večer začínající v <span class="text-rose-300 font-medium">Missionary</span> a plynule gradující do vyššího napětí. Generuje z vašich schválených favoritů.
+          Začíná v romantickém <span class="text-rose-300 font-medium">Missionary</span> a graduje do vyšší intenzity a hloubky. Čerpá ze schválených pozic se 100% anatomickou shodou hlášek, doteků a bodů stimulace.
         </p>
 
         <div class="flex items-center justify-between mb-4 bg-black/50 p-3 rounded-2xl border border-rose-950">
@@ -136,6 +127,7 @@
           ✨ SESTAVIT DNEŠNÍ PLÁN
         </button>
       </div>
+
       <div id="planResults" class="space-y-5"></div>
     </section>
 
@@ -143,14 +135,15 @@
     <section id="tabIdeas" class="space-y-5 hidden">
       <div class="flex items-center justify-between">
         <div>
-          <h2 class="cinzel text-lg font-bold text-rose-200">Objevování</h2>
-          <p class="text-[11px] text-pink-300/70">Ohodnoť a objevuj nové věci</p>
+          <h2 class="cinzel text-lg font-bold text-rose-200">Katalog & Nápady</h2>
+          <p class="text-[11px] text-pink-300/70">Pozice z katalogu · AI hlášky a doteky</p>
         </div>
-        <button onclick="generateFreshIdeaAction()" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-rose-900 to-pink-700 text-[11px] font-bold text-rose-100 flex items-center gap-1 active:scale-95 transition shadow-sm border border-rose-600/40">
-          ✨ Nový nápad
+        <button onclick="nextDiscoveryIdea()" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-rose-900 to-pink-700 text-[11px] font-bold text-rose-100 flex items-center gap-1 active:scale-95 transition shadow-sm border border-rose-600/40">
+          ✨ Další nápad
         </button>
       </div>
 
+      <!-- Přepínač 4 kategorií -->
       <div class="grid grid-cols-4 gap-1.5 bg-black/60 p-1.5 rounded-2xl border border-rose-950 text-center">
         <button onclick="setIdeaCategory('position')" id="btnCatPos" class="py-2 text-[11px] font-semibold rounded-xl glass-active text-rose-200 transition">Pozice</button>
         <button onclick="setIdeaCategory('touch')" id="btnCatTouch" class="py-2 text-[11px] font-semibold rounded-xl text-pink-300/70 transition">Doteky</button>
@@ -158,91 +151,131 @@
         <button onclick="setIdeaCategory('game')" id="btnCatGame" class="py-2 text-[11px] font-semibold rounded-xl text-pink-300/70 transition">Hry</button>
       </div>
 
-      <div id="ideaCardContainer" class="min-h-[420px] flex items-center justify-center"></div>
+      <div id="ideaCardContainer" class="min-h-[440px] flex items-center justify-center"></div>
 
+      <!-- Hodnocení 0, 1, 2 -->
       <div class="space-y-2">
         <p class="text-[10px] text-center tracking-wider text-pink-300/50 uppercase font-semibold">Tvoje hodnocení</p>
         <div class="grid grid-cols-3 gap-3">
           <button onclick="rateCurrentIdea(0)" class="p-3.5 rounded-2xl glass flex flex-col items-center gap-1 active:scale-95 transition border-rose-950 hover:border-red-600">
             <span class="text-xl">🚫</span>
             <span class="text-xs font-bold text-red-400">0 Ohýnků</span>
-            <span class="text-[9px] text-pink-300/50">Vyřadit</span>
+            <span class="text-[9px] text-pink-300/50">Vyřadit navždy</span>
           </button>
           <button onclick="openTweakModal()" class="p-3.5 rounded-2xl glass flex flex-col items-center gap-1 active:scale-95 transition border-rose-950 hover:border-yellow-600">
             <span class="text-xl">🔥</span>
             <span class="text-xs font-bold text-amber-300">1 Ohýnek</span>
-            <span class="text-[9px] text-pink-300/50">Upravit 💫</span>
+            <span class="text-[9px] text-pink-300/50">Upravit tón 💫</span>
           </button>
           <button onclick="rateCurrentIdea(2)" class="p-3.5 rounded-2xl glass flex flex-col items-center gap-1 active:scale-95 transition border-rose-950 hover:border-rose-500">
             <span class="text-xl">🔥🔥</span>
             <span class="text-xs font-bold text-rose-300">2 Ohýnky</span>
-            <span class="text-[9px] text-pink-300/50">Do plánu</span>
+            <span class="text-[9px] text-pink-300/50">Schválit do plánu</span>
           </button>
         </div>
       </div>
     </section>
 
-    <!-- TAB 3: SCHVÁLENÝ SEZNAM -->
+    <!-- TAB 3: SCHVÁLENÝ SEZNAM PRO PLÁN -->
     <section id="tabFavs" class="space-y-4 hidden">
       <div class="text-center space-y-1 mb-2">
-        <h2 class="cinzel text-lg font-bold text-rose-200">Schválené (🔥🔥)</h2>
-        <p class="text-xs text-pink-300/70">Seznam ze kterého se skládají večery</p>
+        <h2 class="cinzel text-lg font-bold text-rose-200">Schválené Pozice pro Plán (🔥🔥)</h2>
+        <p class="text-xs text-pink-300/70">Vaše stálá sestava + pozice, které schválíte v katalogu</p>
       </div>
       <div id="favoritesList" class="space-y-3"></div>
     </section>
 
   </main>
 
-  <!-- MODALS (Tweak, Edit, Settings) -->
+  <!-- ==================== TWEAK MODAL ==================== -->
   <div id="tweakModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-5 hidden">
     <div class="glass w-full max-w-sm p-6 rounded-3xl border border-rose-700/50 space-y-4">
-      <h3 class="cinzel text-base font-bold text-rose-100 text-center">Poupravit variantu</h3>
+      <h3 class="cinzel text-base font-bold text-rose-100 text-center">Poupravit znění / atmosféru</h3>
+      <p class="text-xs text-pink-300/70 text-center">Vyber požadovaný směr úpravy:</p>
+
       <div class="grid grid-cols-1 gap-2.5 pt-2">
-        <button onclick="applyInteractiveTweak('soft')" class="p-3 rounded-2xl glass text-xs font-semibold text-pink-200 hover:bg-rose-900/40 text-left">🌸 Zjemnit / Více romantiky</button>
-        <button onclick="applyInteractiveTweak('hard')" class="p-3 rounded-2xl glass text-xs font-semibold text-rose-200 hover:bg-rose-900/40 text-left">⛓️ Přitvrdit / Více dominance</button>
-        <button onclick="applyInteractiveTweak('angle')" class="p-3 rounded-2xl glass text-xs font-semibold text-rose-200 hover:bg-rose-900/40 text-left">📐 Změnit úhel / oporu</button>
-        <button onclick="applyInteractiveTweak('rephrase')" class="p-3 rounded-2xl glass text-xs font-semibold text-pink-200 hover:bg-rose-900/40 text-left">💬 Jiná slova / alternativa</button>
+        <button onclick="applyInteractiveTweak('soft')" class="p-3 rounded-2xl glass text-xs font-semibold text-pink-200 hover:bg-rose-900/40 text-left flex items-center gap-2">
+          <span>🌸</span> Zjemnit / Více romantiky a něhy
+        </button>
+        <button onclick="applyInteractiveTweak('hard')" class="p-3 rounded-2xl glass text-xs font-semibold text-rose-200 hover:bg-rose-900/40 text-left flex items-center gap-2">
+          <span>⛓️</span> Přitvrdit / Více dominance a tlaku
+        </button>
+        <button onclick="applyInteractiveTweak('angle')" class="p-3 rounded-2xl glass text-xs font-semibold text-rose-200 hover:bg-rose-900/40 text-left flex items-center gap-2">
+          <span>📐</span> Zaměřit na jiný stimul / úhel
+        </button>
+        <button onclick="applyInteractiveTweak('rephrase')" class="p-3 rounded-2xl glass text-xs font-semibold text-pink-200 hover:bg-rose-900/40 text-left flex items-center gap-2">
+          <span>💬</span> Jiná slova / hlubší napojení
+        </button>
       </div>
+
       <div class="flex gap-2 pt-2">
-        <button onclick="rateCurrentIdea(1); closeTweakModal();" class="flex-1 py-2.5 rounded-xl glass text-xs text-pink-300/60 font-semibold">Jen 1 🔥</button>
+        <button onclick="rateCurrentIdea(1); closeTweakModal();" class="flex-1 py-2.5 rounded-xl glass text-xs text-pink-300/60 font-semibold">Ponechat 1 🔥</button>
         <button onclick="closeTweakModal()" class="px-4 py-2.5 rounded-xl glass text-xs text-rose-400 font-semibold">Zavřít</button>
       </div>
     </div>
   </div>
 
+  <!-- ==================== MANUAL EDIT MODAL ==================== -->
   <div id="manualEditModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-5 hidden">
     <div class="glass w-full max-w-sm p-6 rounded-3xl border border-rose-700/50 space-y-4">
       <div class="flex items-center justify-between border-b border-rose-950 pb-2">
-        <h3 class="cinzel text-base font-bold text-rose-100">Vlastní znění</h3>
+        <h3 class="cinzel text-base font-bold text-rose-100">Doladit vlastními slovy</h3>
         <button onclick="closeManualEditModal()" class="text-rose-400 text-lg">✕</button>
       </div>
-      <textarea id="editInputTitle" rows="4" class="w-full p-3 rounded-xl bg-black/60 border border-rose-900 text-xs text-pink-100 focus:outline-none focus:border-rose-500"></textarea>
+      <p class="text-xs text-pink-300/70">Uprav si text přesně tak, jak ti přirozeně sedí:</p>
+      
+      <div class="space-y-2">
+        <label class="text-[11px] font-bold text-pink-200">Znění / Text:</label>
+        <textarea id="editInputTitle" rows="3" class="w-full p-3 rounded-xl bg-black/60 border border-rose-900 text-xs text-pink-100 focus:outline-none focus:border-rose-500"></textarea>
+      </div>
+
       <div class="pt-2 flex gap-2">
-        <button onclick="saveManualEdit()" class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-rose-700 to-pink-600 text-xs font-bold text-white shadow-md active:scale-95 transition">ULOŽIT</button>
+        <button onclick="saveManualEdit()" class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-rose-700 to-pink-600 text-xs font-bold text-white shadow-md active:scale-95 transition">
+          ULOŽIT VLASTNÍ VERZI
+        </button>
         <button onclick="closeManualEditModal()" class="px-4 py-2.5 rounded-xl glass text-xs text-rose-400 font-semibold">Zrušit</button>
       </div>
     </div>
   </div>
 
+  <!-- ==================== SETTINGS MODAL ==================== -->
   <div id="settingsModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-5 hidden">
     <div class="glass w-full max-w-md p-6 rounded-3xl border border-rose-700/50 space-y-4 max-h-[90vh] overflow-y-auto">
       <div class="flex items-center justify-between border-b border-rose-950 pb-3">
-        <h3 class="cinzel text-lg font-bold text-rose-100">Nastavení & Sync</h3>
+        <h3 class="cinzel text-lg font-bold text-rose-100">Nastavení AI & Synchronizace</h3>
         <button onclick="closeSettingsModal()" class="text-rose-400 text-lg">✕</button>
       </div>
+
       <div class="space-y-2">
-        <label class="text-xs font-bold text-pink-200">API Klíč (OpenRouter/Groq):</label>
-        <input type="password" id="inputApiKey" placeholder="sk-or-..." class="w-full p-3 rounded-xl bg-black/60 border border-rose-900 text-xs text-pink-100 focus:outline-none font-mono">
+        <label class="text-xs font-bold text-pink-200">Volitelný API Klíč (pro generování hlášek):</label>
+        <input type="password" id="inputApiKey" placeholder="Vlož klíč z OpenRouter (sk-or-)..." class="w-full p-3 rounded-xl bg-black/60 border border-rose-900 text-xs text-pink-100 focus:outline-none focus:border-rose-500 font-mono">
+        <p class="text-[10px] text-pink-300/70 leading-relaxed">
+          Klíč z <a href="https://openrouter.ai/keys" target="_blank" class="text-rose-400 underline font-bold">openrouter.ai/keys</a> (0 Kč). Aplikace funguje spolehlivě i offline díky bohaté interní knihovně.
+        </p>
       </div>
-      <button onclick="testAiConnection()" class="w-full py-2.5 rounded-xl border border-rose-700/40 bg-rose-950/40 text-xs font-bold text-rose-200">⚡ Otestovat AI spojení</button>
+
+      <button onclick="testAiConnection()" class="w-full py-2.5 rounded-xl border border-rose-700/40 bg-rose-950/40 text-xs font-bold text-rose-200 active:scale-95 transition">
+        ⚡ Otestovat AI spojení
+      </button>
+
+      <!-- Sync mezi zařízeními -->
       <div class="space-y-3 pt-3 border-t border-rose-950">
         <h4 class="text-xs font-bold text-pink-200">Synchronizace Mobil ⇄ PC (PIN: 270226)</h4>
         <div class="flex gap-2">
-          <button onclick="copySyncPayload()" class="flex-1 py-2.5 rounded-xl bg-rose-900/50 border border-rose-700/50 text-xs font-bold text-rose-100">📋 Kopírovat</button>
-          <button onclick="pasteSyncPayload()" class="flex-1 py-2.5 rounded-xl bg-black/60 border border-rose-900 text-xs font-bold text-pink-200">📥 Nahrát</button>
+          <button onclick="copySyncPayload()" class="flex-1 py-2.5 rounded-xl bg-rose-900/50 hover:bg-rose-800/60 border border-rose-700/50 text-xs font-bold text-rose-100 active:scale-95 transition">
+            📋 Zkopírovat kód
+          </button>
+          <button onclick="pasteSyncPayload()" class="flex-1 py-2.5 rounded-xl bg-black/60 hover:bg-rose-950 border border-rose-900 text-xs font-bold text-pink-200 active:scale-95 transition">
+            📥 Nahrát kód
+          </button>
         </div>
       </div>
-      <button onclick="saveSettings()" class="w-full py-3 rounded-xl bg-gradient-to-r from-rose-700 to-pink-600 text-xs font-bold text-white mt-2">ULOŽIT</button>
+
+      <div class="pt-2">
+        <button onclick="saveSettings()" class="w-full py-3 rounded-xl bg-gradient-to-r from-rose-700 to-pink-600 text-xs font-bold text-white shadow-md active:scale-95 transition">
+          ULOŽIT NASTAVENÍ
+        </button>
+      </div>
     </div>
   </div>
 
@@ -253,10 +286,12 @@
         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
         <span class="text-[10px]">Večerní Plán</span>
       </button>
+
       <button onclick="switchTab('ideas')" id="navIdeas" class="flex-1 py-2 flex flex-col items-center gap-1 text-pink-300/50 font-medium transition">
         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/></svg>
-        <span class="text-[10px]">Objevování</span>
+        <span class="text-[10px]">Katalog & Nápady</span>
       </button>
+
       <button onclick="switchTab('favs')" id="navFavs" class="flex-1 py-2 flex flex-col items-center gap-1 text-pink-300/50 font-medium transition">
         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg>
         <span class="text-[10px]">Schválené</span>
@@ -264,8 +299,9 @@
     </div>
   </nav>
 
-  <!-- JS SCRIPT ZAČÍNÁ: Zde se inicializují proměnné a základy -->
+  <!-- ==================== JAVASCRIPT ==================== -->
   <script>
+    /* 1. PEVNÝ PIN: 270226 */
     const MASTER_PIN = '270226';
     let enteredPin = '';
 
@@ -294,134 +330,112 @@
       }
     }
     function lockScreen() { document.getElementById('pinScreen').classList.remove('hidden'); resetPinInput(); }
+
     function showToast(msg) {
       const el = document.getElementById('errorToast');
       document.getElementById('errorMessage').innerText = msg;
       el.classList.remove('hidden');
       setTimeout(() => el.classList.add('hidden'), 5500);
     }
-  </script>
 
-  <!-- POKRAČOVÁNÍ V ČÁSTI 2... -->
+    /* 2. ANATOMICKÁ KRESLÍCÍ STAVEBNICE (ČISTÝ STYL SEXPOSITIONS.CLUB) */
+    function renderPositionSVG(p) {
+      const prop = p.prop || 'none';
+      const fLegs = p.fLegs || 'flat';
+      const fTorso = p.fTorso || 'supine';
+      const fOrient = p.orientation || 'front';
+      const mPos = p.mPos || 'prone_hover';
+      const mHands = p.mHands || 'mattress';
 
-  <script>
-    /* =========================================================================
-       2. PARAMETRICKÝ VEKTOROVÝ ENGINE (KRESLÍ 100% PŘESNÉ SILUETY BEZ CHYB)
-       ========================================================================= */
-    function renderParametricSVG(visual) {
-      const v = visual || {};
-      const prop = v.prop || 'none';
-      const fTorso = v.female_torso || 'supine';
-      const fLegs = v.female_legs || 'flat';
-      const fOrient = v.female_orientation || 'front';
-      const mPos = v.male_position || 'prone_hover';
-      const mHands = v.male_hands || 'mattress_support';
-
-      // Základní plátno a postel
+      // Základní podklad / postel / stůl / zeď
       let propSvg = '<line x1="15" y1="105" x2="225" y2="105" stroke="#4c0519" stroke-width="2" stroke-dasharray="4 4"/>';
       if (prop === 'pillow') {
         propSvg += '<ellipse cx="110" cy="100" rx="24" ry="7" fill="rgba(244,63,94,0.35)" stroke="#f43f5e" stroke-width="1.5"/>';
-      } else if (prop === 'bed_edge') {
-        propSvg = '<path d="M15 75 L115 75 L115 115" stroke="#4c0519" stroke-width="2"/>';
+      } else if (prop === 'bed_edge' || prop === 'table') {
+        propSvg = '<path d="M15 75 L115 75 L115 115" stroke="#4c0519" stroke-width="2.5"/>';
       } else if (prop === 'wall') {
         propSvg = '<line x1="195" y1="10" x2="195" y2="115" stroke="#4c0519" stroke-width="3"/>';
-      } else if (prop === 'table') {
-        propSvg = '<path d="M20 75 L120 75 L120 115" stroke="#4c0519" stroke-width="2"/>';
-      } else if (prop === 'chair') {
-        propSvg = '<path d="M70 105 L150 105 M150 105 L150 60 M80 105 L80 60" stroke="#4c0519" stroke-width="2"/>';
       }
 
-      // --- KRESLENÍ ŽENY (🌸 Růžová) ---
+      // Kreslení ŽENY (🌸 Růžová)
       let femaleSvg = '';
       if (fTorso === 'supine') {
-        // Leží na zádech (Missionary / Anvil / Preclík)
         let headY = (prop === 'pillow') ? 85 : 90;
-        let pelvisY = (prop === 'pillow') ? 92 : 95;
+        let pelvY = (prop === 'pillow') ? 92 : 95;
         femaleSvg += `<circle cx="45" cy="${headY}" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>`;
-        femaleSvg += `<path d="M53 ${headY + 2} C75 ${headY}, 90 ${pelvisY}, 110 ${pelvisY}" fill="rgba(244,114,182,0.3)" stroke="#f472b6" stroke-width="3"/>`;
+        femaleSvg += `<path d="M53 ${headY + 2} C75 ${headY}, 90 ${pelvY}, 110 ${pelvY}" fill="rgba(244,114,182,0.3)" stroke="#f472b6" stroke-width="3"/>`;
         
-        // Nohy
         if (fLegs === 'feet_on_chest') {
-          femaleSvg += `<path d="M110 ${pelvisY} L98 55 L90 44" fill="none" stroke="#f472b6" stroke-width="3"/>`;
+          femaleSvg += `<path d="M110 ${pelvY} L98 55 L90 44" fill="none" stroke="#f472b6" stroke-width="3"/>`;
         } else if (fLegs === 'legs_on_shoulders') {
-          femaleSvg += `<path d="M110 ${pelvisY} L102 42 L95 35" fill="none" stroke="#f472b6" stroke-width="3"/>`;
+          femaleSvg += `<path d="M110 ${pelvY} L102 42 L95 35" fill="none" stroke="#f472b6" stroke-width="3"/>`;
         } else if (fLegs === 'legs_on_one_shoulder') {
-          femaleSvg += `<path d="M110 ${pelvisY} L104 38 L98 30" fill="none" stroke="#f472b6" stroke-width="3"/>`;
+          femaleSvg += `<path d="M110 ${pelvY} L104 38 L98 30" fill="none" stroke="#f472b6" stroke-width="3"/>`;
         } else if (fLegs === 'crossed_neck') {
-          femaleSvg += `<path d="M110 ${pelvisY} L100 36 L92 36" fill="none" stroke="#f472b6" stroke-width="3"/>`;
+          femaleSvg += `<path d="M110 ${pelvY} L100 36 L92 36" fill="none" stroke="#f472b6" stroke-width="3"/>`;
         } else if (fLegs === 'wide_v') {
-          femaleSvg += `<path d="M110 ${pelvisY} L135 60 L145 75" fill="none" stroke="#f472b6" stroke-width="3"/>`;
+          femaleSvg += `<path d="M110 ${pelvY} L135 60 L145 75" fill="none" stroke="#f472b6" stroke-width="3"/>`;
         } else if (fLegs === 'around_waist') {
-          femaleSvg += `<path d="M110 ${pelvisY} L125 45 L135 55" fill="none" stroke="#f472b6" stroke-width="3"/>`;
+          femaleSvg += `<path d="M110 ${pelvY} L125 45 L135 55" fill="none" stroke="#f472b6" stroke-width="3"/>`;
+        } else if (fLegs === 'knees_to_ears') {
+          femaleSvg += `<path d="M110 ${pelvY} L90 50 L65 58" fill="none" stroke="#f472b6" stroke-width="3"/>`;
         } else {
-          // Flat (Lžíce, Missionary tělo na těle)
-          femaleSvg += `<path d="M110 ${pelvisY} C125 ${pelvisY}, 145 80, 168 100" fill="none" stroke="#f472b6" stroke-width="3"/>`;
+          femaleSvg += `<path d="M110 ${pelvY} C125 ${pelvY}, 145 80, 168 100" fill="none" stroke="#f472b6" stroke-width="3"/>`;
         }
       } else if (fTorso === 'prone') {
-        // Leží ploše na břiše
         femaleSvg += `<circle cx="50" cy="92" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>`;
         if (fLegs === 'dangling_edge') {
           femaleSvg += `<path d="M58 94 L110 94 L118 112" fill="none" stroke="#f472b6" stroke-width="3"/>`;
         } else {
           femaleSvg += `<path d="M58 94 L135 94 L205 102" fill="none" stroke="#f472b6" stroke-width="3"/>`;
         }
-      } else if (fTorso === 'all_fours') {
-        // Klečí na čtyřech (Doggy, U zdi)
-        let cx = (prop === 'wall') ? 175 : 60;
-        let cy = (prop === 'wall') ? 30 : 55;
-        femaleSvg += `<circle cx="${cx}" cy="${cy}" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>`;
-        if (prop === 'wall') {
-          femaleSvg += `<path d="M175 38 L172 75 L165 112 M172 70 L145 50 L135 60" fill="none" stroke="#f472b6" stroke-width="3"/>`;
+      } else if (fTorso === 'all_fours' || fTorso === 'ass_up') {
+        let headY = (fTorso === 'ass_up') ? 95 : 55;
+        femaleSvg += `<circle cx="55" cy="${headY}" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>`;
+        femaleSvg += `<path d="M62 ${headY + 2} L115 55 L125 90 M68 62 L70 95" fill="none" stroke="#f472b6" stroke-width="3"/>`;
+        if (fLegs === 'one_spread_side') {
+          femaleSvg += `<path d="M115 55 L145 92 L165 88" fill="none" stroke="#f472b6" stroke-width="3"/>`;
         } else {
-          femaleSvg += `<path d="M68 58 L120 58 L125 95 M120 58 L145 102 M68 62 L70 95" fill="none" stroke="#f472b6" stroke-width="3"/>`;
-          if (fLegs === 'one_spread_side') {
-             femaleSvg = `<circle cx="60" cy="55" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>
-                          <path d="M68 58 L120 58 L130 92 L160 88 M68 62 L70 95" fill="none" stroke="#f472b6" stroke-width="3"/>`;
-          }
+          femaleSvg += `<path d="M125 90 L145 102" fill="none" stroke="#f472b6" stroke-width="3"/>`;
         }
-      } else if (fTorso === 'chest_down_hips_high') {
-        // Ass up
-        femaleSvg += `<circle cx="50" cy="95" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>`;
-        femaleSvg += `<path d="M58 95 L80 85 L115 55 L125 90 M115 55 L145 102" fill="none" stroke="#f472b6" stroke-width="3"/>`;
-      } else if (fTorso === 'kneeling_lean_away') {
-        // REVERSE COWGIRL (žena sedí zády k němu, kouká na jeho nohy)
+      } else if (fTorso === 'reverse_cowgirl') {
+        // REVERSE COWGIRL: sedí zády k jeho obličeji, předkloněná k jeho kolenům vpravo
         femaleSvg += `<circle cx="150" cy="52" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>`;
         femaleSvg += `<path d="M142 56 C125 65, 110 75, 112 86 C115 95, 130 96, 142 96" fill="rgba(244,114,182,0.3)" stroke="#f472b6" stroke-width="3"/>`;
-        femaleSvg += `<path d="M148 60 L165 85" fill="none" stroke="#f472b6" stroke-width="3"/>`; 
-      } else if (fTorso === 'sitting_lap_front') {
-        // Lotos (čelem)
+        femaleSvg += `<path d="M148 60 L165 85" fill="none" stroke="#f472b6" stroke-width="3"/>`;
+      } else if (fTorso === 'cowgirl_lean') {
+        femaleSvg += `<circle cx="85" cy="50" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>`;
+        femaleSvg += `<path d="M92 56 L118 84 L140 96 M90 60 L60 85" fill="none" stroke="#f472b6" stroke-width="3"/>`;
+      } else if (fTorso === 'cowgirl_arch') {
+        femaleSvg += `<circle cx="120" cy="40" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>`;
+        femaleSvg += `<path d="M118 48 L108 85 L85 96 M120 55 L150 85" fill="none" stroke="#f472b6" stroke-width="3"/>`;
+      } else if (fTorso === 'sitting_lotus') {
         femaleSvg += `<circle cx="128" cy="38" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>`;
         femaleSvg += `<path d="M126 46 L120 86 L85 96 M125 50 C115 50, 105 45, 102 42" fill="none" stroke="#f472b6" stroke-width="3"/>`;
-      } else if (fTorso === 'sitting_lap_rear') {
-        // Obrácené křeslo (zády)
-        femaleSvg += `<circle cx="110" cy="40" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>`;
-        femaleSvg += `<path d="M110 48 L108 86 L145 96 M105 52 L125 60" fill="none" stroke="#f472b6" stroke-width="3"/>`;
+      } else if (fTorso === 'standing_wall') {
+        femaleSvg += `<circle cx="175" cy="30" r="8.5" fill="rgba(244,114,182,0.35)" stroke="#f472b6" stroke-width="3"/>`;
+        femaleSvg += `<path d="M175 38 L172 75 L165 112 M172 70 L145 50 L135 60" fill="none" stroke="#f472b6" stroke-width="3"/>`;
       }
 
-      // --- KRESLENÍ MUŽE (🔵 Modrá) ---
+      // Kreslení MUŽE (🔵 Modrá)
       let maleSvg = '';
       if (mPos === 'lying_back') {
-        // Leží na zádech (Cowgirl / Reverse Cowgirl)
         maleSvg += `<circle cx="40" cy="92" r="9" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="3"/>`;
         maleSvg += `<path d="M48 94 L130 94 L165 85 L185 102" fill="rgba(56,189,248,0.3)" stroke="#38bdf8" stroke-width="3"/>`;
         if (mHands === 'gripping_hips') maleSvg += `<path d="M65 90 L105 82" fill="none" stroke="#38bdf8" stroke-width="2.5"/>`;
       } else if (mPos === 'standing_edge') {
-        // Stojí u postele
-        let cx = (prop === 'table') ? 150 : 140;
-        maleSvg += `<circle cx="${cx}" cy="22" r="9" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="3"/>`;
-        maleSvg += `<path d="M${cx} 30 L132 60 L120 68 L138 115 M135 42 L115 55" fill="none" stroke="#38bdf8" stroke-width="3"/>`;
+        maleSvg += `<circle cx="140" cy="22" r="9" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="3"/>`;
+        maleSvg += `<path d="M140 30 L132 60 L120 68 L138 115 M135 42 L115 55" fill="none" stroke="#38bdf8" stroke-width="3"/>`;
       } else if (mPos === 'kneeling_rear') {
-        // Klečí zezadu (Doggy)
         maleSvg += `<circle cx="160" cy="28" r="9" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="3"/>`;
         maleSvg += `<path d="M160 36 L148 65 L135 68 L155 102 M135 68 L180 102" fill="none" stroke="#38bdf8" stroke-width="3"/>`;
         if (mHands === 'in_hair') maleSvg += `<path d="M155 45 L65 55" fill="none" stroke="#38bdf8" stroke-width="2.5"/>`;
         else maleSvg += `<path d="M155 45 L125 58" fill="none" stroke="#38bdf8" stroke-width="3"/>`;
-      } else if (mPos === 'sitting_chair') {
-        // Sedí
+      } else if (mPos === 'sitting_upright') {
         maleSvg += `<circle cx="100" cy="35" r="9" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="3"/>`;
         maleSvg += `<path d="M100 44 L102 88 L145 102 M104 55 C118 55, 130 65, 122 80" fill="none" stroke="#38bdf8" stroke-width="3"/>`;
       } else {
-        // Prone hover shora (Missionary / Prone Bone)
+        // Prone hover shora (Missionary / Prone bone)
         let cx = (fTorso === 'prone') ? 78 : 68;
         let cy = (fTorso === 'prone') ? 58 : 40;
         maleSvg += `<circle cx="${cx}" cy="${cy}" r="9" fill="rgba(56,189,248,0.35)" stroke="#38bdf8" stroke-width="3"/>`;
@@ -435,50 +449,47 @@
         }
       }
 
-      return {
-        svg: `<svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">${propSvg}${femaleSvg}${maleSvg}</svg>`
-      };
+      return `<svg viewBox="0 0 240 120" class="w-full h-32" stroke-linecap="round" stroke-linejoin="round">${propSvg}${femaleSvg}${maleSvg}</svg>`;
     }
 
-    /* =========================================================================
-       3. VAŠICH 18 OBLÍBENÝCH POZIC (ZÁKLAD PRO PLÁN) S PŘESNÝMI TAGY A PARAMETRY
-       ========================================================================= */
-    const INITIAL_FAVORITES_POOL = [
-      // MISSIONARY (Vždy start, orientation: 'front')
-      { id: 'f_m1', title: 'Missionary s polštářem pod zadkem', level: 1, isMissionary: true, orientation: 'front', desc: 'Klasický romantický start. Mírný náklon pánve uvolní vstup a otevře úhel k přední stěně.', keyFocus: 'Pomalý rytmus pánví kůže na kůži.', watchOut: 'Polštář nesmí tlačit do beder.', visual: { prop: 'pillow', female_torso: 'supine', female_legs: 'flat', female_orientation: 'front', male_position: 'prone_hover', male_hands: 'mattress_support' } },
-      { id: 'f_m2', title: 'Missionary s ležením celou vahou na těle', level: 1, isMissionary: true, orientation: 'front', desc: 'Maximální kontakt tělo na těle. Dýchání do ucha, pomalé tření a líbání na krku.', keyFocus: 'Spusť váhu na její hruď a dýchej s ní.', watchOut: 'Opora na předloktích zajistí, ať neztrácí dech.', visual: { prop: 'none', female_torso: 'supine', female_legs: 'flat', female_orientation: 'front', male_position: 'prone_hover', male_hands: 'mattress_support' } },
-      { id: 'f_m3', title: 'Missionary s chodidly na mých prsou', level: 1, isMissionary: true, orientation: 'front', desc: 'Její nožky opřené o tvou hruď zkracují vstup a umožňují laskání chodidel a kotníků.', keyFocus: 'Tlakem hrudníku dopředu reguluješ těsnost.', watchOut: 'Neroztahuj kolena příliš do stran.', visual: { prop: 'none', female_torso: 'supine', female_legs: 'feet_on_chest', female_orientation: 'front', male_position: 'prone_hover', male_hands: 'mattress_support' } },
-      { id: 'f_m4', title: 'Missionary s nohama kolem mého krku', level: 1, isMissionary: true, orientation: 'front', desc: 'Její nohy ovinuté kolem tvé šíje přirozeně zvedají pánev do hlubokého intimního úhlu.', keyFocus: 'Ruka pevně pod krkem nebo prsty v ústech.', watchOut: 'Pevně ji jisti za boky pod zadečkem.', visual: { prop: 'none', female_torso: 'supine', female_legs: 'legs_on_shoulders', female_orientation: 'front', male_position: 'prone_hover', male_hands: 'on_throat' } },
-      { id: 'f_m5', title: 'Missionary s oběma nohama na jednom rameni', level: 1, isMissionary: true, orientation: 'front', desc: 'Asymetrický náklon pánve vytváří příjemný a těsný tah na boční stěně.', keyFocus: 'Natočení pánve dává nečekanou těsnost.', watchOut: 'Vnímej její signály v bocích.', visual: { prop: 'none', female_torso: 'supine', female_legs: 'legs_on_one_shoulder', female_orientation: 'front', male_position: 'prone_hover', male_hands: 'mattress_support' } },
-      { id: 'f_m6', title: 'Missionary s překříženýma nohama za rameny', level: 1, isMissionary: true, orientation: 'front', desc: 'Pevně uzavřený klín zužující vstup na maximum. Pomalé hluboké tempo.', keyFocus: 'Ruce zapletené do jejích vlasů.', watchOut: 'Vyžaduje dostatečnou vlhkost pro vysoké tření.', visual: { prop: 'none', female_torso: 'supine', female_legs: 'crossed_neck', female_orientation: 'front', male_position: 'prone_hover', male_hands: 'mattress_support' } },
-      { id: 'f_m7', title: 'Missionary s držením nohou do širokého V', level: 1, isMissionary: true, orientation: 'front', desc: 'Plná otevřenost a odevzdání. Ruce máš volné pro hlazení hrdla a ňader.', keyFocus: 'Dlaně drží její stehna doširoka.', watchOut: 'Netlač kolena k matraci násilím.', visual: { prop: 'none', female_torso: 'supine', female_legs: 'wide_v', female_orientation: 'front', male_position: 'prone_hover', male_hands: 'holding_thighs' } },
-      { id: 'f_m8', title: 'Missionary na kraji postele ve stoje', level: 1, isMissionary: true, orientation: 'front', desc: 'Ona leží na zádech na kraji matrace, ty stojíš. Dokonalá páka a síla přírazů.', keyFocus: 'Přitahuj si ji k sobě celou vahou těla.', watchOut: 'Podlož hranu matrace dekou pod kostrč.', visual: { prop: 'bed_edge', female_torso: 'supine', female_legs: 'around_waist', female_orientation: 'front', male_position: 'standing_edge', male_hands: 'gripping_hips' } },
-      
-      // ZEZADU (Doggy, Prone Bone, orientation: 'rear')
-      { id: 'f_d1', title: 'Klasický Doggy', level: 3, isMissionary: false, orientation: 'rear', desc: 'Pevný úchop za boky nebo vlasy u zátylku. Plná dominance a kontrola nad rytmem.', keyFocus: 'Pevné stabilní tempo vedené za boky.', watchOut: 'Hlídej prohnutí v bedrech.', visual: { prop: 'none', female_torso: 'all_fours', female_legs: 'kneeling', female_orientation: 'rear', male_position: 'kneeling_rear', male_hands: 'gripping_hips' } },
-      { id: 'f_d2', title: 'Prone Bone (Doggy ploše na břiše)', level: 3, isMissionary: false, orientation: 'rear', desc: 'Ona leží celým tělem na břiše s nohama pevně u sebe. Brutální těsnost vstupu.', keyFocus: 'Zalehni ji celou vahou a zakryj jí pusu dlaní zezadu.', watchOut: 'Netlač vahou přímo na její plíce.', visual: { prop: 'none', female_torso: 'prone', female_legs: 'flat', female_orientation: 'rear', male_position: 'prone_hover', male_hands: 'mattress_support' } },
-      { id: 'f_d3', title: 'Doggy s čelem na posteli a zvednutým zadkem (Ass-Up)', level: 3, isMissionary: false, orientation: 'rear', desc: 'Hrudník položený na matraci, pánev vysoce ve vzduchu. Cílí přímo na A-spot.', keyFocus: 'Strmý náklon pánve směřuje každý příraz do plné hloubky.', watchOut: 'Nutná dostatečná vlhkost pro přímý úhel.', visual: { prop: 'none', female_torso: 'chest_down_hips_high', female_legs: 'kneeling', female_orientation: 'rear', male_position: 'kneeling_rear', male_hands: 'gripping_hips' } },
-      { id: 'f_d4', title: 'Doggy s jednou nohou vybočenou do strany', level: 3, isMissionary: false, orientation: 'rear', desc: 'Asymetrické otevření mění vnitřní prostor a vytváří obrovský tlak na boční stěnu.', keyFocus: 'Zkroucená pánev přináší intenzivní nový vjem.', watchOut: 'Pohybujte se pomalu s citem pro úhel.', visual: { prop: 'none', female_torso: 'all_fours', female_legs: 'one_spread_side', female_orientation: 'rear', male_position: 'kneeling_rear', male_hands: 'gripping_hips' } },
-      { id: 'f_d5', title: 'Doggy na kraji postele s nohama dolů', level: 3, isMissionary: false, orientation: 'rear', desc: 'Břichem na matraci, nohy volně visí k zemi, ty stojíš pevně za ní.', keyFocus: 'Gravitace rozevírá tělo, zatímco ty máš absolutní sílu.', watchOut: 'Podlož hranu matrace pod její stehna.', visual: { prop: 'bed_edge', female_torso: 'prone', female_legs: 'dangling_edge', female_orientation: 'rear', male_position: 'standing_edge', male_hands: 'gripping_hips' } },
-      { id: 'f_d6', title: 'Doggy ve stoje u zdi', level: 3, isMissionary: false, orientation: 'rear', desc: 'Ona stojí opřená dlaněmi o zeď nebo komodu, ty přistupuješ zezadu.', keyFocus: 'Pevné přitažení za pas a tah za vlasy.', watchOut: 'Zajistěte, aby jí neklouzala chodidla na zemi.', visual: { prop: 'wall', female_torso: 'all_fours', female_legs: 'kneeling', female_orientation: 'rear', male_position: 'kneeling_rear', male_hands: 'in_hair' } },
-      
-      // COWGIRL (front / rear)
-      { id: 'f_c1', title: 'Cowgirl v předklonu', level: 2, isMissionary: false, orientation: 'front', desc: 'Ona nahoře, předkloněná, ruce zapletené do tvých vlasů, pomalý grinding.', keyFocus: 'Vlnivý pohyb boků stimuluje klitoris o stydkou kost.', watchOut: 'Nezvedat se moc vysoko, ať nedojde k vyklouznutí.', visual: { prop: 'none', female_torso: 'supine', female_legs: 'wide_v', female_orientation: 'front', male_position: 'lying_back', male_hands: 'gripping_hips' } },
-      { id: 'f_c2', title: 'Cowgirl v mírném záklonu', level: 2, isMissionary: false, orientation: 'front', desc: 'Ona má mírně zakloněná záda, odhalený krk a ňadra, které můžeš pevně držet.', keyFocus: 'Úhel směřuje přímo na přední stěnu.', watchOut: 'Vyžaduje sílu v jejích stehnech.', visual: { prop: 'none', female_torso: 'supine', female_legs: 'wide_v', female_orientation: 'front', male_position: 'lying_back', male_hands: 'gripping_hips' } },
-      { id: 'f_c3', title: 'Cowgirl břicho na břiše (tělo na těle)', level: 2, isMissionary: false, orientation: 'front', desc: 'Leží celým trupem na tobě, líbání na krku a tření břicha o břicho.', keyFocus: 'Maximální blízkost a pomalý krouživý pohyb.', watchOut: 'Uvolněte se a dýchejte společně.', visual: { prop: 'none', female_torso: 'supine', female_legs: 'flat', female_orientation: 'front', male_position: 'lying_back', male_hands: 'gripping_hips' } },
-      { id: 'f_c4', title: 'Reverse Cowgirl v předklonu', level: 2, isMissionary: false, orientation: 'rear', desc: 'Ona sedí obkročmo ZÁDY K TOBĚ, předkloněná k tvým kolenům. Výhled na záda a zadeček.', keyFocus: 'Hlazení páteře a pevné sevření jejích boků zezadu.', watchOut: 'Drž její boky pevně pro správný úhel.', visual: { prop: 'none', female_torso: 'kneeling_lean_away', female_legs: 'flat', female_orientation: 'rear', male_position: 'lying_back', male_hands: 'gripping_hips' } }
+    /* 3. ROZSÁHLÝ KATALOG SEXPOSITIONS.CLUB S BODY STIMULACE A PARAMETRY */
+    const MASTER_POSITIONS_CATALOG = [
+      // MISSIONARY STYL
+      { id: 'pos_m1', title: 'Missionary s polštářem pod pánví', style: 'Missionary', isMissionary: true, orientation: 'front', stimulation: ['🎯 G-Spot', '🌸 Klitoris', '📐 Přední stěna'], depth: 3, intimacy: 5, difficulty: 1, desc: 'Pánev podložená polštářem natočí vnitřní osu k přední stěně a uvolní tělo pro souvislý vstup.', keyFocus: 'Pomalý rytmus kroužením pánve tělo na těle.', watchOut: 'Polštář nesmí tlačit do beder.', fTorso: 'supine', fLegs: 'flat', prop: 'pillow', mPos: 'prone_hover', mHands: 'mattress' },
+      { id: 'pos_m2', title: 'Missionary tělo na těle (Plná váha)', style: 'Missionary', isMissionary: true, orientation: 'front', stimulation: ['🌸 Klitoris', '💕 Intimita', '🔥 Tělesné teplo'], depth: 3, intimacy: 5, difficulty: 1, desc: 'Maximální kontakt kůže na kůži. Pomalý dech do zátylku a tření tělo na těle.', keyFocus: 'Spusť váhu na její hruď a dýchejte společně.', watchOut: 'Opora na předloktích zajistí, ať neztrácí dech.', fTorso: 'supine', fLegs: 'flat', prop: 'none', mPos: 'prone_hover', mHands: 'mattress' },
+      { id: 'pos_m3', title: 'Missionary s chodidly na mých prsou', style: 'Missionary', isMissionary: true, orientation: 'front', stimulation: ['🔒 Vstupní sevření', '🎯 G-Spot', '🦶 Chodidla'], depth: 4, intimacy: 4, difficulty: 2, desc: 'Chodidla zapřená o tvůj hrudník zkracují vstup a umožňují laskání nohou a kotníků.', keyFocus: 'Tlakem hrudníku dopředu reguluješ těsnost sevření.', watchOut: 'Neroztahuj kolena příliš do stran.', fTorso: 'supine', fLegs: 'feet_on_chest', prop: 'none', mPos: 'prone_hover', mHands: 'holding_thighs' },
+      { id: 'pos_m4', title: 'Missionary s nohama kolem krku', style: 'Missionary', isMissionary: true, orientation: 'front', stimulation: ['⚡ A-Spot', '📏 Hluboký průnik', '⛓️ Dominance'], depth: 5, intimacy: 5, difficulty: 3, desc: 'Její nohy kolem tvé šíje zvedají pánev do strmého intimního úhlu pro přímou stimulaci A-spotu.', keyFocus: 'Pevná ruka pod krkem nebo prsty v ústech.', watchOut: 'Jisti její pánev pevně pod zadečkem.', fTorso: 'supine', fLegs: 'legs_on_shoulders', prop: 'none', mPos: 'prone_hover', mHands: 'on_throat' },
+      { id: 'pos_m5', title: 'Missionary obě nohy na jednom rameni', style: 'Missionary', isMissionary: true, orientation: 'front', stimulation: ['📐 Boční stěna', '🔒 Těsný vstup'], depth: 4, intimacy: 4, difficulty: 2, desc: 'Asymetrický náklon pánve vytváří příjemný a těsný tlak na boční stěnu.', keyFocus: 'Natočení pánve dává nečekanou těsnost vstupu.', watchOut: 'Vnímej její flexibilitu v bocích.', fTorso: 'supine', fLegs: 'legs_on_one_shoulder', prop: 'none', mPos: 'prone_hover', mHands: 'mattress' },
+      { id: 'pos_m6', title: 'Missionary s překříženýma nohama za rameny', style: 'Missionary', isMissionary: true, orientation: 'front', stimulation: ['🔒 Maximální sevření', '⚡ Hloubka'], depth: 4, intimacy: 5, difficulty: 3, desc: 'Pevně uzavřený klín zužující vstup na maximum. Pomalé hluboké tempo.', keyFocus: 'Ruce zapletené do jejích vlasů u zátylku.', watchOut: 'Vyžaduje dostatečnou vlhkost pro vysoké tření.', fTorso: 'supine', fLegs: 'crossed_neck', prop: 'none', mPos: 'prone_hover', mHands: 'mattress' },
+      { id: 'pos_m7', title: 'Missionary s držením nohou do širokého V', style: 'Missionary', isMissionary: true, orientation: 'front', stimulation: ['🌸 Klitoris', '🔓 Úplná otevřenost', '💕 Romance'], depth: 3, intimacy: 5, difficulty: 1, desc: 'Plná otevřenost a odevzdání. Ruce máš volné pro hlazení hrdla a ňader.', keyFocus: 'Dlaně drží její stehna doširoka a umožňují dlouhé polibky.', watchOut: 'Netlač kolena k matraci násilím.', fTorso: 'supine', fLegs: 'wide_v', prop: 'none', mPos: 'prone_hover', mHands: 'holding_thighs' },
+      { id: 'pos_m8', title: 'Missionary na kraji postele ve stoje', style: 'Missionary', isMissionary: true, orientation: 'front', stimulation: ['🎯 G-Spot', '⚡ Hloubka', '⛓️ Nadvláda'], depth: 4, intimacy: 4, difficulty: 2, desc: 'Ona leží na zádech na kraji matrace, ty stojíš. Dokonalá páka a síla těla.', keyFocus: 'Přitahuj si ji k sobě celou vahou těla za stehna.', watchOut: 'Podlož hranu matrace dekou pod kostrč.', fTorso: 'supine', fLegs: 'around_waist', prop: 'bed_edge', mPos: 'standing_edge', mHands: 'mattress' },
+      { id: 'pos_m9', title: 'The Anvil (Kovadlina)', style: 'Missionary', isMissionary: true, orientation: 'front', stimulation: ['⚡ A-Spot', '📏 Extrémní hloubka', '🔒 Zkrácený kanál'], depth: 5, intimacy: 4, difficulty: 3, desc: 'Záda na posteli, kolena přitlačená až k jejím uším, pánev ve vzduchu pod tebou.', keyFocus: 'Nejhlubší možný úhel, kanál se zkrátí na minimum.', watchOut: 'Vyžaduje flexibilitu v bedrech, postupuj opatrně.', fTorso: 'supine', fLegs: 'knees_to_ears', prop: 'none', mPos: 'prone_hover', mHands: 'mattress' },
+
+      // ZEZADU / DOGGY & PRONE
+      { id: 'pos_d1', title: 'Klasický Doggy', style: 'Zezadu', isMissionary: false, orientation: 'rear', stimulation: ['🎯 G-Spot', '📏 Hloubka', '⛓️ Dominance'], depth: 4, intimacy: 3, difficulty: 2, desc: 'Pevný úchop za boky nebo vlasy u zátylku. Plná dominance a kontrola nad rytmem.', keyFocus: 'Pevné stabilní tempo vedené za boky.', watchOut: 'Hlídej prohnutí v bedrech.', fTorso: 'all_fours', fLegs: 'flat', prop: 'none', mPos: 'kneeling_rear', mHands: 'mattress' },
+      { id: 'pos_d2', title: 'Prone Bone (Doggy ploše na břiše)', style: 'Zezadu', isMissionary: false, orientation: 'rear', stimulation: ['🔒 Brutální těsnost', '📐 Zadní stěna', '⛓️ Zalehnutí'], depth: 4, intimacy: 3, difficulty: 2, desc: 'Ona leží celým tělem na břiše s nohama pevně u sebe. Brutální těsnost vstupu.', keyFocus: 'Zalehni ji celou vahou a zakryj jí pusu dlaní zezadu.', watchOut: 'Netlač vahou přímo na její plíce.', fTorso: 'prone', fLegs: 'flat', prop: 'none', mPos: 'prone_hover', mHands: 'mattress' },
+      { id: 'pos_d3', title: 'Doggy s čelem na posteli (Ass-Up)', style: 'Zezadu', isMissionary: false, orientation: 'rear', stimulation: ['⚡ A-Spot', '📏 Strmý úhel', '🎯 G-Spot'], depth: 5, intimacy: 2, difficulty: 2, desc: 'Hrudník položený na matraci, pánev vysoce ve vzduchu. Cílí přímo na A-spot.', keyFocus: 'Strmý náklon pánve směřuje každý příraz do plné hloubky.', watchOut: 'Nutná dostatečná vlhkost pro přímý úhel.', fTorso: 'ass_up', fLegs: 'flat', prop: 'none', mPos: 'kneeling_rear', mHands: 'mattress' },
+      { id: 'pos_d4', title: 'Doggy s jednou nohou vybočenou do strany', style: 'Zezadu', isMissionary: false, orientation: 'rear', stimulation: ['📐 Boční stěna', '🔒 Zkroucená pánev'], depth: 4, intimacy: 3, difficulty: 3, desc: 'Asymetrické otevření mění vnitřní prostor a vytváří obrovský tlak na boční stěnu.', keyFocus: 'Zkroucená pánev přináší intenzivní nový vjem.', watchOut: 'Pohybujte se pomalu s citem pro úhel.', fTorso: 'all_fours', fLegs: 'one_spread_side', prop: 'none', mPos: 'kneeling_rear', mHands: 'mattress' },
+      { id: 'pos_d5', title: 'Doggy na kraji postele s nohama dolů', style: 'Zezadu', isMissionary: false, orientation: 'rear', stimulation: ['📏 Hloubka', '📐 Zadní stěna', '⛓️ Pevný tah'], depth: 4, intimacy: 2, difficulty: 2, desc: 'Břichem na matraci, nohy volně visí k zemi, ty stojíš pevně za ní.', keyFocus: 'Gravitace rozevírá tělo, zatímco ty máš absolutní sílu.', watchOut: 'Podlož hranu matrace pod její stehna.', fTorso: 'prone', fLegs: 'dangling_edge', prop: 'bed_edge', mPos: 'standing_edge', mHands: 'mattress' },
+      { id: 'pos_d6', title: 'Doggy ve stoje u zdi', style: 'Zezadu', isMissionary: false, orientation: 'rear', stimulation: ['⛓️ Drsná dominance', '📐 Zadní stěna'], depth: 4, intimacy: 2, difficulty: 3, desc: 'Ona stojí opřená dlaněmi o zeď nebo komodu, ty přistupuješ zezadu.', keyFocus: 'Pevné přitažení za pas a tah za vlasy.', watchOut: 'Zajistěte, aby jí neklouzala chodidla na zemi.', fTorso: 'all_fours', fLegs: 'flat', prop: 'wall', mPos: 'kneeling_rear', mHands: 'in_hair' },
+
+      // COWGIRL & RIDER
+      { id: 'pos_c1', title: 'Cowgirl v předklonu', style: 'Cowgirl', isMissionary: false, orientation: 'front', stimulation: ['🌸 Klitoris', '💕 Oční kontakt', '🔄 Grinding'], depth: 3, intimacy: 5, difficulty: 2, desc: 'Ona nahoře, předkloněná, ruce zapletené do tvých vlasů, pomalý grinding.', keyFocus: 'Vlnivý pohyb boků stimuluje klitoris o stydkou kost.', watchOut: 'Nezvedat se moc vysoko, ať nedojde k vyklouznutí.', fTorso: 'cowgirl_lean', fLegs: 'flat', prop: 'none', mPos: 'lying_back', mHands: 'gripping_hips' },
+      { id: 'pos_c2', title: 'Cowgirl v mírném záklonu', style: 'Cowgirl', isMissionary: false, orientation: 'front', stimulation: ['🎯 G-Spot', '📐 Přední stěna', '✨ Odhalený hrudník'], depth: 4, intimacy: 4, difficulty: 3, desc: 'Ona má mírně zakloněná záda, odhalený krk a ňadra, které můžeš pevně držet.', keyFocus: 'Úhel směřuje přímo na přední stěnu.', watchOut: 'Vyžaduje sílu v jejích stehnech.', fTorso: 'cowgirl_arch', fLegs: 'flat', prop: 'none', mPos: 'lying_back', mHands: 'gripping_hips' },
+      { id: 'pos_c3', title: 'Cowgirl břicho na břiše (tělo na těle)', style: 'Cowgirl', isMissionary: false, orientation: 'front', stimulation: ['🌸 Klitoris', '💕 Intimita', '🔥 Teplo'], depth: 3, intimacy: 5, difficulty: 2, desc: 'Leží celým trupem na tobě, líbání na krku a tření břicha o břicho.', keyFocus: 'Maximální blízkost a pomalý krouživý pohyb.', watchOut: 'Uvolněte se a dýchejte společně.', fTorso: 'supine', fLegs: 'flat', prop: 'none', mPos: 'lying_back', mHands: 'gripping_hips' },
+      { id: 'pos_c4', title: 'Reverse Cowgirl v předklonu', style: 'Cowgirl', isMissionary: false, orientation: 'rear', stimulation: ['📐 Zadní stěna', '📏 Hloubka', '👀 Výhled na záda'], depth: 4, intimacy: 3, difficulty: 3, desc: 'Ona sedí obkročmo ZÁDY K TOBĚ, předkloněná k tvým kolenům. Výhled na záda a zadeček.', keyFocus: 'Hlazení páteře a pevné sevření jejích boků zezadu.', watchOut: 'Drž její boky pevně pro správný úhel.', fTorso: 'reverse_cowgirl', fLegs: 'flat', prop: 'none', mPos: 'lying_back', mHands: 'gripping_hips' },
+
+      // NA BOKU & ASYMETRIE
+      { id: 'pos_s1', title: 'Klasická Lžíce (The Spoon)', style: 'Na boku', isMissionary: false, orientation: 'rear', stimulation: ['📐 Zadní stěna', '💕 Klidná romance', '🖐️ Volné ruce'], depth: 3, intimacy: 5, difficulty: 1, desc: 'Oba na boku za sebou, tělo v těle, pomalý rytmus a volná ruka na jejích ňadrech.', keyFocus: 'Pomalý pohyb boků tělo na těle a dýchání do zátylku.', watchOut: 'Mírně pokrčené nohy chrání před napětím v kříži.', fTorso: 'supine', fLegs: 'flat', prop: 'none', mPos: 'prone_hover', mHands: 'mattress' },
+      { id: 'pos_s2', title: 'The Pretzel (Překřížený preclík)', style: 'Na boku', isMissionary: false, orientation: 'front', stimulation: ['🔒 Brutální těsnost', '📐 Boční stěna'], depth: 4, intimacy: 4, difficulty: 3, desc: 'Ona leží na boku, ty klečíš kolmo. Jedna noha rovně, druhá u tvého ramene.', keyFocus: 'Rotace pánve vytváří obrovský tlak na boční stěnu.', watchOut: 'Netahej horní nohu přes odpor kyčle.', fTorso: 'supine', fLegs: 'wide_v', prop: 'none', mPos: 'prone_hover', mHands: 'holding_thighs' },
+
+      // SEDÍCÍ & HRANA
+      { id: 'pos_l1', title: 'Sedící Lotos v pevném objetí', style: 'Sedící', isMissionary: false, orientation: 'front', stimulation: ['💕 Maximální intimita', '🔄 Grinding', '💋 Hluboké líbání'], depth: 3, intimacy: 5, difficulty: 2, desc: 'Sedíš vzpřímeně, ona sedí na tobě čelem s nohama kolem tvého pasu.', keyFocus: 'Krouživý grinding celou vahou pánve a dýchání do ucha.', watchOut: 'Pozor na únavu kolen při delším sezení.', fTorso: 'sitting_lotus', fLegs: 'flat', prop: 'none', mPos: 'sitting_upright', mHands: 'mattress' },
+      { id: 'pos_l2', title: 'The Butterfly na stole', style: 'Hrana', isMissionary: false, orientation: 'front', stimulation: ['🎯 G-Spot', '👀 Oční kontakt', '⛓️ Pevný stisk'], depth: 4, intimacy: 4, difficulty: 2, desc: 'Ona sedí na kraji stolu, ty stojíš pevně mezi jejíma nohama.', keyFocus: 'Přímý oční kontakt a pevný stisk za boky a hrdlo.', watchOut: 'Stůl musí být stabilní a ve výšce tvých boků.', fTorso: 'supine', fLegs: 'wide_v', prop: 'table', mPos: 'standing_edge', mHands: 'on_throat' }
     ];
 
-    /* 4. ROZSÁHLÁ DATABÁZE PRO OBJEVOVÁNÍ (S ANATOMICKÝMI PARAMETRY A TAGY) */
+    /* 4. DOTEKY, HLÁŠKY A HRY S ANATOMICKÝMI FILTRY */
     const DISCOVERY_DATABASE = {
-      positions: [
-        { id: 'dp1', title: 'Kovadlina (The Anvil)', level: 3, orientation: 'front', desc: 'Záda na posteli, kolena přitlačená až k jejím uším, pánev ve vzduchu.', keyFocus: 'Nejhlubší možný úhel, kanál se zkrátí na minimum.', watchOut: 'Vyžaduje flexibilitu v bedrech.', visual: { prop: 'none', female_torso: 'supine', female_legs: 'legs_on_shoulders', female_orientation: 'front', male_position: 'prone_hover', male_hands: 'mattress_support' } },
-        { id: 'dp2', title: 'Překřížený Preclík (The Pretzel)', level: 2, orientation: 'front', desc: 'Ona leží na boku, ty klečíš kolmo. Jedna noha rovně, druhá u tvého ramene.', keyFocus: 'Rotace pánve vytváří obrovský tlak na boční stěnu.', watchOut: 'Netahej horní nohu přes odpor kyčle.', visual: { prop: 'none', female_torso: 'supine', female_legs: 'wide_v', female_orientation: 'front', male_position: 'prone_hover', male_hands: 'holding_thighs' } },
-        { id: 'dp3', title: 'Sedící Lotos v pevném objetí', level: 2, orientation: 'front', desc: 'Sedíš vzpřímeně, ona sedí na tobě čelem s nohama kolem tvého pasu.', keyFocus: 'Krouživý grinding celou vahou pánve a dýchání do ucha.', watchOut: 'Pozor na únavu kolen při delším sezení.', visual: { prop: 'none', female_torso: 'sitting_lap_front', female_legs: 'flat', female_orientation: 'front', male_position: 'sitting_chair', male_hands: 'gripping_hips' } },
-        { id: 'dp4', title: 'Obrácené Křeslo (Sedící v klínu zády)', level: 2, orientation: 'rear', desc: 'Sedíš opřený na gauči, ona sedí v tvém klínu zády k tobě.', keyFocus: 'Volný přístup k ňadrům a zakrytí úst zezadu.', watchOut: 'Hlídej stabilitu trupu, ať nesklouzává.', visual: { prop: 'none', female_torso: 'sitting_lap_rear', female_legs: 'flat', female_orientation: 'rear', male_position: 'sitting_chair', male_hands: 'gripping_hips' } },
-        { id: 'dp5', title: 'Motýl na stole', level: 2, orientation: 'front', desc: 'Ona sedí na kraji stolu, ty stojíš pevně mezi jejíma nohama.', keyFocus: 'Přímý oční kontakt a pevný stisk za boky a hrdlo.', watchOut: 'Stůl musí být stabilní.', visual: { prop: 'table', female_torso: 'supine', female_legs: 'wide_v', female_orientation: 'front', male_position: 'standing_edge', male_hands: 'on_throat' } },
-        { id: 'dp6', title: 'Klasická Lžíce (The Spoon)', level: 2, orientation: 'rear', desc: 'Oba na boku za sebou, tělo v těle, pomalý rytmus a ruka na jejích ňadrech.', keyFocus: 'Pomalý pohyb boků tělo na těle.', watchOut: 'Mírně pokrčené nohy chrání před napětím v kříži.', visual: { prop: 'none', female_torso: 'supine', female_legs: 'flat', female_orientation: 'rear', male_position: 'prone_hover', male_hands: 'gripping_hips' } } // simplified spoon mapping
-      ],
       touches: [
         { id: 'dt1', title: 'Pevná dlaň pod krkem', orientation: 'front', desc: 'Pevný stisk na hrdle s upřeným pohledem do očí pro pocit plné kontroly.' },
         { id: 'dt2', title: 'Zakrytí pusy dlaní zezadu', orientation: 'rear', desc: 'Dlaň přitlačená přes její ústa při poloze zezadu tlumí její vzdechy.' },
@@ -505,14 +516,14 @@
         },
         { 
           id: 'dv3', 
-          orientation: 'front', // POUZE PRO POLOHY ZEPŘEDU!
+          orientation: 'front',
           original: '„Máš to ráda tvrdě, koukej na mě.“',
           refined: '„Líbí se ti, jak si tě beru? Ani se nehni a dívej se mi přímo do očí.“',
           desc: 'Dominantní potvrzení rozkoše spojené s intenzivním očním kontaktem.' 
         },
         { 
           id: 'dv4', 
-          orientation: 'rear', // POUZE PRO POLOHY ZEZADU!
+          orientation: 'rear',
           original: '„Miluju pohled na tvoje tělo zezadu.“',
           refined: '„Miluju pohled na tvoje záda a zadeček... vnímej každý centimetr, nikam nespěcháme.“',
           desc: 'Vizuální obdiv křivek těla a pomalý hluboký rytmus.' 
@@ -532,21 +543,17 @@
         { id: 'dg4', title: 'Pravidlo tří nádechů', orientation: 'any', desc: 'Musíte dýchat v naprosté synchronizaci – na nádech vstup, na výdech setrvání v hloubce.' }
       ]
     };
-  </script>
-  <!-- POKRAČOVÁNÍ V ČÁSTI 3... -->
 
-  <script>
-    /* =========================================================================
-       5. SPRÁVA ÚLOŽIŠTĚ & STAVU
-       ========================================================================= */
-    const STORAGE_KEY_PLAN_POOL = 'velvet_plan_pool_v14';
-    const STORAGE_KEY_RATINGS = 'velvet_ratings_v14';
-    const STORAGE_KEY_CUSTOM = 'velvet_custom_v14';
-    const STORAGE_KEY_API = 'velvet_api_key_v14';
+    /* 5. STATE MANAGEMENT */
+    const STORAGE_KEY_PLAN_POOL = 'velvet_plan_pool_v15';
+    const STORAGE_KEY_RATINGS = 'velvet_ratings_v15';
+    const STORAGE_KEY_CUSTOM = 'velvet_custom_v15';
+    const STORAGE_KEY_API = 'velvet_api_key_v15';
 
-    let planApprovedPositions = JSON.parse(localStorage.getItem(STORAGE_KEY_PLAN_POOL) || JSON.stringify(INITIAL_FAVORITES_POOL));
+    // Výchozí sestava pro večerní plán je předvyplněná vašimi pozicemi
+    let planApprovedPositions = JSON.parse(localStorage.getItem(STORAGE_KEY_PLAN_POOL) || JSON.stringify(MASTER_POSITIONS_CATALOG.slice(0, 18)));
     let ratings = JSON.parse(localStorage.getItem(STORAGE_KEY_RATINGS) || '{}');
-    let customItems = JSON.parse(localStorage.getItem(STORAGE_KEY_CUSTOM) || '{"position":[],"touch":[],"verbal":[],"game":[]}');
+    let customItems = JSON.parse(localStorage.getItem(STORAGE_KEY_CUSTOM) || '{"touch":[],"verbal":[],"game":[]}');
     let currentPositionCount = 3;
     let currentCategory = 'position';
     let currentIdeaItem = null;
@@ -568,9 +575,7 @@
       document.getElementById('settingsModal').classList.add('hidden');
     }
 
-    /* =========================================================================
-       6. AI ENGINE S AUTO-DETEKCÍ (OPENROUTER, GROQ, GEMINI)
-       ========================================================================= */
+    /* 6. AI POUZE PRO HLÁŠKY, DOTEKY A HRY */
     async function callAI(promptText, category) {
       const apiKey = getApiKey();
       if (!apiKey) return null;
@@ -585,8 +590,8 @@ PŘÍSNÁ JAZYKOVÁ PRAVIDLA:
 2. STRUČNOST: Maximálně 2 úderné věty!
 3. PRO HLÁŠKY ("verbal"): Vrať VÝHRADNĚ platný JSON s oběma verzemi a zadej i orientaci ('front' pro zepředu, 'rear' pro zezadu, 'any' pro obojí):
 {"original":"Původní syrová inspirace","refined":"Přetvořená smyslná česká verze","orientation":"front|rear|any","desc":"Stručné vysvětlení"}
-4. PRO POZICE: V poli "visual" definuj přesné parametry pro anatomickou stavebnici:
-{"title":"Krátký název","desc":"Stručný popis (max 2 věty)","orientation":"front|rear","keyFocus":"Klíčový vjem (1 věta)","watchOut":"Na co dát pozor (1 věta)","visual":{"prop":"none|pillow|bed_edge|wall|table","female_torso":"supine|prone|all_fours|chest_down_hips_high|kneeling_lean_away|sitting_lap_front|sitting_lap_rear","female_legs":"flat|feet_on_chest|legs_on_shoulders|legs_on_one_shoulder|crossed_neck|wide_v|around_waist|one_spread_side|dangling_edge","female_orientation":"front|rear","male_position":"prone_hover|lying_back|standing_edge|kneeling_rear|sitting_chair","male_hands":"mattress_support|on_throat|in_hair|holding_wrists|gripping_hips|holding_thighs"}}`;
+4. PRO DOTEKY A HRY:
+{"title":"Krátký název","desc":"Stručný popis (max 2 věty)","orientation":"front|rear|any"}`;
 
       try {
         let res;
@@ -644,9 +649,7 @@ PŘÍSNÁ JAZYKOVÁ PRAVIDLA:
         const data = await res.json();
         let rawText = provider === "gemini" ? data.candidates?.[0]?.content?.parts?.[0]?.text : data.choices?.[0]?.message?.content;
         const jsonMatch = (rawText || "").match(/\{[\s\S]*\}/);
-        if (jsonMatch) {
-          return JSON.parse(jsonMatch[0]);
-        }
+        if (jsonMatch) return JSON.parse(jsonMatch[0]);
       } catch (err) {
         showToast(err.message);
         console.error("AI Error:", err);
@@ -660,35 +663,44 @@ PŘÍSNÁ JAZYKOVÁ PRAVIDLA:
       localStorage.setItem(STORAGE_KEY_API, apiKey);
 
       alert("Probíhá test spojení s AI...");
-      const res = await callAI("Vrať stručný test v češtině: { \"title\": \"Test OK\", \"desc\": \"Spojení funguje skvěle.\", \"keyFocus\": \"Vše v pořádku.\", \"watchOut\": \"Žádné riziko.\" }", "position");
-      if (res && (res.title || res.refined)) {
+      const res = await callAI("Vrať stručný test hlášky: { \"original\": \"Test\", \"refined\": \"Spojení funguje skvěle.\", \"orientation\": \"any\", \"desc\": \"OK\" }", "verbal");
+      if (res && (res.refined || res.title)) {
         alert("🎉 Spojení s AI funguje skvěle v přirozené češtině!");
       } else {
         alert("⚠️ Test selhal. Sleduj červenou hlášku nahoře.");
       }
     }
 
-    /* =========================================================================
-       7. GENEROVÁNÍ NOVÝCH NÁPADŮ (HLÁŠKY MAJÍ OBĚ VERZE IHNED)
-       ========================================================================= */
-    async function generateFreshIdeaAction() {
+    /* 7. OBJEVOVÁNÍ A GENEROVÁNÍ NÁPADŮ */
+    function nextDiscoveryIdea() {
+      if (currentCategory === 'position') {
+        // U POZIC: Čerpáme výhradně z katalogu, žádné zmatené kreslení!
+        loadRandomIdea();
+      } else {
+        // U HLÁŠEK, DOTEKŮ A HER: Můžeme vygenerovat nový originální nápad přes AI nebo interně
+        generateAtmosphereIdea();
+      }
+    }
+
+    async function generateAtmosphereIdea() {
       const container = document.getElementById('ideaCardContainer');
       container.innerHTML = `
         <div class="glass p-8 rounded-3xl text-center space-y-3">
           <div class="w-8 h-8 mx-auto border-2 border-rose-500 border-t-transparent rounded-full animate-spin"></div>
-          <p class="text-xs text-rose-200">Tvořím nový stručný nápad pro: <strong class="text-pink-300">${currentCategory}</strong>...</p>
+          <p class="text-xs text-rose-200">Tvořím nový nápad pro: <strong class="text-pink-300">${currentCategory}</strong>...</p>
         </div>
       `;
 
-      let promptMsg = `Vymysli zbrusu nový originální prvek pro kategorii: ${currentCategory} pro pár se zálibou v lehkém BDSM, vášni a missionary základu. Piš PŘIROZENĚ ČESKY a STRUČNĚ.`;
+      let promptMsg = `Vymysli originální prvek pro kategorii: ${currentCategory} pro pár se zálibou v lehkém BDSM, vášni a praise kinku. Piš PŘIROZENĚ ČESKY a STRUČNĚ.`;
       let result = await callAI(promptMsg, currentCategory);
 
       if (!result) {
-        result = buildDynamicProceduralItem(currentCategory);
+        const pool = DISCOVERY_DATABASE[currentCategory === 'verbal' ? 'verbals' : (currentCategory === 'touch' ? 'touches' : 'games')];
+        result = pool[Math.floor(Math.random() * pool.length)];
       }
 
       let newItem;
-      const id = 'dyn_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
+      const id = 'dyn_' + Date.now();
 
       if (currentCategory === 'verbal') {
         newItem = {
@@ -696,18 +708,14 @@ PŘÍSNÁ JAZYKOVÁ PRAVIDLA:
           orientation: result.orientation || 'any',
           original: result.original || '„Miluju, jak moc jsi pro mě wet a jak mě chceš.“',
           refined: result.refined || result.title || '„Zblázním se z toho, jak těsně tě kolem sebe cítím... úplně mě svíráš.“',
-          desc: result.desc || 'Šeptáno těsně u ušního lalůčku při hlubokém kontaktu.'
+          desc: result.desc || 'Šeptáno těsně u ucha při hlubokém kontaktu.'
         };
       } else {
         newItem = {
           id: id,
           title: result.title,
           desc: result.desc,
-          orientation: result.orientation || 'front',
-          keyFocus: result.keyFocus || 'Přesné vedení pánve a těla.',
-          watchOut: result.watchOut || 'Dbejte na oboustranný komfort.',
-          level: 2,
-          visual: result.visual || { prop: 'none', female_torso: 'supine', female_legs: 'flat', female_orientation: 'front', male_position: 'prone_hover', male_hands: 'mattress_support' }
+          orientation: result.orientation || 'any'
         };
       }
 
@@ -718,34 +726,7 @@ PŘÍSNÁ JAZYKOVÁ PRAVIDLA:
       renderIdeaCard();
     }
 
-    function buildDynamicProceduralItem(cat) {
-      if (cat === 'verbal') {
-        const pool = [
-          { original: '„Miluju, jak těsná jsi a jak moc mě chceš.“', refined: '„Zblázním se z toho, jak těsně tě kolem sebe cítím... úplně mě svíráš.“', orientation: 'any', desc: 'Upřímné ocenění její bezprostřední tělesné touhy a stažení svalů.' },
-          { original: '„Ukaž mi, co v sobě máš, chci tě slyšet.“', refined: '„Vůbec se nehlídej... chci tě slyšet celou, klidně se do mě zaryj nehty.“', orientation: 'any', desc: 'Podpora k tomu, aby pustila veškerou sebekontrolu.' },
-          { original: '„Koukej na mě, patříš celá mně.“', refined: '„Dívej se mi do očí... vnímej každý centimetr, nikam nespěcháme.“', orientation: 'front', desc: 'Dominantní oční kontakt při plném splynutí zepředu.' },
-          { original: '„Miluju pohled na tvoje tělo zezadu.“', refined: '„Miluju pohled na tvoje záda a zadeček... ani se nehni, dokud ti neřeknu.“', orientation: 'rear', desc: 'Vlastnický obdiv křivek při poloze zezadu.' }
-        ];
-        return pool[Math.floor(Math.random() * pool.length)];
-      } else if (cat === 'position') {
-        return {
-          title: 'Doggy s rukou na hrdle a tahem za vlasy',
-          desc: 'Ona na všech čtyřech s prohnutými zády, ty přistupuješ zezadu s pevnou dlaní u její šíje.',
-          orientation: 'rear',
-          keyFocus: 'Stálé tvrdší tempo a plná nadvláda nad jejím dechem.',
-          watchOut: 'Sleduj její dech a tempo přírazů.',
-          visual: { prop: 'none', female_torso: 'all_fours', female_legs: 'kneeling', female_orientation: 'rear', male_position: 'kneeling_rear', male_hands: 'in_hair' }
-        };
-      } else if (cat === 'touch') {
-        return { title: 'Pevné přitažení za vlasy u zátylku zezadu', orientation: 'rear', desc: 'Zaklonění její hlavy dozadu s odhalením hrdla pro horké polibky.', keyFocus: 'Pevný úchop dlaní.', watchOut: 'Netahej trhnutím.' };
-      } else {
-        return { title: 'Pravidlo tichých vzdechů', orientation: 'any', desc: '„Smíš mi jen šeptat do ucha. Jakýkoliv hlasitý zvuk znamená okamžité zastavení v hloubce.“', keyFocus: 'Hlídání dechu zvyšuje napětí.', watchOut: 'Odměna po splnění.' };
-      }
-    }
-
-    /* =========================================================================
-       8. TWEAK ENGINE (1 OHÝNEK)
-       ========================================================= */
+    /* 8. TWEAK ENGINE */
     function openTweakModal() {
       if (!currentIdeaItem) return;
       document.getElementById('tweakModal').classList.remove('hidden');
@@ -762,7 +743,7 @@ PŘÍSNÁ JAZYKOVÁ PRAVIDLA:
       container.innerHTML = `
         <div class="glass p-8 rounded-3xl text-center space-y-3">
           <div class="w-8 h-8 mx-auto border-2 border-rose-500 border-t-transparent rounded-full animate-spin"></div>
-          <p class="text-xs text-rose-200">Upravuji nápad...</p>
+          <p class="text-xs text-rose-200">Upravuji znění...</p>
         </div>
       `;
 
@@ -784,25 +765,21 @@ PŘÍSNÁ JAZYKOVÁ PRAVIDLA:
           id: id,
           title: aiRes?.title || (old.title + ' (Upraveno)'),
           desc: aiRes?.desc || old.desc,
-          orientation: old.orientation || 'front',
-          keyFocus: aiRes?.keyFocus || old.keyFocus,
-          watchOut: aiRes?.watchOut || old.watchOut,
-          level: old.level || 2,
-          visual: aiRes?.visual || old.visual
+          orientation: old.orientation || 'any'
         };
       }
 
-      customItems[currentCategory].unshift(newItem);
-      localStorage.setItem(STORAGE_KEY_CUSTOM, JSON.stringify(customItems));
+      if (currentCategory !== 'position') {
+        customItems[currentCategory].unshift(newItem);
+        localStorage.setItem(STORAGE_KEY_CUSTOM, JSON.stringify(customItems));
+      }
       saveRating(old.id, 1);
 
       currentIdeaItem = newItem;
       renderIdeaCard();
     }
 
-    /* =========================================================================
-       9. MANUÁLNÍ DOLADĚNÍ VLASTNÍMI SLOVY
-       ========================================================= */
+    /* 9. MANUÁLNÍ DOLADĚNÍ VLASTNÍMI SLOVY */
     function openManualEditModal() {
       if (!currentIdeaItem) return;
       document.getElementById('editInputTitle').value = currentIdeaItem.refined || currentIdeaItem.title;
@@ -823,26 +800,26 @@ PŘÍSNÁ JAZYKOVÁ PRAVIDLA:
         currentIdeaItem.title = newText;
       }
 
-      const catList = customItems[currentCategory];
-      const idx = catList.findIndex(i => i.id === currentIdeaItem.id);
-      if (idx !== -1) {
-        if (currentCategory === 'verbal') catList[idx].refined = newText;
-        else catList[idx].title = newText;
-        localStorage.setItem(STORAGE_KEY_CUSTOM, JSON.stringify(customItems));
+      if (currentCategory !== 'position') {
+        const catList = customItems[currentCategory];
+        const idx = catList.findIndex(i => i.id === currentIdeaItem.id);
+        if (idx !== -1) {
+          if (currentCategory === 'verbal') catList[idx].refined = newText;
+          else catList[idx].title = newText;
+          localStorage.setItem(STORAGE_KEY_CUSTOM, JSON.stringify(customItems));
+        }
       }
 
       closeManualEditModal();
       renderIdeaCard();
     }
 
-    /* =========================================================================
-       10. HODNOCENÍ A AUTOMATICKÉ SCHVALOVÁNÍ POZIC DO PLÁNU (🔥🔥)
-       ========================================================================= */
+    /* 10. RATING A SCHVALOVÁNÍ DO PLÁNU */
     function saveRating(id, flames) {
       ratings[id] = flames;
       localStorage.setItem(STORAGE_KEY_RATINGS, JSON.stringify(ratings));
 
-      // SCHVALOVÁNÍ NOVÉ POZICE DO VEČERNÍHO PLÁNU PŘI 2 OHÝNCÍCH (🔥🔥)
+      // SCHVÁLENÍ POZICE Z KATALOGU DO PLÁNU PŘI 2 OHÝNCÍCH (🔥🔥)
       if (currentCategory === 'position' && flames === 2 && currentIdeaItem) {
         const exists = planApprovedPositions.some(p => p.id === currentIdeaItem.id);
         if (!exists) {
@@ -855,14 +832,13 @@ PŘÍSNÁ JAZYKOVÁ PRAVIDLA:
     function getRating(id) { return ratings[id] !== undefined ? ratings[id] : null; }
 
     function getAllCategoryItems(cat) {
-      let base = DISCOVERY_DATABASE[cat === 'position' ? 'positions' : (cat === 'touch' ? 'touches' : (cat === 'verbal' ? 'verbals' : 'games'))] || [];
+      if (cat === 'position') return MASTER_POSITIONS_CATALOG;
+      let base = DISCOVERY_DATABASE[cat === 'touch' ? 'touches' : (cat === 'verbal' ? 'verbals' : 'games')] || [];
       let custom = customItems[cat] || [];
       return [...custom, ...base];
     }
 
-    /* =========================================================================
-       11. GENEROVÁNÍ VEČERNÍHO PLÁNU S ANATOMICKOU KOORDINACÍ
-       ========================================================================= */
+    /* 11. GENEROVÁNÍ VEČERNÍHO PLÁNU S 100% KOMPATIBILITOU */
     function changePositionCount(delta) {
       let n = currentPositionCount + delta;
       if (n >= 1 && n <= 5) {
@@ -885,7 +861,7 @@ PŘÍSNÁ JAZYKOVÁ PRAVIDLA:
       selectedSteps.push({ pos: pos1, stepName: "1. Krok: Romantický základ (Missionary)" });
       usedPosIds.push(pos1.id);
 
-      // DALŠÍ KROKY: ESKALACE ZE SCHVÁLENÝCH POZIC (DOGGY, COWGIRL, NOVÉ SCHVÁLENÉ)
+      // DALŠÍ KROKY: ESKALACE ZE SCHVÁLENÝCH POZIC
       const escalationPool = planApprovedPositions.filter(p => !p.isMissionary);
       for (let i = 2; i <= count; i++) {
         let label = (i === count) ? `${i}. Krok: Maximální finále a dominance` : `${i}. Krok: Eskalace napětí a stimulace`;
@@ -895,7 +871,7 @@ PŘÍSNÁ JAZYKOVÁ PRAVIDLA:
         usedPosIds.push(chosen.id);
       }
 
-      // Vykreslení kroků plánu se 100% filtrováním kompatibility (žádné protimluvy!)
+      // Vykreslení kroků plánu se 100% filtrováním kompatibility
       selectedSteps.forEach((step, index) => {
         const posOrient = step.pos.orientation || 'front';
 
@@ -917,8 +893,13 @@ PŘÍSNÁ JAZYKOVÁ PRAVIDLA:
         const card = document.createElement('div');
         card.className = "glass p-5 rounded-3xl space-y-4 border border-rose-900/40 relative overflow-hidden";
         
-        const illData = renderParametricSVG(step.pos.visual);
+        const illSvg = renderPositionSVG(step.pos);
         const verbalText = verbal.refined || verbal.title;
+
+        // Odznáčky stimulace ze sexpositions.club
+        const stimBadges = (step.pos.stimulation || []).map(s => `
+          <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-rose-950/70 border border-rose-800/40 text-pink-200 font-semibold">${s}</span>
+        `).join('');
 
         card.innerHTML = `
           <div class="flex items-center justify-between">
@@ -928,9 +909,16 @@ PŘÍSNÁ JAZYKOVÁ PRAVIDLA:
             <span class="text-sm">🔥🔥</span>
           </div>
 
-          <!-- Anatomická kresba stavebnice -->
+          <!-- Kresba pozice -->
           <div class="rounded-2xl bg-black/60 p-3 border border-rose-950/80 flex flex-col items-center justify-center glow-rose">
-            ${illData.svg}
+            ${illSvg}
+          </div>
+
+          <!-- Štítky stimulace a parametrů -->
+          <div class="flex flex-wrap gap-1.5 pt-1">
+            ${stimBadges}
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-black/60 border border-rose-900/40 text-pink-300">📏 Hloubka: ${step.pos.depth || 3}/5</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-black/60 border border-rose-900/40 text-pink-300">💕 Intimita: ${step.pos.intimacy || 4}/5</span>
           </div>
 
           <div>
@@ -971,9 +959,7 @@ PŘÍSNÁ JAZYKOVÁ PRAVIDLA:
       });
     }
 
-    /* =========================================================================
-       12. OBJEVOVÁNÍ A KARTY (HLÁŠKY MAJÍ OBĚ VERZE HNED)
-       ========================================================================= */
+    /* 12. OBJEVOVÁNÍ A KARTY */
     function setIdeaCategory(cat) {
       currentCategory = cat;
       ['btnCatPos', 'btnCatTouch', 'btnCatVerbal', 'btnCatGame'].forEach(id => {
@@ -1019,10 +1005,19 @@ PŘÍSNÁ JAZYKOVÁ PRAVIDLA:
       let bodyHtml = '';
 
       if (currentCategory === 'position') {
-        const illData = renderParametricSVG(currentIdeaItem.visual);
+        const illSvg = renderPositionSVG(currentIdeaItem);
+        const stimBadges = (currentIdeaItem.stimulation || []).map(s => `
+          <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-rose-950/70 border border-rose-800/40 text-pink-200 font-semibold">${s}</span>
+        `).join('');
+
         visualHtml = `
           <div class="rounded-2xl bg-black/60 p-3 my-2 border border-rose-950 flex flex-col items-center justify-center glow-rose">
-            ${illData.svg}
+            ${illSvg}
+          </div>
+          <div class="flex flex-wrap gap-1.5 my-2 justify-center">
+            ${stimBadges}
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-black/60 border border-rose-900/40 text-pink-300">📏 Hloubka: ${currentIdeaItem.depth || 3}/5</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-black/60 border border-rose-900/40 text-pink-300">💕 Intimita: ${currentIdeaItem.intimacy || 4}/5</span>
           </div>
         `;
         extraFocusHtml = `
@@ -1036,7 +1031,7 @@ PŘÍSNÁ JAZYKOVÁ PRAVIDLA:
           <p class="text-xs text-pink-200/80 leading-relaxed">${currentIdeaItem.desc}</p>
         `;
       } else if (currentCategory === 'verbal') {
-        // HLÁŠKY: ZOBRAZENÍ ORIGINÁLU I PŘETVOŘENÉ VERZE NAJEDNOU!
+        // HLÁŠKY: VŽDY ORIGINÁL I REFINED VERZE NAJEDNOU
         bodyHtml = `
           <div class="space-y-3 text-left">
             <div class="p-3.5 bg-rose-950/30 rounded-2xl border border-rose-700/40">
@@ -1065,7 +1060,7 @@ PŘÍSNÁ JAZYKOVÁ PRAVIDLA:
         </button>
       `;
 
-      let catTitles = { position: 'Pozice', touch: 'Dotek', verbal: 'Hláška & Praise', game: 'Hra & Pravidlo' };
+      let catTitles = { position: 'Katalog Pozic', touch: 'Dotek', verbal: 'Hláška & Praise', game: 'Hra & Pravidlo' };
 
       container.innerHTML = `
         <div class="glass w-full p-5 rounded-3xl border border-rose-800/40 text-center space-y-3 glow-rose">
@@ -1088,9 +1083,7 @@ PŘÍSNÁ JAZYKOVÁ PRAVIDLA:
       loadRandomIdea();
     }
 
-    /* =========================================================================
-       13. SCHVÁLENÉ POZICE PRO VEČERNÍ PLÁN
-       ========================================================================= */
+    /* 13. SCHVÁLENÉ POZICE PRO VEČERNÍ PLÁN */
     function renderFavorites() {
       const container = document.getElementById('favoritesList');
       container.innerHTML = '';
@@ -1109,10 +1102,10 @@ PŘÍSNÁ JAZYKOVÁ PRAVIDLA:
               <span class="text-[9px] px-2 py-0.5 rounded-full ${pos.isMissionary ? 'bg-pink-950/70 border border-pink-700/40 text-pink-300' : 'bg-rose-950/70 border border-rose-700/40 text-rose-300'} font-bold">
                 ${pos.isMissionary ? 'Missionary (Start)' : 'Eskalace'}
               </span>
-              <span class="text-[9px] text-pink-300/40 italic">${pos.orientation === 'rear' ? 'Zezadu' : 'Zepředu'}</span>
+              <span class="text-[9px] text-pink-300/40 italic">${pos.style || ''}</span>
             </div>
             <h4 class="text-xs font-bold text-rose-100">${pos.title}</h4>
-            <p class="text-[11px] text-pink-300/60 line-clamp-1">${pos.desc}</p>
+            <p class="text-[11px] text-pink-300/60 line-clamp-1">${(pos.stimulation || []).join(', ')}</p>
           </div>
           <span class="text-xs font-bold text-rose-400">🔥🔥</span>
         `;
@@ -1120,9 +1113,7 @@ PŘÍSNÁ JAZYKOVÁ PRAVIDLA:
       });
     }
 
-    /* =========================================================================
-       14. SYNCHRONIZACE EXPORT/IMPORT (MOBIL ⇄ PC)
-       ========================================================================= */
+    /* 14. SYNCHRONIZACE EXPORT/IMPORT (MOBIL ⇄ PC) */
     function copySyncPayload() {
       const payload = { ratings, customItems, planApprovedPositions, key: getApiKey() };
       const str = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
@@ -1152,9 +1143,7 @@ PŘÍSNÁ JAZYKOVÁ PRAVIDLA:
       }
     }
 
-    /* =========================================================================
-       15. PŘEPÍNÁNÍ ZÁLOŽEK & SPUŠTĚNÍ
-       ========================================================================= */
+    /* 15. PŘEPÍNÁNÍ ZÁLOŽEK & START */
     function switchTab(tab) {
       ['plan', 'ideas', 'favs'].forEach(t => {
         const el = document.getElementById('tab' + capitalize(t));
